@@ -1,5 +1,5 @@
 baseurl = "https://luckyliang.github.io"
-title = "ChengCheng Blog" #网页标题
+title = "Cheng Blog" #网页标题
 theme = "hugo-theme-cleanwhite"
 languageCode = "zh"
 # Enable comments by entering your Disqus shortname
