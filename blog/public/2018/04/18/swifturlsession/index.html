@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Siwft网络请求 - URLSession" />
+    <meta property="og:title" content="Siwft网络请求 - URLSession" />
+    <meta property="twitter:title" content="Siwft网络请求 - URLSession" />
+    
+
+    
+    <meta name="description" content="Swift 中URLSession网络请求简单应用，get,post,文件上传，文件下载">
+    <meta property="og:description" content="Swift 中URLSession网络请求简单应用，get,post,文件上传，文件下载" />
+    <meta property="twitter:description" content="Swift 中URLSession网络请求简单应用，get,post,文件上传，文件下载" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Siwft网络请求 - URLSession-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/04/18/swiftURlSession/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/ios" title="IOS">
+                            IOS
+                        </a>
+                        
+                        <a class="tag" href="/tags/swift" title="Swift">
+                            Swift
+                        </a>
+                        
+                    </div>
+                    <h1>Siwft网络请求 - URLSession</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Wednesday, April 18, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#urlsession功能">URLSession功能</a></li>
+<li><a href="#urlsessionconfiguration的三种模式">URLSessionConfiguration的三种模式</a></li>
+<li><a href="#urlsessiontask">URLSessionTask</a></li>
+<li><a href="#post带参请求">Post带参请求</a></li>
+<li><a href="#文件上传">文件上传</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h3 id="urlsession功能">URLSession功能</h3>
+
+<ul>
+<li>NSURLSession 支持 http2.0 协议</li>
+<li>在处理下载任务的时候可以直接把数据下载到磁盘</li>
+<li>支持后台下载与上传</li>
+<li>同一个 session 发送多个请求，只需要建立一次连接（复用了TCP）</li>
+<li>提供了全局的 session 并且可以统一配置，使用更加方便</li>
+<li>下载的时候是多线程异步处理，效率更高</li>
+</ul>
+
+<p><a href="/img/swift/02-URLSession.png">URLSession基本请求类</a></p>
+
+<h3 id="urlsessionconfiguration的三种模式">URLSessionConfiguration的三种模式</h3>
+
+<ol>
+<li><strong><em>default</em></strong>: 默认配置，使用磁盘持久化全局缓存，认证和cookie储存对象</li>
+<li><strong><em>ephemeral</em></strong>：暂时会话，不使用磁盘保存任何数据，所有会话相关的都保存在内存中，因此当会话无效时，这些数据被自动清空</li>
+
+<li><p><strong><em>background</em></strong>： 该模式在后台完成上传和下载，在创建Configuration对象的时候需要提供一个NSString类型的ID用于标识完成工作的后台会话。</p>
+
+<pre><code class="language-swift">URLSessionConfiguration.default
+URLSessionConfiguration.ephemeral
+URLSessionConfiguration.background(withIdentifier: &quot;nw-Session&quot;)
+</code></pre></li>
+</ol>
+
+<p>URLSessionConfiguration也可以配置请求超时时间，缓存策略，和header，可以看 <a href="https://developer.apple.com/reference/foundation/urlsessionconfiguration">Apple’s documentation</a> 的配置列表</p>
+
+<h3 id="urlsessiontask">URLSessionTask</h3>
+
+<ol>
+<li><strong><em>URLSessionTask</em></strong>：一个可撤销的对象,指的是生命周期内处理一个给定的请求。</li>
+<li><strong><em>URLSessionDataTask</em></strong>：一个 数据请求 的 <code>URLSessionTask</code> 的子类，用于数据的请求。</li>
+<li><strong><em>URLSessionUploadTask</em></strong>：是一个 上传数据 的 <code>URLSessionDataTask</code> 的子类。</li>
+<li><strong><em>URLSessionDownloadTask</em></strong>：是一个下载数据 的<code>URLSessionTask</code> 的子类</li>
+<li><strong><em>URLSessionStreamTask</em></strong>：是一个双向会话的 <code>URLSessionTask</code>的子类</li>
+</ol>
+
+<p><a href="03-URLSessionTask.png">URLSessionTask</a></p>
+
+<p>简单请求</p>
+
+<pre><code class="language-swift">  var urlStr = &quot;https://learnappmaking.com/ex/users.json&quot;
+  /// 链接转吗
+  urlStr = urlStr.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+  ///请求网链接
+  let url = URL(string: urlStr)
+
+  ///创建config
+  let config = URLSessionConfiguration.default
+  /// 设置超时时间
+  config.timeoutIntervalForRequest = 15.0
+  ///会话
+  let session = URLSession(configuration: config)
+
+  guard let requestUrl = url else { return }
+
+  let request =  URLRequest(url: requestUrl)
+
+  self.view.makeActivity()
+
+  let task = session.dataTask(with: request) { (data, response, error) in
+      ///请求回调数据
+      if error != nil {
+          print(&quot;网络请求错误&quot;)
+      }
+      ///服务器响应
+      guard let httpResponse = response as? HTTPURLResponse,  (200...299).contains(httpResponse.statusCode) else {
+          print(&quot;服务器错误&quot;)
+          return
+      }
+      guard let `data` = data else {return
+      let json = try? JSONSerialization.jsonObject(with: data, options: [])
+      DispatchQueue.main.async {//回到主线程
+          if let jsonData = json as? Dictionary&lt;String, Any&gt; {
+              print(jsonData)
+          }
+          self.view.hideToast()
+      }
+  }
+  /// 开始请求
+  task.resume()
+</code></pre>
+
+<h3 id="post带参请求">Post带参请求</h3>
+
+<p>这里自己用go写了个简单的测试服务端，终端运行go run main.go就可以了</p>
+
+<pre><code class="language-go">import (
+	json2 &quot;encoding/json&quot;
+	&quot;fmt&quot;
+	&quot;log&quot;
+	&quot;net/http&quot;
+	&quot;strconv&quot;
+)
+
+type BaseData struct {
+	Status string	 `json:&quot;status&quot;`
+	Msg string 	  	 `json:&quot;msg&quot;`
+	Data [] NewData	 `json:&quot;data&quot;`
+}
+
+type NewData struct {
+	Title string		`json:&quot;title&quot;`
+	Content string		`json:&quot;content&quot;`
+	Index int			`json:&quot;index&quot;`
+}
+/*
+3. 获取json数据
+*/
+func getNews(writer http.ResponseWriter, request *http.Request) {
+
+	// Form：存储了post、put和get参数，在使用之前需要调用 ParseForm 方法。
+	err :=  request.ParseForm()
+	if err != nil{
+		return
+	}
+
+	///获取请求参数
+	num := request.Form.Get(&quot;num&quot;)
+	title := request.Form.Get(&quot;channel&quot;)
+	// 字符窜转int
+	index, err  := strconv.Atoi(num)
+
+	var dataList []NewData
+	///制作假数据
+	for i := 0; i &lt; index; i++ {
+		newData := NewData{ fmt.Sprint(title,i), fmt.Sprint(&quot;今日内容:&quot;,title,i,&quot;内容&quot;),i}
+		dataList = append(dataList, newData)
+	}
+
+	data := BaseData{Status:&quot;200&quot;, Msg:&quot;请求成功&quot;, Data:dataList}
+
+	///转成json
+	json, err := json2.Marshal(data)
+
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	writer.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+	writer.Write(json)
+}
+
+func main() {
+	go http.HandleFunc(&quot;/getNews&quot;,getNews)
+	///监听端口
+	log.Println(&quot;Listening....&quot;)
+	err := http.ListenAndServe(&quot;:3001&quot;,nil)
+	if err != nil {
+		log.Fatal(&quot;ListenAndServe: &quot;, err)
+	}
+}
+</code></pre>
+
+<p>客户端代码</p>
+
+<pre><code class="language-swift">   private func _postRequest() {
+      /// 请求链接
+      let linkStr = &quot;http://localhost:3001/getNews&quot;.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)
+
+      guard let link = linkStr, let url = URL(string: link) else { return }
+
+      //创建请求载体
+      var request = URLRequest(url: url)
+      request.httpMethod = &quot;POST&quot;
+      request.setValue(&quot;application/x-www-form-urlencoded&quot;, forHTTPHeaderField: &quot;Content-Type&quot;)
+      ///请求参
+      request.httpBody = &quot;channel=\&quot;头条\&quot;&amp;num=20&quot;.data(using: .utf8)
+
+      self.view.makeActivity()
+      //发起网络请求
+      let postTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+          ///子线程
+          ///请求回调数据
+          if error != nil {
+              print(&quot;网络请求错误&quot;)
+          }
+          ///服务器响应
+          guard let httpResponse = response as? HTTPURLResponse,  (200...299).contains(httpResponse.statusCode) else {
+              print(&quot;服务器错误&quot;)
+              return
+          }
+          guard let `data` = data else {return}
+          let json = try? JSONSerialization.jsonObject(with: data, options: [])
+
+          DispatchQueue.main.async {
+              ///回到主线程刷新数据
+              self.view.hideToast()
+              if let jsonData = json as? Dictionary&lt;String, Any&gt; {
+                  print(jsonData)
+              }
+          }
+          }
+      /// 开始请求
+      postTask.resume()
+
+  }
+</code></pre>
+
+<h3 id="文件上传">文件上传</h3>
+
+<p>服务端代码</p>
+
+<pre><code>
+</code></pre>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/04/18/swiftTipsRecord/" data-toggle="tooltip" data-placement="top" title="Siwft 小技巧记录">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/04/18/swiftURlAlamofire/" data-toggle="tooltip" data-placement="top" title="Siwft网络请求 - Alamofire">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>
