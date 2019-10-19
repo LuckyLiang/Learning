@@ -1,15 +1,96 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ChengCheng Blog</title>
+    <title>Cheng Blog</title>
     <link>https://luckyliang.github.io/</link>
-    <description>Recent content on ChengCheng Blog</description>
+    <description>Recent content on Cheng Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 11 Apr 2018 09:32:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Apr 2018 13:20:22 +0000</lastBuildDate>
     
 	<atom:link href="https://luckyliang.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RXSwift - 原理分析</title>
+      <link>https://luckyliang.github.io/2018/04/23/swiftrxsiwft1/</link>
+      <pubDate>Mon, 23 Apr 2018 13:20:22 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/23/swiftrxsiwft1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Swift - PromisKit使用和原理解析</title>
+      <link>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</link>
+      <pubDate>Sat, 21 Apr 2018 16:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Moya - 源码解析</title>
+      <link>https://luckyliang.github.io/2018/04/20/swifturlmoyadetail/</link>
+      <pubDate>Fri, 20 Apr 2018 20:31:08 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/20/swifturlmoyadetail/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Swift网络请求 - Moya</title>
+      <link>https://luckyliang.github.io/2018/04/20/swifturlmoya/</link>
+      <pubDate>Fri, 20 Apr 2018 16:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/20/swifturlmoya/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Alamofire源码解析</title>
+      <link>https://luckyliang.github.io/2018/04/19/swifturlalamofiredetail/</link>
+      <pubDate>Thu, 19 Apr 2018 16:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/19/swifturlalamofiredetail/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Siwft网络请求 - Alamofire</title>
+      <link>https://luckyliang.github.io/2018/04/18/swifturlalamofire/</link>
+      <pubDate>Wed, 18 Apr 2018 20:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/18/swifturlalamofire/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Siwft网络请求 - URLSession</title>
+      <link>https://luckyliang.github.io/2018/04/18/swifturlsession/</link>
+      <pubDate>Wed, 18 Apr 2018 19:40:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/18/swifturlsession/</guid>
+      <description>URLSession功能 NSURLSession 支持 http2.0 协议 在处理下载任务的时候可以直接把数据下载到磁盘 支持后台下载与上传 同一个 session 发送多个请求，只需要建立一次连接（</description>
+    </item>
+    
+    <item>
+      <title>Siwft 小技巧记录</title>
+      <link>https://luckyliang.github.io/2018/04/18/swifttipsrecord/</link>
+      <pubDate>Wed, 18 Apr 2018 19:22:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/18/swifttipsrecord/</guid>
+      <description>Swift 记录 通过字符串初始化类 比如有个类名为URLSessionViewController，在Swift中通过字符串来初始化 ///规则：项目名.</description>
+    </item>
+    
+    <item>
+      <title>go 错误收集</title>
+      <link>https://luckyliang.github.io/2018/04/12/goerror/</link>
+      <pubDate>Thu, 12 Apr 2018 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/12/goerror/</guid>
+      <description>ListenAndServe: listen tcp: address 3000: missing port in address exit status 1 学习go net/http包，代码如下 func getNews(writer http.ResponseWriter, request *http.Request) { writer.Write([]byte(&amp;quot;hello&amp;quot;)) } func main() { http.HandleFunc(&amp;quot;/getNews&amp;quot;,getNews) log.Println(&amp;quot;Listening....&amp;quot;) err := http.ListenAndServe(&amp;quot;3000&amp;quot;,nil) if err != nil { log.Fatal(&amp;quot;ListenAndServe: &amp;quot;, err) } } 执行命令 $ go run main.go</description>
+    </item>
     
     <item>
       <title>IOS底层原理一  探寻OC对象本质</title>

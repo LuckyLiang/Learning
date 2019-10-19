@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on ChengCheng Blog</title>
+    <title>Tags on Cheng Blog</title>
     <link>https://luckyliang.github.io/tags/</link>
-    <description>Recent content in Tags on ChengCheng Blog</description>
+    <description>Recent content in Tags on Cheng Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 11 Apr 2018 09:32:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Apr 2018 13:20:22 +0000</lastBuildDate>
     
 	<atom:link href="https://luckyliang.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,27 @@
     <item>
       <title>IOS</title>
       <link>https://luckyliang.github.io/tags/ios/</link>
-      <pubDate>Wed, 11 Apr 2018 09:32:00 +0000</pubDate>
+      <pubDate>Mon, 23 Apr 2018 13:20:22 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/tags/ios/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Swift</title>
+      <link>https://luckyliang.github.io/tags/swift/</link>
+      <pubDate>Mon, 23 Apr 2018 13:20:22 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/tags/swift/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go</title>
+      <link>https://luckyliang.github.io/tags/go/</link>
+      <pubDate>Thu, 12 Apr 2018 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/tags/go/</guid>
       <description></description>
     </item>
     
