@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="go - 处理web请求" />
+    <meta property="og:title" content="go - 处理web请求" />
+    <meta property="twitter:title" content="go - 处理web请求" />
+    
+
+    
+    <meta name="description" content="主要记录go如和处理web数据处理的，包括get,post,文件上传，文件下载，数据返回格式">
+    <meta property="og:description" content="主要记录go如和处理web数据处理的，包括get,post,文件上传，文件下载，数据返回格式" />
+    <meta property="twitter:description" content="主要记录go如和处理web数据处理的，包括get,post,文件上传，文件下载，数据返回格式" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>go - 处理web请求-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/03/13/goRequest/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                    </div>
+                    <h1>go - 处理web请求</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Tuesday, March 13, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#web请求">web请求</a>
+<ul>
+<li><a href="#请求方法">请求方法</a></li>
+<li><a href="#content-type">Content-Type</a></li>
+<li><a href="#查询参数-query">查询参数(query)</a></li>
+<li><a href="#请求实体-body">请求实体(body)</a></li>
+</ul></li>
+<li><a href="#go处理web请求数据">go处理Web请求数据</a>
+<ul>
+<li><a href="#request">Request</a>
+<ul>
+<li><a href="#获取请求头-header">获取请求头（Header）</a></li>
+<li><a href="#获取查询参数-query">获取查询参数(Query)</a></li>
+<li><a href="#获取表单信息-form">获取表单信息(Form)</a>
+<ul>
+<li><a href="#application-x-www-form-urlencoded">application/x-www-form-urlencoded</a></li>
+<li><a href="#multipart-form-data-文件上传">multipart/form-data 文件上传</a></li>
+<li><a href="#文件下载">文件下载</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<p>web应用非常重要的功能之一就是接受来自客户端发起的请求，然后返回数据以完成与客服端的数据交互，这篇文章主要记录go在处理这些数据请求时常用的方法</p>
+
+<h2 id="web请求">web请求</h2>
+
+<p>每个web请求都包含的三部分：<strong><em>请求行</em></strong>，<strong><em>请求头</em></strong>，<strong><em>请求体</em></strong></p>
+
+<h3 id="请求方法">请求方法</h3>
+
+<p>主要包含7种：<code>GET</code>,<code>POST</code>,<code>PUT</code>,<code>HEADER</code>,<code>PATCH</code>,<code>DELETE</code>,<code>OPTIONS</code>。其中常用的<code>GET</code>和<code>POST</code>请求</p>
+
+<p>GET请求没有请求体body，请求数据一般通过<code>URL</code>中的<code>查询参数(query)</code>传给服务端</p>
+
+<p>POST请求则会携带请求体，在请求体中带数据传递给服务端</p>
+
+<h3 id="content-type">Content-Type</h3>
+
+<p><code>Content-Type</code>是<code>请求头部(Header)</code>中一个用于指<code>请求实体</code>类型的内容头部，在请求或响应用于指<code>请求实体</code>到底存放什么样的数据，所以只有会推带<code>请求实体</code>的方法起作用，如<code>POST</code>方法。</p>
+
+<p>Content-Type最常用取值：</p>
+
+<ol>
+<li><code>application/json</code>：JSON数据</li>
+<li><code>application/x-www-form-urlencoded</code>：form表单请求使用的类型，在发送前会编码所有字符</li>
+<li><code>multipart/form-data</code>：不对字符编码，一般用于文件上传</li>
+<li><code>text/html</code>：一般用于响应中的响应头，告诉客户端返回的是HTML文档。</li>
+</ol>
+
+<h3 id="查询参数-query">查询参数(query)</h3>
+
+<p>查询参数是URL中?后面跟着的部分，如URL中的query=Go&amp;type=1`,这个部分,查询参数由&amp;分隔开，这是GET方法携带数据的方式</p>
+
+<h3 id="请求实体-body">请求实体(body)</h3>
+
+<p><code>请求实体</code>是一次Web请求中数据携带部分，一般只有POST请求才有这个部分，服务器由Content-Type首部来判断<code>请求实体</code>的内容编码格式，如果想向服务器发送大量数据，一般都用POST请求。</p>
+
+<h2 id="go处理web请求数据">go处理Web请求数据</h2>
+
+<h3 id="request">Request</h3>
+
+<p>在Go语言中，使用<code>http.Request</code>结构来处理http请求的数据</p>
+
+<pre><code class="language-go">http.HandleFunc(&quot;/hello&quot;, func(writer http.ResponseWriter, request *http.Request) {
+    //使用request可以获取http请求的数据
+})
+</code></pre>
+
+<p>request公开访问的字段</p>
+
+<pre><code class="language-go">type Request struct {
+        Method string //方法:POST,GET...
+        URL *url.URL //URL结构体
+        Proto      string // 协议：&quot;HTTP/1.0&quot;
+        ProtoMajor int    // 1
+        ProtoMinor int    // 0
+        Header Header    //头部信息
+        Body io.ReadCloser //请求实体
+        GetBody func() (io.ReadCloser, error) // Go 1.8
+        ContentLength int64  //首部：Content-Length
+        TransferEncoding []string
+        Close bool           //是否已关闭
+        Host string          //首部Host
+        Form url.Values      //参数查询的数据
+        PostForm url.Values // application/x-www-form-urlencoded类型的body解码后的数据
+        MultipartForm *multipart.Form //文件上传时的数据
+        Trailer Header
+        RemoteAddr string          //请求地址
+        RequestURI string          //请求的url地址
+        TLS *tls.ConnectionState
+        Cancel &lt;-chan struct{} // 
+        Response *Response //      响应数据
+}
+</code></pre>
+
+<h4 id="获取请求头-header">获取请求头（Header）</h4>
+
+<p>对于常用的请求头部信息，http.Request结构有对应的字段和方法，如下所示：</p>
+
+<pre><code class="language-go">http.HandleFunc(&quot;/hello&quot;, func(writer http.ResponseWriter, request *http.Request) {
+    request.RemoteAddr
+    request.RequestURI
+    request.ContentLength 
+    request.Proto
+    request.Method 
+    request.Referer()
+    request.UserAgent()
+})
+</code></pre>
+
+<p>当然，其他的信息可以通过request.Header字段来获取，request.Header的定义如下所示：</p>
+
+<pre><code class="language-go">type Header map[string][]string
+</code></pre>
+
+<p>也就是说,request.Header是一个的类型是map，另外request.Header也提供相应的方法来获取和设置请求头，如下所示：</p>
+
+<pre><code class="language-go">// CanonicalHeaderKey.
+func (h Header) Add(key, value string)
+func (h Header) Set(key, value string) 
+func (h Header) Get(key string) string 
+func (h Header) get(key string) string
+func (h Header) has(key string) bool 
+func (h Header) Del(key string) 
+func (h Header) Write(w io.Writer) error 
+func (h Header) write(w io.Writer, trace *httptrace.ClientTrace) error 
+func (h Header) clone() Header 
+</code></pre>
+
+<p>也就是说，我们除了使用上面的方法获取头部信息外，也可以使用request.Header来获取，示例：</p>
+
+<pre><code class="language-go">http.HandleFunc(&quot;/hello&quot;, func(writer http.ResponseWriter, request *http.Request) {
+    request.Header.Get(&quot;Content-Type&quot;)//返回的是string
+    request.Header[&quot;Content-Type&quot;] //返回的是[]string
+})
+</code></pre>
+
+<h4 id="获取查询参数-query">获取查询参数(Query)</h4>
+
+<p>如何获取查询参数(url中?后面使用&amp;分隔的部分)呢？可以使用<code>request.FormValue(key)</code>方法获取查询参数，其中key为参数的名称，代码如下：</p>
+
+<pre><code class="language-go">func main() {
+	http.HandleFunc(&quot;/userInfo&quot;,userInfo)
+	fmt.Printf(&quot;listening...&quot;)
+	err := http.ListenAndServe(&quot;:3000&quot;,nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+func userInfo(w http.ResponseWriter, r *http.Request) {
+	username := r.FormValue(&quot;username&quot;)
+	gender := r.FormValue(&quot;gender&quot;)
+	fmt.Fprintln(w,fmt.Sprintf(&quot;用户名：%s,性别:%s&quot;,username,gender))
+}
+</code></pre>
+
+<p>执行 <code>http://localhost:3000/userInfo?username=&quot;xiaoxiao&quot;&amp;gender=&quot;1&quot;</code>会得到结果：</p>
+
+<pre><code class="language-go">用户名：&quot;xiaoxiao&quot;,性别:&quot;1&quot;
+</code></pre>
+
+<h4 id="获取表单信息-form">获取表单信息(Form)</h4>
+
+<p>我们说获取表单信息，一般是指获取Content-Type是<code>application/x-www-form-urlencoded</code>或<code>multipart/form-data</code>时，<code>请求实体</code>中的数据，如果你有做传统网页中的表单提交数据的经历，相信对这两种提交数据的方式应该是熟悉的，而<code>multipart/form-data</code>一般是用来上传文件的。</p>
+
+<h5 id="application-x-www-form-urlencoded">application/x-www-form-urlencoded</h5>
+
+<p>获取Content-Type为application/x-www-form-urlencoded时提交上来的数据，可以使用request.PostForm字段request.Form和request.PostFormValue(key)方法获取，但必须先调用request.ParseForm()将数据写入request.PostForm字段中。</p>
+
+<p>步骤为：</p>
+
+<ol>
+<li>使用<code>request.ParseForm()</code>函数解析body参数，这时会将参数写入Form字段和PostForm字段当中。</li>
+<li>使用<code>request.Form</code>、<code>request.PostForm</code>或r<code>equest.PostFormValue(key)</code>都可以获取</li>
+</ol>
+
+<p>注意，<code>request.Form</code>和<code>request.PostForm</code>的类型<code>url.Values</code>，结构定义如下</p>
+
+<pre><code class="language-go">type Values map[string][]string
+</code></pre>
+
+<p>示例如下：</p>
+
+<pre><code class="language-go">func main() {
+	http.HandleFunc(&quot;/userInfo&quot;,userInfo)
+	fmt.Printf(&quot;listening...&quot;)
+	err := http.ListenAndServe(&quot;:3000&quot;,nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+func userInfo(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+		if err != nil{
+			fmt.Fprintln(w,&quot;解析错误&quot;)
+		}
+		username := r.PostForm[&quot;username&quot;][0]
+		gender := r.PostFormValue(&quot;gender&quot;)
+		age := r.Form[&quot;age&quot;][0]
+		email := r.FormValue(&quot;email&quot;)
+
+		ageInt , err := strconv.Atoi(age)
+		genderInt, err := strconv.Atoi(gender)
+  //转json
+		personInfo, err := json.Marshal(Person{username,ageInt,genderInt,email})
+  
+  	w.Header().Set(&quot;Conten-Type&quot;, &quot;application/json&quot;)
+		w.Write(personInfo)
+}
+type Person struct {
+	Name 	string 	`json:&quot;name&quot;` //首字母大写才能转json，可用`json:&quot;name&quot;`把最终返回数据转为其他名字
+	Age  	int    	`json:&quot;age&quot;`
+	Gender 	int 	`json:&quot;gender&quot;`
+	Email	string 	`json:&quot;email&quot;`
+}
+</code></pre>
+
+<p>postman请求</p>
+
+<p><a href="/img/go/go-requestpost01.png">postman</a></p>
+
+<h5 id="multipart-form-data-文件上传">multipart/form-data 文件上传</h5>
+
+<p>获取<code>Content-Type</code>为<code>multipart/form-data</code>时提交上来的数据，步骤如下:</p>
+
+<ol>
+<li>使用<code>request.ParseMultipartForm(maxMemory)</code>，解析参数，将参数写入到MultipartForm字段当中，其中maxMemory为上传文件最大内存。</li>
+<li>使用<code>request.FormFile</code>(文件域)，可以获取上传的文件对象：<code>multipart.File</code></li>
+
+<li><p>除了文件域，其中参数可以从<code>request.PostForm</code>字段获取，注意，此时不需要再调用<code>request.ParseForm()</code>了</p>
+
+<pre><code class="language-go">// 定义上传文件路径
+const BaseUploadPath = &quot;./upload&quot;
+
+func main() {
+//上传
+	http.HandleFunc(&quot;/uploadFile&quot;,uploadFile)
+//下载
+http.HandleFunc(&quot;/dowloadFile&quot;,dowloadFile)
+	fmt.Printf(&quot;listening...&quot;)
+	err := http.ListenAndServe(&quot;:3000&quot;,nil)
+	if err != nil {
+		log.Fatalln(&quot;server run error :&quot;,err)
+	}
+}
+
+func uploadFile(w http.ResponseWriter, r *http.Request) {
+
+	// 文件只允许POST方法
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		_,_ = w.Write([]byte(&quot;Mehtod not allowed&quot;))
+		return
+	}
+
+	// 读取信息
+	username := r.FormValue(&quot;username&quot;)
+
+	// 从表单中读取文件
+	file, fileHeader, err := r.FormFile(&quot;file&quot;)
+	if err != nil {
+		_, _ = io.WriteString(w,&quot;Read file error&quot;)
+		return
+	}
+	//defer 结束时关闭文件
+	defer file.Close()
+	log.Println(&quot;filename: &quot; + fileHeader.Filename)
+
+	//创建文件
+	newFile, err := os.Create(BaseUploadPath + &quot;/&quot; + fileHeader.Filename)
+	if err != nil {
+		_, _ = io.WriteString(w, &quot;Create file error&quot;)
+		return
+	}
+	//defer 结束时关闭文件
+	defer newFile.Close()
+
+	//初始化返回结果
+	result := new(BaseData)
+
+	//将文件写到本地
+	_, err = io.Copy(newFile, file)
+	if err != nil {
+		result.Status = &quot;2&quot;
+		result.Mgs = &quot;文件写入失败&quot;
+		resultStr, _ := json.Marshal(result)
+		w.Write(resultStr)
+		return
+	}
+
+	result.Status = &quot;1&quot;
+	result.Mgs = &quot;上传成功&quot;
+	result.Data = username
+	resultStr, _ := json.Marshal(result)
+	w.Write(resultStr)
+}
+</code></pre></li>
+</ol>
+
+<h5 id="文件下载">文件下载</h5>
+
+<pre><code class="language-go">
+//4.文件下载
+func dowloadFile(w http.ResponseWriter, request *http.Request)  {
+
+	//文件上传只允许GET方法
+	if request.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		_, _ = w.Write([]byte(&quot;Method not allowed&quot;))
+		return
+	}
+	//文件名
+	filename := request.FormValue(&quot;filename&quot;)
+	if filename == &quot;&quot; {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = io.WriteString(w, &quot;Bad request&quot;)
+		return
+	}
+	log.Println(&quot;filename: &quot; + filename)
+
+	//打开文件
+	file, err := os.Open(BaseUploadPath + &quot;/&quot; + filename)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = io.WriteString(w, &quot;Bad request&quot;)
+		return
+	}
+
+	//结束后关闭文件
+	defer file.Close()
+
+	//设置响应的header头
+	w.Header().Add(&quot;Content-type&quot;, &quot;application/octet-stream&quot;)
+	w.Header().Add(&quot;content-disposition&quot;, &quot;attachment; filename=\&quot;&quot;+filename+&quot;\&quot;&quot;)
+	//将文件写至responseBody
+	_, err = io.Copy(w, file)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = io.WriteString(w, &quot;Bad request&quot;)
+		return
+	}
+}
+</code></pre>
+
+<p><strong>参考文章</strong>：</p>
+
+<p><a href="https://juejin.im/post/5c9a26016fb9a070b0487146">Go 如何处理web请求</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/03/12/gohttprouter/" data-toggle="tooltip" data-placement="top" title="go - httprouter高性能Http框架">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/04/11/iosunderlying_ocobjectessence/" data-toggle="tooltip" data-placement="top" title="IOS底层原理一  探寻OC对象本质">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

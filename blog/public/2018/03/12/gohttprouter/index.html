@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="go 错误收集" />
-    <meta property="og:title" content="go 错误收集" />
-    <meta property="twitter:title" content="go 错误收集" />
+    <meta name="title" content="go - httprouter高性能Http框架" />
+    <meta property="og:title" content="go - httprouter高性能Http框架" />
+    <meta property="twitter:title" content="go - httprouter高性能Http框架" />
     
 
     
-    <meta name="description" content="初学go语言，收集一些平时学习时遇到的错误和坑">
-    <meta property="og:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
-    <meta property="twitter:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
+    <meta name="description" content="httprouter高性能Http框架学习笔记">
+    <meta property="og:description" content="httprouter高性能Http框架学习笔记" />
+    <meta property="twitter:description" content="httprouter高性能Http框架学习笔记" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>go 错误收集-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+    <title>go - httprouter高性能Http框架-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
 
-    <link rel="canonical" href="/2018/04/12/goerror/">
+    <link rel="canonical" href="/2018/03/12/gohttprouter/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -180,7 +180,7 @@
                         </a>
                         
                     </div>
-                    <h1>go 错误收集</h1>
+                    <h1>go - httprouter高性能Http框架</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by 
@@ -188,7 +188,7 @@
                             Cheng
                          
                         on 
-                        Thursday, April 12, 2018
+                        Monday, March 12, 2018
                         
                         
                         
@@ -216,46 +216,9 @@
                 <header>
                     <h2>TOC</h2>
                 </header>
-                <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</a></li>
-</ul></li>
-</ul>
-</nav>
                 
                 
-
-<h2 id="listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</h2>
-
-<p>学习go net/http包，代码如下</p>
-
-<pre><code class="language-go">func getNews(writer http.ResponseWriter, request *http.Request) {
-	writer.Write([]byte(&quot;hello&quot;))
-}
-
-func main() {
-
-	http.HandleFunc(&quot;/getNews&quot;,getNews)
-	log.Println(&quot;Listening....&quot;)
-	err := http.ListenAndServe(&quot;3000&quot;,nil)
-	if err != nil {
-		log.Fatal(&quot;ListenAndServe: &quot;, err)
-	}
-}
-</code></pre>
-
-<p>执行命令 <code>$ go run main.go</code>的时候得到如下报错</p>
-
-<pre><code class="language-go">## ListenAndServe: listen tcp: address 3000: missing port in address exit status 1
-</code></pre>
-
-<p>这是端口号不正确，把上面端口号前加个冒号解决 (有时不注意忘记写了，而且初学者难找原因)</p>
-
-<pre><code class="language-go">err := http.ListenAndServe(&quot;:3000&quot;,nil)
-</code></pre>
-
+                
 
                 
                 
@@ -303,13 +266,13 @@ func main() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/04/11/iosunderlying_ocobjectessence/" data-toggle="tooltip" data-placement="top" title="IOS底层原理一  探寻OC对象本质">&larr;
+                        <a href="/2018/03/10/gonet/" data-toggle="tooltip" data-placement="top" title="go - net/http的简单使用">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/04/18/swiftTipsRecord/" data-toggle="tooltip" data-placement="top" title="Siwft 小技巧记录">Next
+                        <a href="/2018/03/13/goRequest/" data-toggle="tooltip" data-placement="top" title="go - 处理web请求">Next
                             Post &rarr;</a>
                     </li>
                     

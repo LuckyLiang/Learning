@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="go 错误收集" />
-    <meta property="og:title" content="go 错误收集" />
-    <meta property="twitter:title" content="go 错误收集" />
+    <meta name="title" content="go - net/http的简单使用" />
+    <meta property="og:title" content="go - net/http的简单使用" />
+    <meta property="twitter:title" content="go - net/http的简单使用" />
     
 
     
-    <meta name="description" content="初学go语言，收集一些平时学习时遇到的错误和坑">
-    <meta property="og:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
-    <meta property="twitter:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
+    <meta name="description" content="理解net/http 后端服务简单使用方法，方便自己调式和理解前后台数据交互">
+    <meta property="og:description" content="理解net/http 后端服务简单使用方法，方便自己调式和理解前后台数据交互" />
+    <meta property="twitter:description" content="理解net/http 后端服务简单使用方法，方便自己调式和理解前后台数据交互" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>go 错误收集-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+    <title>go - net/http的简单使用-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
 
-    <link rel="canonical" href="/2018/04/12/goerror/">
+    <link rel="canonical" href="/2018/03/10/gonet/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -180,7 +180,7 @@
                         </a>
                         
                     </div>
-                    <h1>go 错误收集</h1>
+                    <h1>go - net/http的简单使用</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by 
@@ -188,7 +188,7 @@
                             Cheng
                          
                         on 
-                        Thursday, April 12, 2018
+                        Saturday, March 10, 2018
                         
                         
                         
@@ -216,45 +216,167 @@
                 <header>
                     <h2>TOC</h2>
                 </header>
-                <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</a></li>
-</ul></li>
-</ul>
-</nav>
                 
                 
+                <p>Go 语言中处理 HTTP 请求主要跟两个东西相关：<code>ServeMux</code> 和 <code>Handler</code>。</p>
 
-<h2 id="listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</h2>
+<p><strong><em>ServrMux</em></strong>：本质上是一个 HTTP 请求路由器,它把收到的请求与一组预先定义的 URL 路径列表做对比，然后在匹配到路径的时候调用关联的处理器</p>
 
-<p>学习go net/http包，代码如下</p>
+<p><strong><em>处理器</em></strong>（Handler）负责输出HTTP响应的头和正文。任何实现了<a href="http://golang.org/pkg/net/http/#Handler"><code>http.Handler</code>接口</a>的对象都可作为一个处理器</p>
 
-<pre><code class="language-go">func getNews(writer http.ResponseWriter, request *http.Request) {
-	writer.Write([]byte(&quot;hello&quot;))
+<pre><code class="language-go">type Handler interface {
+   ServeHTTP(ResponseWriter, *Request)
+}
+</code></pre>
+
+<p>一个简单的net/http 服务</p>
+
+<pre><code class="language-go">func main() {
+	// 默认路由中注册处理器
+	http.HandleFunc(&quot;/hello&quot;, hello)
+	//监听端口
+	err := http.ListenAndServe(&quot;:3002&quot;,nil)
+	if err != nil {
+		log.Fatal(&quot;ListenAndServe: &quot;, err)
+	}
+}
+func hello(w http.ResponseWriter, request *http.Request) {
+	w.Write([]byte(&quot;hello go&quot;))
+}
+</code></pre>
+
+<p>在浏览器中输入<a href="http://localhost:3002">http://localhost:3002</a> 可以看到输出 hello go</p>
+
+<p>先看<code>http.HandleFunc(&quot;/hello&quot;, hello)</code>，首先进入HandleFunc函数</p>
+
+<pre><code class="language-go">// pattern 路径， handler函数：这里传入的是func hello(w http.ResponseWriter, request *http.Request)
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+  // 使用默认路由
+	DefaultServeMux.HandleFunc(pattern, handler)
+}
+</code></pre>
+
+<p>先看看DefaultServeMux，其实就是一个空的ServeMux</p>
+
+<pre><code class="language-go">// 定义
+var DefaultServeMux = &amp;defaultServeMux
+var defaultServeMux ServeMux //其实就是一个空的ServeMux
+
+// ServeMux结构体
+type ServeMux struct {
+	mu    sync.RWMutex  //定义读写锁
+	m     map[string]muxEntry //利用map储存路由入口
+	es    []muxEntry // 所有路由入口切片
+	hosts bool       // whether any patterns contain hostnames
 }
 
-func main() {
+type muxEntry struct {
+	h       Handler   //处理器函数 func(ResponseWriter, *Request)
+	pattern string   //入口，如/hello
+}
 
-	http.HandleFunc(&quot;/getNews&quot;,getNews)
-	log.Println(&quot;Listening....&quot;)
-	err := http.ListenAndServe(&quot;3000&quot;,nil)
+</code></pre>
+
+<p>DefaultServeMux调用HandleFunc函数</p>
+
+<pre><code class="language-go">
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	if handler == nil {
+		panic(&quot;http: nil handler&quot;)
+	}
+	mux.Handle(pattern, HandlerFunc(handler))
+}
+//最终调用ServeMux的Handle函数
+func (mux *ServeMux) Handle(pattern string, handler Handler) {
+	mux.mu.Lock() //加读写锁
+	defer mux.mu.Unlock()
+
+	if pattern == &quot;&quot; {
+		panic(&quot;http: invalid pattern&quot;)
+	}
+	if handler == nil {
+		panic(&quot;http: nil handler&quot;)
+	}
+  //判断之前是否组册过
+	if _, exist := mux.m[pattern]; exist {
+		panic(&quot;http: multiple registrations for &quot; + pattern)
+	}
+
+	if mux.m == nil { //如果为空，初始化一个存储muxEntry
+		mux.m = make(map[string]muxEntry)
+	}
+  //保存路由和对应的处理函数
+	e := muxEntry{h: handler, pattern: pattern}
+	mux.m[pattern] = e 
+  
+	if pattern[len(pattern)-1] == '/' {
+		mux.es = appendSorted(mux.es, e)
+	}
+	if pattern[0] != '/' {
+		mux.hosts = true
+	}
+}
+</code></pre>
+
+<p>既然注册存入了相应的信息，那么在处理HTTP请求的时候，就可以使用了。Go语言的<code>net/http</code>更底层细节就不详细分析了，我们只要知道处理HTTP请求的时候，会调用<code>Handler</code>接口的<code>ServeHTTP</code>方法，而<code>ServeMux</code>正好实现了<code>Handler</code>。</p>
+
+<pre><code class="language-go">func (mux *ServeMux) ServeHTTP(w ResponseWriter, r *Request) {
+	//省略一些无关代码
+	h, _ := mux.Handler(r)
+	h.ServeHTTP(w, r)
+}
+</code></pre>
+
+<p>上面代码中的<code>mux.Handler</code>会获取到我们注册的<code>Index</code>函数，然后执行它，具体<code>mux.Handler</code>的详细实现不再分析了，大家可以自己看下源代码。</p>
+
+<p>现在我们可以总结下<code>net/http</code>包对HTTP请求的处理。</p>
+
+<pre><code>HTTP请求-&gt;ServeHTTP函数-&gt;ServeMux的Handler方法-&gt;Index函数
+</code></pre>
+
+<p>使用内置的<code>net/htp</code>的默认路径处理HTTP请求的时候，会发现很多不足，比如：</p>
+
+<ol>
+<li>不能单独的对请求方法(POST,GET等)注册特定的处理函数</li>
+<li>不支持Path变量参数</li>
+<li>不能自动对Path进行校准</li>
+<li>性能一般</li>
+<li>扩展性不足</li>
+<li>&hellip;..</li>
+</ol>
+
+<p>创建一个自定义处理器，功能是将以特定格式输出当前本地时间</p>
+
+<pre><code class="language-go">type timeHandler struct {
+	format string //时间格式化
+}
+//实现ServeHTTP接口
+//实现ServeHTTP接口
+func (th *timeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)  {
+	if r.Method == &quot;GET&quot; {
+		tm := time.Now().Format(th.format)
+		fmt.Fprint(w,[]byte(&quot;The time is: &quot; + tm))
+	}else  {
+		fmt.Fprint(w,&quot;bad http method request&quot;)
+	}
+}
+func main() {
+	//初始化路由
+	mux := http.NewServeMux()
+	//初始化时间处理器
+	th := &amp;timeHandler{format:time.RFC1123}
+  	//注册到ServerMux中
+	mux.Handle(&quot;/time&quot;,th)// 这里直接调用了最后一步Handle函数
+	log.Println(&quot;Listenning...&quot;)
+	//监听,注意端口前加冒号
+  err := http.ListenAndServe(&quot;:3000&quot;,mux)
 	if err != nil {
 		log.Fatal(&quot;ListenAndServe: &quot;, err)
 	}
 }
 </code></pre>
 
-<p>执行命令 <code>$ go run main.go</code>的时候得到如下报错</p>
-
-<pre><code class="language-go">## ListenAndServe: listen tcp: address 3000: missing port in address exit status 1
-</code></pre>
-
-<p>这是端口号不正确，把上面端口号前加个冒号解决 (有时不注意忘记写了，而且初学者难找原因)</p>
-
-<pre><code class="language-go">err := http.ListenAndServe(&quot;:3000&quot;,nil)
-</code></pre>
+<p>这里只是简单记录下net/http的简单实用方法</p>
 
 
                 
@@ -302,14 +424,9 @@ func main() {
                 <hr>
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/04/11/iosunderlying_ocobjectessence/" data-toggle="tooltip" data-placement="top" title="IOS底层原理一  探寻OC对象本质">&larr;
-                            Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/04/18/swiftTipsRecord/" data-toggle="tooltip" data-placement="top" title="Siwft 小技巧记录">Next
+                        <a href="/2018/03/12/gohttprouter/" data-toggle="tooltip" data-placement="top" title="go - httprouter高性能Http框架">Next
                             Post &rarr;</a>
                     </li>
                     
