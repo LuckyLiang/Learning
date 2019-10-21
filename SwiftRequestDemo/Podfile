@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+inhibit_all_warnings!
+use_frameworks!
+
+target 'SwiftRequestDemo' do
+  pod 'Moya/RxSwift', '14.0.0-alpha.2'
+  pod 'PromiseKit', '6.10.0'
+  pod 'RxDataSources', '4.0.1'
+
+# Pods for SwiftRequestDemo
+
+  #target 'SwiftRequestDemoTests' do
+    #inherit! :search_paths
+    # Pods for testing
+  #end
+
+  #target 'SwiftRequestDemoUITests' do
+  #  inherit! :search_paths
+    # Pods for testing
+  #end
+
+end
