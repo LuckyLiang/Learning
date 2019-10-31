@@ -4,17 +4,47 @@
   
   <url>
     <loc>https://luckyliang.github.io/categories/</loc>
-    <lastmod>2018-04-23T13:20:22+00:00</lastmod>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://luckyliang.github.io/</loc>
-    <lastmod>2018-04-23T13:20:22+00:00</lastmod>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/tags/ios/</loc>
-    <lastmod>2018-04-23T13:20:22+00:00</lastmod>
+    <loc>https://luckyliang.github.io/tags/go/</loc>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/categories/go/</loc>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/10/24/goopmysql/</loc>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/post/</loc>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/tags/</loc>
+    <lastmod>2018-10-24T23:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/tags/mysql/</loc>
+    <lastmod>2018-10-23T23:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/10/23/mysqlleaning/</loc>
+    <lastmod>2018-10-23T23:32:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,7 +53,7 @@
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/post/</loc>
+    <loc>https://luckyliang.github.io/tags/ios/</loc>
     <lastmod>2018-04-23T13:20:22+00:00</lastmod>
   </url>
   
@@ -34,11 +64,6 @@
   
   <url>
     <loc>https://luckyliang.github.io/tags/swift/</loc>
-    <lastmod>2018-04-23T13:20:22+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://luckyliang.github.io/tags/</loc>
     <lastmod>2018-04-23T13:20:22+00:00</lastmod>
   </url>
   
@@ -78,16 +103,6 @@
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/categories/go/</loc>
-    <lastmod>2018-04-12T19:32:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://luckyliang.github.io/tags/go/</loc>
-    <lastmod>2018-04-12T19:32:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://luckyliang.github.io/2018/04/12/goerror/</loc>
     <lastmod>2018-04-12T19:32:00+00:00</lastmod>
   </url>
@@ -115,6 +130,26 @@
   <url>
     <loc>https://luckyliang.github.io/2018/03/10/gonet/</loc>
     <lastmod>2018-03-10T20:32:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/tags/nasm/</loc>
+    <lastmod>2018-02-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/11/nasminstall/</loc>
+    <lastmod>2018-02-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/categories/%E6%B1%87%E7%BC%96/</loc>
+    <lastmod>2018-02-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/</loc>
+    <priority>0</priority>
   </url>
   
   <url>

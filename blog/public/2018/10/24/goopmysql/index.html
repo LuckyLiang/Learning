@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="go 操作 mysql" />
+    <meta property="og:title" content="go 操作 mysql" />
+    <meta property="twitter:title" content="go 操作 mysql" />
+    
+
+    
+    <meta name="description" content="go 操作mysql的简单用">
+    <meta property="og:description" content="go 操作mysql的简单用" />
+    <meta property="twitter:description" content="go 操作mysql的简单用" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>go 操作 mysql-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/10/24/goOpMysql/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                    </div>
+                    <h1>go 操作 mysql</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Wednesday, October 24, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#使用database-sql接口">使用database/sql接口</a></li>
+<li><a href="#使用gorm">使用GORM</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<p>使用Go操作MySQL等数据库，一般有两种方式：一是使用database/sql接口，直接在代码里硬编码sql语句；二是使用gorm，即对象关系映射的方式在代码里抽象的操作数据库。一般推荐使用第二种方式。</p>
+
+<h3 id="使用database-sql接口">使用database/sql接口</h3>
+
+<p>Go没有内置的驱动支持任何数据库，但是Go定义了database/sql接口，用户可以基于驱动接口开发相应数据库的驱动。但缺点是，直接用 github.com/go-sql-driver/mysql 访问数据库都是直接写 sql，取出结果然后自己拼成对象，使用上面不是很方便，可读性也不好。</p>
+
+<p>常用语句</p>
+
+<pre><code class="language-go">//driverName参数为数据库驱动名称。
+//dataSourceName是连接参数，参数格式如下：
+//user:password@tcp(host:port)/dbname?charset=utf8
+func Open(driverName, dataSourceName string) (*DB, error)
+//Prepare为后续查询或执行操作创建一个准备SQL
+func (db *DB) Prepare(query string) (*Stmt, error)
+//使用给定参数执行准备的SQL语句
+func (s *Stmt) Exec(args ...interface{}) (Result, error)
+//使用给定参数执行准备的SQL查询语句
+func (s *Stmt) Query(args ...interface{}) (*Rows, error)
+//执行SQL操作，query为SQL语句，可以接收可变参数，用于填充SQL语句的某些字段值。
+func (db *DB) Exec(query string, args ...interface{}) (Result, error)
+//执行SQL查询操作，可以接收多个参数
+func (db *DB) Query(query string, args ...interface{}) (*Rows, error)
+</code></pre>
+
+<p>下载包</p>
+
+<pre><code>go get github.com/go-sql-driver/mysql
+</code></pre>
+
+<p>我们对上面的user表执行CRUD操作（增、删、改、查）。代码如下所示：</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;database/sql&quot;
+	&quot;fmt&quot;
+	_ &quot;github.com/go-sql-driver/mysql&quot;
+	&quot;time&quot;
+)
+
+// 数据连接信息
+const (
+	USERNAME = &quot;root&quot; //数据库登录用户名
+	PASSWORD = &quot;admin123456&quot; //密码
+	NETWORK = &quot;tcp&quot;
+	SERVER = &quot;127.0.0.1&quot; 
+	PORT = 3306
+	DATABASE = &quot;userTest&quot; //需要连接的数据库名
+)
+
+//userinfo 表结构
+
+type UserInfo struct {
+	Id int `json:&quot;id&quot; form:&quot;id&quot;`
+	Username string `json:&quot;username&quot; form:&quot;username&quot;`
+	Password string `json:&quot;password&quot; form:&quot;password&quot;`
+	Status int   `json:&quot;status&quot; form:&quot;status&quot;`      // 0 正常状态， 1删除
+	Createtime int64 `json:&quot;createtime&quot; form:&quot;createtime&quot;`
+
+}
+
+func main() {
+	// 连接数据库
+	conn := fmt.Sprintf(&quot;%s:%s@%s(%s:%d)/%s?charset=utf8&quot;,USERNAME, PASSWORD, NETWORK, SERVER, PORT, DATABASE)
+	DB, err := sql.Open(&quot;mysql&quot;, conn) //需要导入mysql驱动：_ &quot;github.com/go-sql-driver/mysql&quot;
+	if err != nil{
+		fmt.Println(&quot;connection to mysql failed:&quot;, err)
+		return
+	}
+
+	DB.SetConnMaxLifetime(100*time.Second) //最大连接周期，超时的连接就close
+	DB.SetMaxOpenConns(100) //设置最大连接数，如果设置为0就没有限制
+	//创建表
+	CreateTable(DB)
+	InsertData(DB)
+	QueryOne(DB)
+	QueryMulti(DB)
+	UpdateData(DB)
+	DeleteData(DB)
+}
+
+//创建表
+func CreateTable(DB *sql.DB) {
+
+	sql := `CREATE TABLE IF NOT EXISTS users(
+	id INT(4) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	username VARCHAR(64),
+	password VARCHAR(64),
+	status INT(4),
+	createtime INT(10)
+	); `
+
+	// 执行sql语句
+	if _, err := DB.Exec(sql); err != nil {
+		fmt.Println(&quot;create table failed&quot;,err)
+		return
+	}
+	fmt.Println(&quot;create table successd&quot;)
+}
+
+// 插入数据
+func InsertData(db *sql.DB) {
+	result, err := db.Exec(&quot;INSERT INTO users(username, password) values ( ?,? )&quot;,&quot;test&quot;,&quot;123456&quot;)
+	if err != nil{
+		fmt.Printf(&quot;Insert data failed,err:%v&quot;, err)
+		return
+	}
+
+	lastInsertID,err := result.LastInsertId()    //获取插入数据的自增ID
+	if err != nil {
+		fmt.Printf(&quot;Get insert id failed,err:%v&quot;, err)
+		return
+	}
+	fmt.Println(&quot;Insert data id:&quot;, lastInsertID)
+
+	rowsaffected,err := result.RowsAffected()  //通过RowsAffected获取受影响的行数
+	if err != nil {
+		fmt.Printf(&quot;Get RowsAffected failed,err:%v&quot;,err)
+		return
+	}
+	fmt.Println(&quot;Affected rows:&quot;, rowsaffected)
+
+}
+
+//查询单行
+func QueryOne(DB *sql.DB) {
+	user := new(UserInfo)   //用new()函数初始化一个结构体对象
+	row := DB.QueryRow(&quot;select id,username,password from users where id=?&quot;, 1)
+	//row.scan中的字段必须是按照数据库存入字段的顺序，否则报错
+	if err := row.Scan(&amp;user.Id,&amp;user.Username,&amp;user.Password); err != nil {
+		fmt.Printf(&quot;scan failed, err:%v\n&quot;, err)
+		return
+	}
+	fmt.Println(&quot;Single row data:&quot;, *user)
+}
+
+//查询多行
+func QueryMulti(DB *sql.DB) {
+	user := new(UserInfo)
+	rows, err := DB.Query(&quot;select id,username,password from users where id = ?&quot;, 2)
+
+	defer func() {
+		if rows != nil {
+			rows.Close()   //关闭掉未scan的sql连接
+		}
+	}()
+	if err != nil {
+		fmt.Printf(&quot;Query failed,err:%v\n&quot;, err)
+		return
+	}
+	for rows.Next() {
+		err = rows.Scan(&amp;user.Id, &amp;user.Username, &amp;user.Password)  //不scan会导致连接不释放
+		if err != nil {
+			fmt.Printf(&quot;Scan failed,err:%v\n&quot;, err)
+			return
+		}
+		fmt.Println(&quot;scan successd:&quot;, *user)
+	}
+}
+
+//更新数据
+func UpdateData(DB *sql.DB){
+	result,err := DB.Exec(&quot;UPDATE users set password=? where id=?&quot;,&quot;111111&quot;,1)
+	if err != nil{
+		fmt.Printf(&quot;Insert failed,err:%v\n&quot;, err)
+		return
+	}
+	fmt.Println(&quot;update data successd:&quot;, result)
+
+	rowsaffected,err := result.RowsAffected()
+	if err != nil {
+		fmt.Printf(&quot;Get RowsAffected failed,err:%v\n&quot;,err)
+		return
+	}
+	fmt.Println(&quot;Affected rows:&quot;, rowsaffected)
+}
+
+//删除数据
+func DeleteData(DB *sql.DB){
+	result,err := DB.Exec(&quot;delete from users where id=?&quot;,1)
+	if err != nil{
+		fmt.Printf(&quot;Insert failed,err:%v\n&quot;,err)
+		return
+	}
+	fmt.Println(&quot;delete data successd:&quot;, result)
+
+	rowsaffected,err := result.RowsAffected()
+	if err != nil {
+		fmt.Printf(&quot;Get RowsAffected failed,err:%v\n&quot;,err)
+		return
+	}
+	fmt.Println(&quot;Affected rows:&quot;, rowsaffected)
+}
+</code></pre>
+
+<p>OK，到这里大家是不是觉得这种实现方式很繁琐，假如要修改某个sql语句需要在代码中修改，这样很麻烦，代码设计也比较糟糕。因此这种方式并不推荐使用。</p>
+
+<h3 id="使用gorm">使用GORM</h3>
+
+<p>GORM（Object Relation Mapping），即Go语言中的对象关系映射，实际上就是对数据库的操作进行封装，对上层开发人员屏蔽数据操作的细节，开发人员看到的就是一个个对象，大大简化了开发工作，提高了生产效率。如GORM结合Gin等服务端框架使用可以开发出丰富的Rest API等。</p>
+
+<p>安装</p>
+
+<pre><code>go get -u github.com/jinzhu/gorm
+go get github.com/gin-gonic/gin
+</code></pre>
+
+<p>代码</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;github.com/gin-gonic/gin&quot;
+	&quot;github.com/jinzhu/gorm&quot;
+	_ &quot;github.com/jinzhu/gorm/dialects/mysql&quot;
+
+	&quot;net/http&quot;
+)
+
+var MysqlDB *gorm.DB
+// 数据连接信息
+const (
+	USERNAME = &quot;root&quot;
+	PASSWORD = &quot;admin123456&quot;
+	NETWORK = &quot;tcp&quot;
+	SERVER = &quot;127.0.0.1&quot;
+	PORT = 3306
+	DATABASE = &quot;userTest&quot;
+)
+
+type User struct {
+	Id   int    `gorm:&quot;size:11;primary_key;AUTO_INCREMENT;not null&quot; json:&quot;id&quot;`
+	Age  int    `gorm:&quot;size:11;DEFAULT NULL&quot; json:&quot;age&quot;`
+	Name string `gorm:&quot;size:255;DEFAULT NULL&quot; json:&quot;name&quot;`
+}
+
+func main() {
+	MysqlDB, err := gorm.Open(&quot;mysql&quot;,fmt.Sprintf(&quot;%s:%s@%s(%s:%d)/%s?charset=utf8&quot;,USERNAME, PASSWORD, NETWORK, SERVER, PORT, DATABASE))
+
+	if err != nil {
+		fmt.Println(&quot;failed to connect database:&quot;, err)
+		return
+	}
+	fmt.Println(&quot;connet database success&quot;)
+	MysqlDB.SingularTable(true)
+	MysqlDB.AutoMigrate(&amp;User{}) //自动建表
+	fmt.Println(&quot;create table success&quot;)
+
+	defer MysqlDB.Close()
+
+	Router()
+
+}
+
+func Router()  {
+	router := gin.Default()
+	// 路径映射
+	router.GET(&quot;/user&quot;, InitPage)
+	router.POST(&quot;/user/create&quot;, CreateUser)
+	router.GET(&quot;/user/list&quot;, ListUser)
+	router.PUT(&quot;/user/update&quot;, UpdateUser)
+	router.GET(&quot;/user/find&quot;, GetUser)
+	router.DELETE(&quot;/user/:id&quot;, DeleteUser)
+	router.Run(&quot;:8080&quot;)
+}
+
+func InitPage(c *gin.Context)  {
+	c.JSON(http.StatusOK,gin.H{
+		&quot;message&quot;:&quot;pong&quot;,
+	})
+
+}
+
+func CreateUser(c *gin.Context) {
+	var user User
+	c.BindJSON(&amp;user) //使用bindJson填充对象
+	MysqlDB.Create(&amp;user) //创建对象
+	c.JSON(http.StatusOK,&amp;user) //返回首页
+}
+
+func UpdateUser(c *gin.Context) {
+	var user User
+	id := c.PostForm(&quot;id&quot;) //post方法取相应字段
+	err := MysqlDB.First(&amp;user,id).Error //数据库查找主键=ID的第一行
+	if err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err.Error())
+	}else {
+		c.BindJSON(&amp;user)
+		MysqlDB.Save(&amp;user) //提交更改
+		c.JSON(http.StatusOK,&amp;user)
+	}
+}
+
+func ListUser(c *gin.Context) {
+	var user []User
+	line := c.Query(&quot;line&quot;)
+	MysqlDB.Limit(line).Find(&amp;user) //限制查找前line行
+	c.JSON(http.StatusOK, &amp;user)
+}
+func GetUser(c *gin.Context) {
+	id := c.Query(&quot;id&quot;)
+	var user User
+	err := MysqlDB.First(&amp;user, id).Error
+	if err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err.Error())
+	} else {
+		c.JSON(http.StatusOK, &amp;user)
+	}
+}
+
+func DeleteUser(c *gin.Context)  {
+	id := c.Param(&quot;id&quot;)
+	var user User
+	MysqlDB.Where(&quot;id = ?&quot;, id).Delete(&amp;user)
+	c.JSON(http.StatusOK, gin.H{
+		&quot;data&quot;: &quot;this has been deleted!&quot;,
+	})
+}
+</code></pre>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/10/23/MySqlLeaning/" data-toggle="tooltip" data-placement="top" title="MySQL基本使用方法">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>
