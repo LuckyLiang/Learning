@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nasm on Cheng Blog</title>
+    <link>https://luckyliang.github.io/tags/nasm/</link>
+    <description>Recent content in nasm on Cheng Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 11 Feb 2018 09:32:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://luckyliang.github.io/tags/nasm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NASM 环境搭建</title>
+      <link>https://luckyliang.github.io/2018/02/11/nasminstall/</link>
+      <pubDate>Sun, 11 Feb 2018 09:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/11/nasminstall/</guid>
+      <description>一. 安装NASM NASM网站： https://www.nasm.us/ 点击Downloads 到下载页面，下载最新安装包 点击展开包，点击x x x.tar.gz包 下载 双击下载的包解压，</description>
+    </item>
+    
+  </channel>
+</rss>
