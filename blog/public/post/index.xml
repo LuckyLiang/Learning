@@ -57,12 +57,12 @@
     </item>
     
     <item>
-      <title>Swift网络请求 - Moya</title>
+      <title>Swift网络请求 - RXSwift &#43; Promise &#43; Moya</title>
       <link>https://luckyliang.github.io/2018/04/20/swifturlmoya/</link>
       <pubDate>Fri, 20 Apr 2018 16:30:00 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/2018/04/20/swifturlmoya/</guid>
-      <description></description>
+      <description>Moya是基于Alamofire网络框架上进行的封装，支持RXSwift 创建模型 import Foundation /// 实用泛行实现通用格式 public struct ResponseData&amp;lt;T&amp;gt;: Codable where T: Codable { let code: String let message: String let data: T?</description>
     </item>
     
     <item>
@@ -80,7 +80,7 @@
       <pubDate>Wed, 18 Apr 2018 20:30:00 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/2018/04/18/swifturlalamofire/</guid>
-      <description></description>
+      <description>一个简单的get请求接口为例，搭建一个比较完整的网络框架，其中包括Session管理，路由和错误处理 这里以获取用户文章列表接口为例 创建模型 ///</description>
     </item>
     
     <item>
