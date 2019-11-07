@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Swift网络请求 - RXSwift + Promise + Moya"
+title:      "Swift网络请求 - RXSwift + PromiseKit + Moya"
 subtitle:   ""
 description: "Swift 中 Moya三方框架的配置和使用"
 excerpt: ""

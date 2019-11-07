@@ -21,7 +21,7 @@
     </item>
     
     <item>
-      <title>Swift - PromisKit使用和原理解析</title>
+      <title>Swift - PromisKit使用</title>
       <link>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</link>
       <pubDate>Sat, 21 Apr 2018 16:30:00 +0000</pubDate>
       
@@ -39,7 +39,7 @@
     </item>
     
     <item>
-      <title>Swift网络请求 - RXSwift &#43; Promise &#43; Moya</title>
+      <title>Swift网络请求 - RXSwift &#43; PromiseKit &#43; Moya</title>
       <link>https://luckyliang.github.io/2018/04/20/swifturlmoya/</link>
       <pubDate>Fri, 20 Apr 2018 16:30:00 +0000</pubDate>
       

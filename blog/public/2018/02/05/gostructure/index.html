@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="RXSwift - 原理分析" />
-    <meta property="og:title" content="RXSwift - 原理分析" />
-    <meta property="twitter:title" content="RXSwift - 原理分析" />
+    <meta name="title" content="Go 学习笔记（一） - 程序结构" />
+    <meta property="og:title" content="Go 学习笔记（一） - 程序结构" />
+    <meta property="twitter:title" content="Go 学习笔记（一） - 程序结构" />
     
 
     
-    <meta name="description" content="Swift RXSwift 源码阅读，原理简单分析">
-    <meta property="og:description" content="Swift RXSwift 源码阅读，原理简单分析" />
-    <meta property="twitter:description" content="Swift RXSwift 源码阅读，原理简单分析" />
+    <meta name="description" content="读go圣经学习笔记 - 程序结构">
+    <meta property="og:description" content="读go圣经学习笔记 - 程序结构" />
+    <meta property="twitter:description" content="读go圣经学习笔记 - 程序结构" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>RXSwift - 原理分析-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+    <title>Go 学习笔记（一） - 程序结构-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
 
-    <link rel="canonical" href="/2018/04/23/swiftRXSiwft1/">
+    <link rel="canonical" href="/2018/02/05/goStructure/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -179,16 +179,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/ios" title="IOS">
-                            IOS
-                        </a>
-                        
-                        <a class="tag" href="/tags/swift" title="Swift">
-                            Swift
+                        <a class="tag" href="/tags/go" title="go">
+                            go
                         </a>
                         
                     </div>
-                    <h1>RXSwift - 原理分析</h1>
+                    <h1>Go 学习笔记（一） - 程序结构</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by 
@@ -196,7 +192,7 @@
                             Cheng
                          
                         on 
-                        Monday, April 23, 2018
+                        Monday, February 5, 2018
                         
                         
                         
@@ -224,9 +220,277 @@
                 <header>
                     <h2>TOC</h2>
                 </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#程序结构">程序结构</a>
+<ul>
+<li><a href="#命名">命名</a></li>
+<li><a href="#声明">声明</a></li>
+<li><a href="#变量">变量</a></li>
+<li><a href="#简短变量声明">简短变量声明</a>
+<ul>
+<li><a href="#指针">指针</a></li>
+</ul></li>
+<li><a href="#new-函数"><code>new</code>函数</a></li>
+<li><a href="#变量的生命周期">变量的生命周期</a></li>
+<li><a href="#赋值">赋值</a></li>
+<li><a href="#元组赋值">元组赋值</a></li>
+<li><a href="#类型">类型</a></li>
+<li><a href="#包和文件">包和文件</a></li>
+<li><a href="#导入包">导入包</a></li>
+<li><a href="#包的初始化">包的初始化</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
                 
                 
-                
+
+<h2 id="程序结构">程序结构</h2>
+
+<h3 id="命名">命名</h3>
+
+<blockquote>
+<p>Go语言中的函数名、变量名、常量名、类型名、语句标号和包名等所有的命名，都遵循一个简单的命名规则：一个名字必须以一个字母（Unicode字母）或下划线开头，后面可以跟任意数量的字母、数字或下划线。大写字母和小写字母是不同的：heapSort和Heapsort是两个不同的名字。</p>
+</blockquote>
+
+<p>25个关键字</p>
+
+<pre><code>break      default       func     interface   select
+case       defer         go       map         struct
+chan       else          goto     package     switch
+const      fallthrough   if       range       type
+continue   for           import   return      var
+</code></pre>
+
+<p>大约30多个预定义的名字，比如int和true等</p>
+
+<pre><code>内建常量: true false iota nil
+
+内建类型: int int8 int16 int32 int64
+          uint uint8 uint16 uint32 uint64 uintptr
+          float32 float64 complex128 complex64
+          bool byte rune string error
+
+内建函数: make len cap new append copy close delete
+          complex real imag
+          panic recover
+</code></pre>
+
+<p>Go语言的风格是尽量使用短小的名字，对于局部变量尤其是这样</p>
+
+<p>在习惯上，Go语言程序员推荐使用 <strong>驼峰式</strong> 命名</p>
+
+<h3 id="声明">声明</h3>
+
+<p>Go语言主要有四种类型的声明语句：<code>var</code>、<code>const</code>、<code>type</code>和<code>func</code>，分别对应变量、常量、类型和函数实体对象的声明。</p>
+
+<pre><code>package main
+import &quot;fmt&quot;
+const boilingF = 212.0 //常量声明
+func main() {
+    var f = boilingF //局部变量声明
+    var c = (f - 32) * 5 / 9 //局部变量声明
+    fmt.Printf(&quot;boiling point = %g°F or %g°C\n&quot;, f, c)
+    // Output:
+    // boiling point = 212°F or 100°C
+    
+    const freezingF, boilingF = 32.0, 212.0
+    fmt.Printf(&quot;%g°F = %g°C\n&quot;, freezingF, fToC(freezingF)) // &quot;32°F = 0°C&quot;
+}
+
+//函数声明
+func fToC(f float64) float64 {
+    return (f - 32) * 5 / 9
+}
+</code></pre>
+
+<h3 id="变量">变量</h3>
+
+<p>使用<code>var</code>声明语句可以创建一个特定类型的变量</p>
+
+<pre><code>var 变量名字 类型 = 表达式
+</code></pre>
+
+<p>如果初始化表达式被省略，那么将用<strong>零值初始化</strong>该变量</p>
+
+<p>数值类型变量对应的零值是0，布尔类型变量对应的零值是false，字符串类型对应的零值是空字符串，接口或引用类型（包括slice、指针、map、chan和函数）变量对应的零值是nil。数组或结构体等聚合类型对应的零值是每个元素或字段都是对应该类型的零值。</p>
+
+<pre><code>var s string
+fmt.Println(s) // &quot;&quot;
+//声明一组变量
+var i, j, k int                 // int, int, int
+var b, f, s = true, 2.3, &quot;four&quot; // bool, float64, string
+
+//一组变量也可以通过调用一个函数，由函数返回的多个返回值初始化：
+var f, err = os.Open(name) // os.Open returns a file and an error
+</code></pre>
+
+<p>在包级别声明的变量会在main入口函数执行前完成初始化, 局部变量将在声明语句被执行到的时候完成初始化。</p>
+
+<h3 id="简短变量声明">简短变量声明</h3>
+
+<p>在函数内部，有一种称为简短变量声明语句的形式可用于声明和初始化局部变量</p>
+
+<pre><code>anim := gif.GIF{LoopCount: nframes}
+freq := rand.Float64() * 3.0
+t := 0.0
+i, j := 0, 1 //声明一组变量
+i, j = j, i // 交换 i 和 j 的值
+</code></pre>
+
+<h4 id="指针">指针</h4>
+
+<p>一个指针的值是另一个变量的地址。一个指针对应变量在内存中的存储位置</p>
+
+<p>通过指针，我们可以直接读或更新对应变量的值，而不需要知道该变量的名字（如果变量有名字的话）。</p>
+
+<pre><code>x := 1
+p := &amp;x         // p, of type *int, points to x
+fmt.Println(*p) // &quot;1&quot;
+*p = 2          // equivalent to x = 2
+fmt.Println(x)  // &quot;2&quot;
+</code></pre>
+
+<p>任何类型的指针的零值都是nil。</p>
+
+<p>指针之间也是可以进行相等测试的，只有当它们指向同一个变量或全部是nil时才相等。</p>
+
+<pre><code>var x, y int 
+fmt.Println(&amp;x == &amp;x, &amp;x == &amp;y, &amp;x == nil) // &quot;true false false&quot;
+</code></pre>
+
+<h3 id="new-函数"><code>new</code>函数</h3>
+
+<p>另一个创建变量的方法是调用内建的new函数。表达式new(T)将创建一个T类型的匿名变量，初始化为T类型的零值，然后返回变量地址，返回的指针类型为<code>*T</code>。</p>
+
+<pre><code>p := new(int)   // p, *int 类型, 指向匿名的 int 变量
+fmt.Println(*p) // &quot;0&quot;
+*p = 2          // 设置 int 匿名变量的值为 2
+fmt.Println(*p) // &quot;2&quot;
+</code></pre>
+
+<h3 id="变量的生命周期">变量的生命周期</h3>
+
+<p>对于在包一级声明的变量来说，它们的生命周期和整个程序的运行周期是一致的</p>
+
+<p>局部变量的生命周期则是动态的：每次从创建一个新变量的声明语句开始，直到该变量不再被引用为止，然后变量的存储空间可能被回收</p>
+
+<p>函数的参数变量和返回值变量都是局部变量。它们在函数每次被调用的时候创建。</p>
+
+<h3 id="赋值">赋值</h3>
+
+<pre><code>x = 1                       // 命名变量的赋值
+*p = true                   // 通过指针间接赋值
+person.name = &quot;bob&quot;         // 结构体字段赋值
+count[x] = count[x] * scale // 数组、slice或map的元素赋值
+//二元算术运算符和赋值语句的复合操作有一个简洁形式
+count[x] *= scale
+</code></pre>
+
+<p>数值变量也可以支持<code>++</code>递增和<code>--</code>递减语句</p>
+
+<pre><code>v := 1
+v++    // 等价方式 v = v + 1；v 变成 2
+v--    // 等价方式 v = v - 1；v 变成 1
+</code></pre>
+
+<h3 id="元组赋值">元组赋值</h3>
+
+<pre><code>x, y = y, x
+a[i], a[j] = a[j], a[i]
+</code></pre>
+
+<p>元组赋值也可以使一系列琐碎赋值更加紧凑 (特别是在for循环的初始化部分)</p>
+
+<pre><code>i, j, k = 2, 3, 5
+</code></pre>
+
+<p>表达式会产生多个值</p>
+
+<pre><code>f, err = os.Open(&quot;foo.txt&quot;) // function call returns two values
+</code></pre>
+
+<p>和变量声明一样，我们可以用下划线空白标识符<code>_</code>来丢弃不需要的值。</p>
+
+<pre><code>_, err = io.Copy(dst, src) // 丢弃字节数
+_, ok = x.(T)              // 只检测类型，忽略具体值
+</code></pre>
+
+<h3 id="类型">类型</h3>
+
+<p>一个类型声明语句</p>
+
+<pre><code>type 类型名字 底层类型
+</code></pre>
+
+<p>类型声明语句一般出现在包一级，因此如果新创建的类型名字的首字符大写，则在包外部也可以使用。</p>
+
+<pre><code>package tempconv
+import &quot;fmt&quot;
+type Celsius float64    // 摄氏温度
+type Fahrenheit float64 // 华氏温度
+const (
+    AbsoluteZeroC Celsius = -273.15 // 绝对零度
+    FreezingC     Celsius = 0       // 结冰点温度
+    BoilingC      Celsius = 100     // 沸水温度
+)
+func CToF(c Celsius) Fahrenheit { return Fahrenheit(c*9/5 + 32) }
+
+func FToC(f Fahrenheit) Celsius { return Celsius((f - 32) * 5 / 9) }
+</code></pre>
+
+<h3 id="包和文件">包和文件</h3>
+
+<p>Go语言中的包和其他语言的库或模块的概念类似，目的都是为了支持模块化、封装、单独编译和代码重用。</p>
+
+<p>一个包的源代码保存在一个或多个以.go为文件后缀名的源文件中，通常一个包所在目录路径的后缀是包的导入路径；例如包gopl.io/ch1/helloworld对应的目录路径是$GOPATH/src/gopl.io/ch1/helloworld。也可以是项目的相对路径每个</p>
+
+<p>包都对应一个独立的名字空间。例如，在image包中的Decode函数和在unicode/utf16包中的 Decode函数是不同的</p>
+
+<h3 id="导入包">导入包</h3>
+
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;strconv&quot;
+    &quot;gopl.io/ch2/tempconv&quot; //项目路径
+)
+
+func main() {
+    for _, arg := range os.Args[1:] {
+        t, err := strconv.ParseFloat(arg, 64)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, &quot;cf: %v\n&quot;, err)
+            os.Exit(1)
+        }
+        f := tempconv.Fahrenheit(t)
+        c := tempconv.Celsius(t)
+        fmt.Printf(&quot;%s = %s, %s = %s\n&quot;,
+            f, tempconv.FToC(f), c, tempconv.CToF(c))
+    }
+}
+</code></pre>
+
+<h3 id="包的初始化">包的初始化</h3>
+
+<p>包的初始化首先是解决包级变量的依赖顺序，然后按照包级变量声明出现的顺序依次初始化</p>
+
+<p>如果包中含有多个.go源文件，它们将按照发给编译器的顺序进行初始化，Go语言的构建工具首先会将.go文件根据文件名排序，然后依次调用编译器编译。</p>
+
+<p>每个文件都可以包含多个init初始化函数</p>
+
+<pre><code>func init() { /* ... */ }
+</code></pre>
+
+<p>每个包在解决依赖的前提下，以导入声明的顺序初始化，每个包只会被初始化一次。</p>
+
+<p>初始化工作是自下而上进行的，main包最后被初始化，以这种方式，可以确保在main函数执行之前，所有依赖的包都已经完成初始化工作了。</p>
+
 
                 
                 
@@ -274,13 +538,13 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/04/21/swiftPromisKit/" data-toggle="tooltip" data-placement="top" title="Swift - PromisKit使用">&larr;
+                        <a href="/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/" data-toggle="tooltip" data-placement="top" title="">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/10/23/MySqlLeaning/" data-toggle="tooltip" data-placement="top" title="MySQL基本使用方法">Next
+                        <a href="/2018/02/05/gobaseType/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（二） - 基础数据类型">Next
                             Post &rarr;</a>
                     </li>
                     

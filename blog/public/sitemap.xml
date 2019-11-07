@@ -48,12 +48,12 @@
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/categories/ios/</loc>
+    <loc>https://luckyliang.github.io/tags/ios/</loc>
     <lastmod>2018-04-23T13:20:22+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/tags/ios/</loc>
+    <loc>https://luckyliang.github.io/categories/ios/</loc>
     <lastmod>2018-04-23T13:20:22+00:00</lastmod>
   </url>
   
@@ -145,6 +145,41 @@
   <url>
     <loc>https://luckyliang.github.io/categories/%E6%B1%87%E7%BC%96/</loc>
     <lastmod>2018-02-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/09/goerror/</loc>
+    <lastmod>2018-02-09T19:35:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/08/gointerface/</loc>
+    <lastmod>2018-02-08T22:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/08/gomethod/</loc>
+    <lastmod>2018-02-08T18:42:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/07/gofunc/</loc>
+    <lastmod>2018-02-07T23:12:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/06/gocomplextype/</loc>
+    <lastmod>2018-02-06T20:39:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/05/gobasetype/</loc>
+    <lastmod>2018-02-05T21:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/2018/02/05/gostructure/</loc>
+    <lastmod>2018-02-05T19:32:00+00:00</lastmod>
   </url>
   
   <url>

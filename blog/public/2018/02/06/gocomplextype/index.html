@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Go 学习笔记（三） - 复合类型" />
+    <meta property="og:title" content="Go 学习笔记（三） - 复合类型" />
+    <meta property="twitter:title" content="Go 学习笔记（三） - 复合类型" />
+    
+
+    
+    <meta name="description" content="读go圣经学习笔记 - 复合类型">
+    <meta property="og:description" content="读go圣经学习笔记 - 复合类型" />
+    <meta property="twitter:description" content="读go圣经学习笔记 - 复合类型" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Go 学习笔记（三） - 复合类型-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/02/06/goComplexType/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                    </div>
+                    <h1>Go 学习笔记（三） - 复合类型</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Tuesday, February 6, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#复合数据类型">复合数据类型</a>
+<ul>
+<li><a href="#数组">数组</a></li>
+<li><a href="#slice-切片">Slice（切片）</a>
+<ul>
+<li><a href="#append函数">append函数</a></li>
+<li><a href="#slice内存技巧">Slice内存技巧</a></li>
+</ul></li>
+<li><a href="#map">Map</a></li>
+<li><a href="#结构体">结构体</a>
+<ul>
+<li><a href="#结构体字面值">结构体字面值</a></li>
+<li><a href="#结构体比较">结构体比较</a></li>
+<li><a href="#结构体嵌入和匿名成员">结构体嵌入和匿名成员</a></li>
+<li><a href="#json">JSON</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="复合数据类型">复合数据类型</h2>
+
+<h3 id="数组">数组</h3>
+
+<p>数组是一个由<strong>固定长度</strong>的特定类型元素组成的序列，因为数组的长度是固定的，因此在Go语言中很少直接使用数组</p>
+
+<p>数组的每个元素可以通过索引下标来访问，索引下标的范围是从0开始到数组长度减1的位置。内置的len函数将返回数组中元素的个数。</p>
+
+<pre><code>var a [3]int             // array of 3 integers
+fmt.Println(a[0])        // print the first element
+fmt.Println(a[len(a)-1]) // print the last element, a[2]
+
+// Print the indices and elements.
+for i, v := range a {
+    fmt.Printf(&quot;%d %d\n&quot;, i, v)
+}
+
+// Print the elements only.
+for _, v := range a {
+    fmt.Printf(&quot;%d\n&quot;, v)
+}
+</code></pre>
+
+<p>默认情况下，数组的每个元素都被初始化为元素类型对应的<strong>零值</strong>，</p>
+
+<p>使用数组字面值语法用一组值来初始化数组：</p>
+
+<pre><code>var q [3]int = [3]int{1, 2, 3}
+var r [3]int = [3]int{1, 2}
+fmt.Println(r[2]) // &quot;0&quot;
+</code></pre>
+
+<p>根据数组长度计算</p>
+
+<pre><code>q := [...]int{1, 2, 3}
+fmt.Printf(&quot;%T\n&quot;, q) // &quot;[3]int&quot;
+</code></pre>
+
+<p>数组的长度必须是常量表达式，因为数组的长度需要在编译阶段确定。</p>
+
+<pre><code>q := [3]int{1, 2, 3}
+q = [4]int{1, 2, 3, 4} // compile error: cannot assign [4]int to [3]int
+</code></pre>
+
+<p>指定一个索引和对应值列表的方式初始化</p>
+
+<pre><code>type Currency int
+
+const (
+    USD Currency = iota // 美元
+    EUR                 // 欧元
+    GBP                 // 英镑
+    RMB                 // 人民币
+)
+
+symbol := [...]string{USD: &quot;$&quot;, EUR: &quot;€&quot;, GBP: &quot;￡&quot;, RMB: &quot;￥&quot;}
+
+fmt.Println(RMB, symbol[RMB]) // &quot;3 ￥&quot;
+</code></pre>
+
+<h3 id="slice-切片">Slice（切片）</h3>
+
+<p><code>Slice</code>（切片）代表变长的序列， 可理解为可变的数组</p>
+
+<p><code>slice</code>的底层确实引用一个数组对象，一个<code>slice</code>由三个部分构成：<strong>指针</strong>、<strong>长度</strong>和<strong>容量</strong></p>
+
+<ol>
+<li><p>指针：指向第一个slice元素对应的底层数组元素的地址</p></li>
+
+<li><p>长度：对应slice中元素的数目；</p></li>
+
+<li><p>容量：长度不能超过容量，容量一般是从<code>slice</code>的开始位置到底层数据的结尾位置</p></li>
+</ol>
+
+<p>内置的<code>len</code>和<code>cap</code>函数分别返回<code>slice</code>的长度和容量。</p>
+
+<p><code>slice</code>值包含指向第一个<code>slice</code>元素的指针，因此向函数传递<code>slice</code>将允许在函数内部修改底层数组的元素。换句话说，复制一个<code>slice</code>只是对底层的数组创建了一个新的<code>slice</code>别名</p>
+
+<pre><code>func reverse(s []int) {
+    for i, j := 0, len(s)-1; i &lt; j; i, j = i+1, j-1 {
+        s[i], s[j] = s[j], s[i]
+    }
+}
+</code></pre>
+
+<p>反转数组的应用：</p>
+
+<pre><code>a := [...]int{0, 1, 2, 3, 4, 5}
+reverse(a[:])
+fmt.Println(a) // &quot;[5 4 3 2 1 0]&quot;
+</code></pre>
+
+<p>和数组不同的是，<code>slice</code>之间不能比较， 不能使用<code>==</code>操作符来判断两个<code>slice</code>是否含有全部相等元素</p>
+
+<p>标准库提供了高度优化的<code>bytes.Equal</code>函数来判断两个字节型<code>slice</code>是否相等<code>（[]byte）</code>，但是对于其他类型的<code>slice</code>，我们必须自己展开每个元素进行比较：</p>
+
+<pre><code>func equal(x, y []string) bool {
+    if len(x) != len(y) {
+        return false
+    }
+    for i := range x {
+        if x[i] != y[i] {
+            return false
+        }
+    }
+    return true
+}
+</code></pre>
+
+<p><code>slice</code>唯一合法的比较操作是和<code>nil</code>比较，例如：</p>
+
+<pre><code>if summer == nil { /* ... */ }
+</code></pre>
+
+<p>一个零值的<code>slice</code>等于<code>nil</code>。一个<code>nil</code>值的<code>slice</code>并没有底层数组</p>
+
+<p>但是也有非<code>nil</code>值的<code>slice</code>的长度和容量也是0的，例如<code>[]int{}</code>或<code>make([]int, 3)[3:]</code>。与任意类型的<code>nil</code>值一样，我们可以用<code>[]int(nil)</code>类型转换表达式来生成一个对应类型<code>slice</code>的<code>nil</code>值。</p>
+
+<pre><code>var s []int    // len(s) == 0, s == nil
+s = nil        // len(s) == 0, s == nil
+s = []int(nil) // len(s) == 0, s == nil
+s = []int{}    // len(s) == 0, s != nil
+</code></pre>
+
+<p>如果你需要测试一个<code>slice</code>是否是空的，使用<code>len(s) == 0</code>来判断，而不应该用<code>s == nil</code>来判断</p>
+
+<p>内置的 <code>make</code>函数创建一个指定元素类型、长度和容量的<code>slice</code>。</p>
+
+<pre><code>make([]T, len)  //容量可以省略
+make([]T, len, cap) // same as make([]T, cap)[:len]
+</code></pre>
+
+<h4 id="append函数">append函数</h4>
+
+<p>内置的<code>append</code>函数用于向<code>slice</code>追加元素，返回结果将是引用的不同的数组</p>
+
+<pre><code>var runes []rune
+for _, r := range &quot;Hello, 世界&quot; {
+    runes = append(runes, r)
+}
+fmt.Printf(&quot;%q\n&quot;, runes) // &quot;['H' 'e' 'l' 'l' 'o' ',' ' ' '世' '界']&quot;
+</code></pre>
+
+<h4 id="slice内存技巧">Slice内存技巧</h4>
+
+<p>旋转<code>slice</code>、反转<code>slice</code>或在<code>slice</code>原有内存空间修改元素。给定一个字符串列表，下面的<code>nonempty</code>函数将在原有<code>slice</code>内存空间之上返回不包含空字符串的列表：</p>
+
+<pre><code>package main
+import &quot;fmt&quot;
+//返回不包含空字符串的列表
+func nonempty(strings []string) []string {
+    i := 0
+    for _, s := range strings {
+        if s != &quot;&quot; {
+            strings[i] = s
+            i++
+        }
+    }
+    return strings[:i]
+}
+</code></pre>
+
+<p>输入的<code>slice</code>和输出的<code>slice</code>共享一个底层数组。这可以避免分配另一个数组，不过原来的数据将可能会被覆盖</p>
+
+<pre><code>data := []string{&quot;one&quot;, &quot;&quot;, &quot;three&quot;}
+fmt.Printf(&quot;%q\n&quot;, nonempty(data)) // `[&quot;one&quot; &quot;three&quot;]`
+fmt.Printf(&quot;%q\n&quot;, data)           // `[&quot;one&quot; &quot;three&quot; &quot;three&quot;]`
+</code></pre>
+
+<p>因此我们通常会这样使用<code>nonempty</code>函数：<code>data = nonempty(data)</code>。</p>
+
+<p>一个slice可以用来模拟一个stack。最初给定的空slice对应一个空的stack，然后可以使用append函数将新的值压入stack：</p>
+
+<pre><code>stack = append(stack, v) // push v
+</code></pre>
+
+<p>stack的顶部位置对应slice的最后一个元素：</p>
+
+<pre><code>top := stack[len(stack)-1] // top of stack
+</code></pre>
+
+<p>通过收缩stack可以弹出栈顶的元素</p>
+
+<pre><code>stack = stack[:len(stack)-1] // pop
+</code></pre>
+
+<p>要删除slice中间的某个元素并保存原有的元素顺序，可以通过内置的copy函数将后面的子slice向前依次移动一位完成：</p>
+
+<pre><code>func remove(slice []int, i int) []int {
+    copy(slice[i:], slice[i+1:])
+    return slice[:len(slice)-1]
+}
+
+func main() {
+    s := []int{5, 6, 7, 8, 9}
+    fmt.Println(remove(s, 2)) // &quot;[5 6 8 9]&quot;
+}
+</code></pre>
+
+<p>如果删除元素后不用保持原来顺序的话，我们可以简单的用最后一个元素覆盖被删除的元素：</p>
+
+<pre><code>func remove(slice []int, i int) []int {
+    slice[i] = slice[len(slice)-1]
+    return slice[:len(slice)-1]
+}
+
+func main() {
+    s := []int{5, 6, 7, 8, 9}
+    fmt.Println(remove(s, 2)) // &quot;[5 6 9 8]
+}
+</code></pre>
+
+<h3 id="map">Map</h3>
+
+<p>哈希表是一种巧妙并且实用的数据结构。它是一个无序的key/value对的集合，其中所有的key都是不同的，然后通过给定的key可以在常数时间复杂度内检索、更新或删除对应的value。</p>
+
+<p>内置的make函数可以创建一个map：</p>
+
+<pre><code>ages := make(map[string]int) // mapping from strings to ints
+</code></pre>
+
+<p>字面值的语法创建map</p>
+
+<pre><code>ages := map[string]int{
+    &quot;alice&quot;:   31,
+    &quot;charlie&quot;: 34,
+}
+</code></pre>
+
+<p>另一种创建空的map的表达式是<code>map[string]int{}</code>。</p>
+
+<p>Map中的元素通过key对应的下标语法访问：</p>
+
+<pre><code>ages[&quot;alice&quot;] = 32
+fmt.Println(ages[&quot;alice&quot;]) // &quot;32&quot;
+</code></pre>
+
+<p>使用内置的<code>delete</code>函数可以删除元素：</p>
+
+<pre><code>delete(ages, &quot;alice&quot;) // remove element ages[&quot;alice&quot;]
+</code></pre>
+
+<p>所有这些操作是安全的，即使这些元素不在map中也没有关系；如果一个查找失败将返回value类型对应的零值，例如，即使map中不存在“bob”下面的代码也可以正常工作，因为ages[&ldquo;bob&rdquo;]失败时将返回0。</p>
+
+<pre><code>ages[&quot;bob&quot;] = ages[&quot;bob&quot;] + 1 // happy birthday!
+</code></pre>
+
+<p>而且<code>x += y</code>和<code>x++</code>等简短赋值语法也可以用在map上，所以上面的代码可以改写成</p>
+
+<pre><code>ages[&quot;bob&quot;] += 
+//更简单的写法
+ages[&quot;bob&quot;]++
+</code></pre>
+
+<p>map中的元素并不是一个变量，因此我们不能对map的元素进行取址操作：</p>
+
+<pre><code>_ = &amp;ages[&quot;bob&quot;] // compile error: cannot take address of map element
+</code></pre>
+
+<p>禁止对map元素取址的原因是map可能随着元素数量的增长而重新分配更大的内存空间，从而可能导致之前的地址无效。</p>
+
+<p>使用<code>range</code>风格的for循环遍历map</p>
+
+<pre><code>for name, age := range ages {
+    fmt.Printf(&quot;%s\t%d\n&quot;, name, age)
+}
+</code></pre>
+
+<p>Map的迭代顺序是不确定的，如果要按顺序遍历key/value对，我们必须显式地对key进行排序，可以使用sort包的Strings函数对字符串slice进行排序。</p>
+
+<pre><code>import &quot;sort&quot;
+
+var names []string
+for name := range ages {
+    names = append(names, name)
+}
+sort.Strings(names)
+for _, name := range names {
+    fmt.Printf(&quot;%s\t%d\n&quot;, name, ages[name])
+}
+</code></pre>
+
+<p>通过key作为索引下标来访问map将产生一个value。如果key在map中是存在的，那么将得到与key对应的value；如果key不存在，那么将得到value对应类型的零值。</p>
+
+<pre><code>age, ok := ages[&quot;bob&quot;]
+if !ok { /* &quot;bob&quot; is not a key in this map; age == 0. */ }
+</code></pre>
+
+<p>或者结合使用</p>
+
+<pre><code>if age, ok := ages[&quot;bob&quot;]; !ok { /* ... */ }
+</code></pre>
+
+<p>和slice一样，map之间也不能进行相等比较；唯一的例外是和nil进行比较。要判断两个map是否包含相同的key和value，我们必须通过一个循环实现：</p>
+
+<pre><code>func equal(x, y map[string]int) bool {
+    if len(x) != len(y) {
+        return false
+    }
+    for k, xv := range x {
+        if yv, ok := y[k]; !ok || yv != xv {
+            return false
+        }
+    }
+    return true
+}
+</code></pre>
+
+<h3 id="结构体">结构体</h3>
+
+<p>结构体是一种聚合的数据类型，是由零个或多个任意类型的值聚合成的实体</p>
+
+<p>声明一个叫Employee的命名的结构体类型，并且声明了一个Employee类型的变量dilbert：</p>
+
+<pre><code>type Employee struct {
+    ID        int
+    Name      string
+    Address   string
+    DoB       time.Time
+    Position  string
+    Salary    int
+    ManagerID int
+}
+var dilbert Employee
+</code></pre>
+
+<p>通过点操作符访问成员</p>
+
+<pre><code>dilbert.Salary -= 5000 // demoted, for writing too few lines of code
+</code></pre>
+
+<p>或者是对成员取地址，然后通过指针访问：</p>
+
+<pre><code>position := &amp;dilbert.Position
+*position = &quot;Senior &quot; + *position // promoted, for outsourcing to Elbonia
+</code></pre>
+
+<p>点操作符和指向结构体的指针一起工作：</p>
+
+<pre><code>var employeeOfTheMonth *Employee = &amp;dilbert
+employeeOfTheMonth.Position += &quot; (proactive team player)&quot;
+</code></pre>
+
+<p>相当于下面语句</p>
+
+<pre><code>(*employeeOfTheMonth).Position += &quot; (proactive team player)&quot;
+</code></pre>
+
+<p>下面的EmployeeByID函数将根据给定的员工ID返回对应的员工信息结构体的指针。我们可以使用点操作符来访问它里面的成员：</p>
+
+<pre><code>func EmployeeByID(id int) *Employee { /* ... */ }
+
+fmt.Println(EmployeeByID(dilbert.ManagerID).Position) // &quot;Pointy-haired boss&quot;
+
+id := dilbert.ID
+EmployeeByID(id).Salary = 0 // fired for... no real reason
+</code></pre>
+
+<p>一个命名为S的结构体类型将不能再包含S类型的成员，但是S类型的结构体可以包含<code>*S</code>指针类型的成员，这可以让我们创建递归的数据结构，比如链表和树结构等</p>
+
+<p>使用一个二叉树来实现一个插入排序：</p>
+
+<pre><code>type tree struct {
+    value       int
+    left, right *tree
+}
+
+// Sort sorts values in place.
+func Sort(values []int) {
+    var root *tree
+    for _, v := range values {
+        root = add(root, v)
+    }
+    appendValues(values[:0], root)
+}
+
+// appendValues appends the elements of t to values in order
+// and returns the resulting slice.
+func appendValues(values []int, t *tree) []int {
+    if t != nil {
+        values = appendValues(values, t.left)
+        values = append(values, t.value)
+        values = appendValues(values, t.right)
+    }
+    return values
+}
+
+func add(t *tree, value int) *tree {
+    if t == nil {
+        // Equivalent to return &amp;tree{value: value}.
+        t = new(tree)
+        t.value = value
+        return t
+    }
+    if value &lt; t.value {
+        t.left = add(t.left, value)
+    } else {
+        t.right = add(t.right, value)
+    }
+    return t
+}
+</code></pre>
+
+<p>结构体类型的零值是每个成员都是零值</p>
+
+<p>结构体没有任何成员的话就是空结构体，写作struct{}。它的大小为0，也不包含任何信息</p>
+
+<h4 id="结构体字面值">结构体字面值</h4>
+
+<p>结构体值也可以用结构体字面值表示，结构体字面值可以指定每个成员的值。</p>
+
+<pre><code>type Point struct{ X, Y int }
+p := Point{1, 2}
+</code></pre>
+
+<p>它要求写代码和读代码的人要记住结构体的每个成员的类型和顺序，不过结构体成员有细微的调整就可能导致上述代码不能编译</p>
+
+<p>第二种写法，以成员名字和相应的值来初始化，可以包含部分或全部的成员</p>
+
+<pre><code>anim := gif.GIF{LoopCount: nframes}
+</code></pre>
+
+<p>结构体可以作为函数的参数和返回值。例如，这个Scale函数将Point类型的值缩放后返回：</p>
+
+<pre><code>func Scale(p Point, factor int) Point {
+    return Point{p.X * factor, p.Y * factor}
+}
+
+fmt.Println(Scale(Point{1, 2}, 5)) // &quot;{5 10}&quot;
+</code></pre>
+
+<p>如果考虑效率的话，较大的结构体通常会用指针的方式传入和返回</p>
+
+<pre><code>func Bonus(e *Employee, percent int) int {
+    return e.Salary * percent / 100
+}
+</code></pre>
+
+<p>如果要在函数内部修改结构体成员的话，用指针传入是必须的；因为在Go语言中，所有的函数参数都是值拷贝传入的，函数参数将不再是函数调用时的原始变量。</p>
+
+<pre><code>func AwardAnnualRaise(e *Employee) {
+    e.Salary = e.Salary * 105 / 100
+}
+</code></pre>
+
+<p>因为结构体通常通过指针处理，可以用下面的写法来创建并初始化一个结构体变量，并返回结构体的地址：</p>
+
+<pre><code>pp := &amp;Point{1, 2}
+</code></pre>
+
+<p>它和下面的语句是等价的</p>
+
+<pre><code>pp := new(Point)
+*pp = Point{1, 2}
+</code></pre>
+
+<h4 id="结构体比较">结构体比较</h4>
+
+<p>如果结构体的全部成员都是可以比较的，那么结构体也是可以比较的</p>
+
+<p>那样的话两个结构体将可以使用==或!=运算符进行比较。相等比较运算符==将比较两个结构体的每个成员</p>
+
+<pre><code>type Point struct{ X, Y int }
+
+p := Point{1, 2}
+q := Point{2, 1}
+fmt.Println(p.X == q.X &amp;&amp; p.Y == q.Y) // &quot;false&quot;
+fmt.Println(p == q)                   // &quot;false&quot;
+</code></pre>
+
+<p>可比较的结构体类型和其他可比较的类型一样，可以用于map的key类型。</p>
+
+<pre><code>type address struct {
+    hostname string
+    port     int
+}
+
+hits := make(map[address]int)
+hits[address{&quot;golang.org&quot;, 443}]++
+</code></pre>
+
+<h4 id="结构体嵌入和匿名成员">结构体嵌入和匿名成员</h4>
+
+<pre><code>type Point struct {
+    X, Y int
+}
+
+type Circle struct {
+    Center Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle Circle
+    Spokes int
+}
+</code></pre>
+
+<p>这种同时也导致了访问每个成员变得繁琐：</p>
+
+<pre><code>var w Wheel
+w.Circle.Center.X = 8
+w.Circle.Center.Y = 8
+w.Circle.Radius = 5
+w.Spokes = 20
+</code></pre>
+
+<p>Go语言有一个特性让我们只声明一个成员对应的数据类型而不指名成员的名字；这类成员就叫匿名成员</p>
+
+<pre><code>type Circle struct {
+    Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle
+    Spokes int
+}
+</code></pre>
+
+<p>直接访问叶子属性而不需要给出完整的路径：</p>
+
+<pre><code>var w Wheel
+w.X = 8            // equivalent to w.Circle.Point.X = 8
+w.Y = 8            // equivalent to w.Circle.Point.Y = 8
+w.Radius = 5       // equivalent to w.Circle.Radius = 5
+w.Spokes = 20
+</code></pre>
+
+<p>结构体字面值必须遵循形状类型声明时的结构，所以我们只能用下面的两种语法，它们彼此是等价的：</p>
+
+<pre><code>w = Wheel{Circle{Point{8, 8}, 5}, 20}
+
+w = Wheel{
+    Circle: Circle{
+        Point:  Point{X: 8, Y: 8},
+        Radius: 5,
+    },
+    Spokes: 20, // NOTE: trailing comma necessary here (and at Radius)
+}
+
+fmt.Printf(&quot;%#v\n&quot;, w)
+// Output:
+// Wheel{Circle:Circle{Point:Point{X:8, Y:8}, Radius:5}, Spokes:20}
+
+w.X = 42
+
+fmt.Printf(&quot;%#v\n&quot;, w)
+// Output:
+// Wheel{Circle:Circle{Point:Point{X:42, Y:8}, Radius:5}, Spokes:20}
+</code></pre>
+
+<p>需要注意的是Printf函数中%v参数包含的#副词，它表示用和Go语言类似的语法打印值。对于结构体类型来说，将包含每个成员的名字。</p>
+
+<h4 id="json">JSON</h4>
+
+<p>Go语言对于这些标准格式的编码和解码都有良好的支持，由标准库中的encoding/json、encoding/xml、encoding/asn1等包提供支持</p>
+
+<pre><code>type Movie struct {
+    Title  string
+    Year   int  `json:&quot;released&quot;`
+    Color  bool `json:&quot;color,omitempty&quot;`
+    Actors []string
+}
+
+var movies = []Movie{
+    {Title: &quot;Casablanca&quot;, Year: 1942, Color: false,
+        Actors: []string{&quot;Humphrey Bogart&quot;, &quot;Ingrid Bergman&quot;}},
+    {Title: &quot;Cool Hand Luke&quot;, Year: 1967, Color: true,
+        Actors: []string{&quot;Paul Newman&quot;}},
+    {Title: &quot;Bullitt&quot;, Year: 1968, Color: true,
+        Actors: []string{&quot;Steve McQueen&quot;, &quot;Jacqueline Bisset&quot;}},
+    // ...
+}
+</code></pre>
+
+<p>将一个Go语言中类似movies的结构体slice转为JSON的过程叫编组（marshaling）。编组通过调用<code>json.Marshal</code>函数完成：</p>
+
+<pre><code>data, err := json.Marshal(movies)
+if err != nil {
+    log.Fatalf(&quot;JSON marshaling failed: %s&quot;, err)
+}
+fmt.Printf(&quot;%s\n&quot;, data)
+</code></pre>
+
+<p>Marshal函数返还一个编码后的字节slice，包含很长的字符串，并且没有空白缩进；我们将它折行以便于显示：</p>
+
+<pre><code>[{&quot;Title&quot;:&quot;Casablanca&quot;,&quot;released&quot;:1942,&quot;Actors&quot;:[&quot;Humphrey Bogart&quot;,&quot;Ingr
+id Bergman&quot;]},{&quot;Title&quot;:&quot;Cool Hand Luke&quot;,&quot;released&quot;:1967,&quot;color&quot;:true,&quot;Ac
+tors&quot;:[&quot;Paul Newman&quot;]},{&quot;Title&quot;:&quot;Bullitt&quot;,&quot;released&quot;:1968,&quot;color&quot;:true,&quot;
+Actors&quot;:[&quot;Steve McQueen&quot;,&quot;Jacqueline Bisset&quot;]}]
+</code></pre>
+
+<p>为了生成便于阅读的格式，另一个<code>json.MarshalIndent</code>函数将产生整齐缩进的输出。</p>
+
+<p>该函数有两个额外的字符串参数用于表示每一行输出的前缀和每一个层级的缩进：</p>
+
+<pre><code>data, err := json.MarshalIndent(movies, &quot;&quot;, &quot;    &quot;)
+if err != nil {
+    log.Fatalf(&quot;JSON marshaling failed: %s&quot;, err)
+}
+fmt.Printf(&quot;%s\n&quot;, data)
+</code></pre>
+
+<p>在编码时，默认使用Go语言结构体的成员名字作为JSON的对象（通过reflect反射技术)，只有大写字母开头的结构体成员才会被编码</p>
+
+<p>个结构体成员Tag是和在编译阶段关联到该成员的元信息字符串：</p>
+
+<pre><code>Year  int  `json:&quot;released&quot;`
+Color bool `json:&quot;color,omitempty&quot;`
+</code></pre>
+
+<p>结构体的成员Tag可以是任意的字符串面值</p>
+
+<p>编码的逆操作是解码, 通过<code>json.Unmarshal</code>函数完成。</p>
+
+<pre><code>var titles []struct{ Title string }
+if err := json.Unmarshal(data, &amp;titles); err != nil {
+    log.Fatalf(&quot;JSON unmarshaling failed: %s&quot;, err)
+}
+fmt.Println(titles) // &quot;[{Casablanca} {Cool Hand Luke} {Bullitt}]&quot;
+</code></pre>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/02/05/gobaseType/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（二） - 基础数据类型">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/02/07/gofunc/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（四） - 函数">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

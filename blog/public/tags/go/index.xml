@@ -56,5 +56,68 @@
       <description>Go 语言中处理 HTTP 请求主要跟两个东西相关：ServeMux 和 Handler。 ServrMux：本质上是一个 HTTP 请求路由器,它把收到的请求与一组预先</description>
     </item>
     
+    <item>
+      <title>Go 学习笔记（七） - 错误处理</title>
+      <link>https://luckyliang.github.io/2018/02/09/goerror/</link>
+      <pubDate>Fri, 09 Feb 2018 19:35:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/09/goerror/</guid>
+      <description>错误指出程序中的异常情况。假设我们正在尝试打开一个文件，文件系统中不存在这个文件。这是一个异常情况，它表示为一个错误。 Go中的错误也是一种类</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（六） - 接口</title>
+      <link>https://luckyliang.github.io/2018/02/08/gointerface/</link>
+      <pubDate>Thu, 08 Feb 2018 22:45:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/08/gointerface/</guid>
+      <description>在Go中，接口是一组方法签名。当类型为接口中的所有方法提供定义时，它被称为实现接口。 接口的定义语法 定义接口 /* 定义接口 */ type interface_name interface { method_name1 [return_type] method_name2 [return_type] method_name3 [return_type] ...</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（五） - 方法</title>
+      <link>https://luckyliang.github.io/2018/02/08/gomethod/</link>
+      <pubDate>Thu, 08 Feb 2018 18:42:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/08/gomethod/</guid>
+      <description>方法声明 package geometry import &amp;quot;math&amp;quot; type Point struct{ X, Y float64 } // traditional function func Distance(p, q Point) float64 { return math.Hypot(q.X-p.X, q.Y-p.Y) } // same thing, but as a method of the Point type func (p Point) Distance(q Point) float64 { return math.Hypot(q.X-p.X, q.Y-p.Y) } 在方法调用过程中，接收器参数一般会在方法</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（四） - 函数</title>
+      <link>https://luckyliang.github.io/2018/02/07/gofunc/</link>
+      <pubDate>Wed, 07 Feb 2018 23:12:34 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/07/gofunc/</guid>
+      <description>函数 函数声明 函数声明包括函数名、形式参数列表、返回值列表（可省略）以及函数体。 func name(parameter-list) (result-list) { body } 返回值列表描述了函数返回值的变量名以及类型，如果一</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（三） - 复合类型</title>
+      <link>https://luckyliang.github.io/2018/02/06/gocomplextype/</link>
+      <pubDate>Tue, 06 Feb 2018 20:39:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/06/gocomplextype/</guid>
+      <description>复合数据类型 数组 数组是一个由固定长度的特定类型元素组成的序列，因为数组的长度是固定的，因此在Go语言中很少直接使用数组 数组的每个元素可以通过</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（二） - 基础数据类型</title>
+      <link>https://luckyliang.github.io/2018/02/05/gobasetype/</link>
+      <pubDate>Mon, 05 Feb 2018 21:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/05/gobasetype/</guid>
+      <description>基础数据类型 Go语言将数据类型分为四类：基础类型、复合类型、引用类型和接口类型。 基础类型：数字、字符串和布尔型等 复合数据类型：数组和结构体，</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（一） - 程序结构</title>
+      <link>https://luckyliang.github.io/2018/02/05/gostructure/</link>
+      <pubDate>Mon, 05 Feb 2018 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/05/gostructure/</guid>
+      <description>程序结构 命名 Go语言中的函数名、变量名、常量名、类型名、语句标号和包名等所有的命名，都遵循一个简单的命名规则：一个名字必须以一个字母（Uni</description>
+    </item>
+    
   </channel>
 </rss>

@@ -198,19 +198,19 @@
             
 
 <div class="post-preview">
-    <a href="https://luckyliang.github.io/2018/04/12/goerror/">
+    <a href="https://luckyliang.github.io/2018/02/06/gocomplextype/">
         <h2 class="post-title">
-            go 错误收集
+            Go 学习笔记（三） - 复合类型
         </h2>
 	
         <div class="post-content-preview">
 	
-            初学go语言，收集一些平时学习时遇到的错误和坑
+            读go圣经学习笔记 - 复合类型
         
         </div>
     </a>
     <p class="post-meta">
-    Posted by Cheng Thursday, April 12, 2018
+    Posted by Cheng Tuesday, February 6, 2018
     
     
     </p>
@@ -219,19 +219,19 @@
 <hr>
 
 <div class="post-preview">
-    <a href="https://luckyliang.github.io/2018/04/11/iosunderlying_ocobjectessence/">
+    <a href="https://luckyliang.github.io/2018/02/05/gobasetype/">
         <h2 class="post-title">
-            IOS底层原理一  探寻OC对象本质
+            Go 学习笔记（二） - 基础数据类型
         </h2>
 	
         <div class="post-content-preview">
 	
-            ios底层原理一 探寻OC对象本质
+            读go圣经学习笔记 - 基础数据类型
         
         </div>
     </a>
     <p class="post-meta">
-    Posted by Cheng Wednesday, April 11, 2018
+    Posted by Cheng Monday, February 5, 2018
     
     
     </p>
@@ -240,19 +240,19 @@
 <hr>
 
 <div class="post-preview">
-    <a href="https://luckyliang.github.io/2018/03/13/gorequest/">
+    <a href="https://luckyliang.github.io/2018/02/05/gostructure/">
         <h2 class="post-title">
-            go - 处理web请求
+            Go 学习笔记（一） - 程序结构
         </h2>
 	
         <div class="post-content-preview">
 	
-            主要记录go如和处理web数据处理的，包括get,post,文件上传，文件下载，数据返回格式
+            读go圣经学习笔记 - 程序结构
         
         </div>
     </a>
     <p class="post-meta">
-    Posted by Cheng Tuesday, March 13, 2018
+    Posted by Cheng Monday, February 5, 2018
     
     
     </p>
@@ -261,40 +261,23 @@
 <hr>
 
 <div class="post-preview">
-    <a href="https://luckyliang.github.io/2018/03/12/gohttprouter/">
+    <a href="https://luckyliang.github.io/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/">
         <h2 class="post-title">
-            go - httprouter高性能Http框架
+            
         </h2>
 	
         <div class="post-content-preview">
 	
-            HttpRouter是一个轻量级但却非常高效的multiplexer。本篇文章主要记录HttpRouter一些基础使用方法
-        
+            序列  Sequence 协议是集合类型结构中的基础。 一个序列 (sequence) 代表的是一系列具有相同类型 的值，你可以对这些值进行迭代。
+ for element in someSequence { doSomething(with: element) }  满足 Sequence 协议的要求十分简单，你需要做的所有事情就是提供一个返回迭代器 (iterator) 的 makeIterator() 方法:
+protocol Sequence { associatedtype Iterator: IteratorProtocol func makeIterator() -&gt; Iterator // ... }  迭代器 序列通过创建一个迭代器来提供对元素的访问。 迭代器每次产生一个序列的值，并且当遍历序 列时对遍历状态进行管理。在 IteratorProtocol 协议中唯一的一个方法是 next()，这个方法需 要在每次被调用时返回序列中的下一个值。当序列被耗尽时，next() 应该返回 nil:
+protocol IteratorProtocol { associatedtype Element mutating func next() -&gt; Element? }  for 循环其实是下面这段代码 的一种简写形式:
+var iterator = someSequence.makeIterator() while let element = iterator.
+       
         </div>
     </a>
     <p class="post-meta">
-    Posted by Cheng Monday, March 12, 2018
-    
-    
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://luckyliang.github.io/2018/03/10/gonet/">
-        <h2 class="post-title">
-            go - net/http的简单使用
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            理解net/http 后端服务简单使用方法，方便自己调式和理解前后台数据交互
-        
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by Cheng Saturday, March 10, 2018
+    Posted by Cheng Blog Monday, January 1, 0001
     
     
     </p>
@@ -312,10 +295,6 @@
         <a href="/page/2/">&larr; Newer Posts</a>
     </li>
     
-    
-    <li class="next">
-        <a href="/page/4/">Older Posts &rarr;</a>
-    </li>
     
 </ul>
 
