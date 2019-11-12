@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="go 错误收集" />
-    <meta property="og:title" content="go 错误收集" />
-    <meta property="twitter:title" content="go 错误收集" />
+    <meta name="title" content="Swift - PromisKit使用" />
+    <meta property="og:title" content="Swift - PromisKit使用" />
+    <meta property="twitter:title" content="Swift - PromisKit使用" />
     
 
     
-    <meta name="description" content="初学go语言，收集一些平时学习时遇到的错误和坑">
-    <meta property="og:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
-    <meta property="twitter:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
+    <meta name="description" content="Swift PromisKit常用使用方法">
+    <meta property="og:description" content="Swift PromisKit常用使用方法" />
+    <meta property="twitter:description" content="Swift PromisKit常用使用方法" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>go 错误收集-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+    <title>Swift - PromisKit使用-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
 
-    <link rel="canonical" href="/2018/04/12/goerror/">
+    <link rel="canonical" href="/2018/04/17/swiftPromisKit/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -169,7 +169,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+        background-image: url('/img/swift_promiskit.png')
     }
 </style>
 <header class="intro-header">
@@ -179,12 +179,16 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/go" title="go">
-                            go
+                        <a class="tag" href="/tags/ios" title="IOS">
+                            IOS
+                        </a>
+                        
+                        <a class="tag" href="/tags/swift" title="Swift">
+                            Swift
                         </a>
                         
                     </div>
-                    <h1>go 错误收集</h1>
+                    <h1>Swift - PromisKit使用</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by 
@@ -192,7 +196,7 @@
                             Cheng
                          
                         on 
-                        Thursday, April 12, 2018
+                        Tuesday, April 17, 2018
                         
                         
                         
@@ -224,40 +228,275 @@
 <ul>
 <li>
 <ul>
-<li><a href="#listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</a></li>
+<li>
+<ul>
+<li><a href="#promise创建">Promise创建</a></li>
+<li><a href="#promise-链">Promise 链</a>
+<ul>
+<li><a href="#then-done-catch"><code>then(),done(),catch()</code></a></li>
+<li><a href="#recover"><code>recover()</code></a></li>
+<li><a href="#firstly"><code>firstly()</code></a></li>
+<li><a href="#ensure"><code>ensure()</code></a></li>
+<li><a href="#get"><code>get()</code></a></li>
+<li><a href="#when"><code>when()</code></a></li>
+</ul></li>
+<li><a href="#自定义回调线程">自定义回调线程</a></li>
+<li><a href="#延迟delay">延迟Delay</a></li>
+<li><a href="#超时">超时</a></li>
+<li><a href="#重试">重试</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<h2 id="listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</h2>
+<p>promistKit主要是解决异步回调地狱的问题，举个例子，比如需要下载一个图片文件，而且这个图片文件的下载链接也需要请求，也就是先请求一个接口然后图片的下载链接，然后通过该链接去下载图片，普通做法大概就是这样：</p>
 
-<p>学习go net/http包，代码如下</p>
+<pre><code>
+URLSession.shared.dataTask(with: backendurl!) { data, _, error in
+    if error != nil {
+        print(error)
+        return
+    }
+    
+    let imageurl = String(data: data!, encoding: String.Encoding.utf8) as String! 
+    
+    URLSession.shared.dataTask(with: URL(string:imageurl!)!) { (data, response, error) in
+        if error != nil {
+            print(error)
+            return
+        }
+        DispatchQueue.main.async {
+            imageView.image = UIImage(data: data!)
+        }
+    }.resume()
+}.resume()
+</code></pre>
 
-<pre><code class="language-go">func getNews(writer http.ResponseWriter, request *http.Request) {
-	writer.Write([]byte(&quot;hello&quot;))
-}
+<p>如果再有其他操作，一层嵌套一层 的网络请求，结构很不清晰很不具有阅读性，而PromiseKit的出现就很好的解决了这个问题</p>
 
-func main() {
+<h3 id="promise创建">Promise创建</h3>
 
-	http.HandleFunc(&quot;/getNews&quot;,getNews)
-	log.Println(&quot;Listening....&quot;)
-	err := http.ListenAndServe(&quot;3000&quot;,nil)
-	if err != nil {
-		log.Fatal(&quot;ListenAndServe: &quot;, err)
-	}
+<p>promise包含两个回调闭包，当任务完成可以使用<code>fulfill</code>来回调成功信息，也可以使用<code>reject</code>来回调错误信息</p>
+
+<pre><code>Promise() { fulfill, reject in
+    // code       
 }
 </code></pre>
 
-<p>执行命令 <code>$ go run main.go</code>的时候得到如下报错</p>
+<p>比如下载一个图片的请求可以这样做</p>
 
-<pre><code class="language-go">## ListenAndServe: listen tcp: address 3000: missing port in address exit status 1
+<pre><code>func fetch(url: URL) -&gt; Promise&lt;Data&gt; {
+    return Promise { seal in
+        URLSession.shared.dataTask(with: url!) { data, _, error in
+            seal.resolve(data, error)
+        }.resume()
+    }
+}
 </code></pre>
 
-<p>这是端口号不正确，把上面端口号前加个冒号解决 (有时不注意忘记写了，而且初学者难找原因)</p>
+<p>当然在编程过程中也不是总会有处理错误信息的时候，可以用<code>Guarantee</code>创建一个没有错误信息的</p>
 
-<pre><code class="language-go">err := http.ListenAndServe(&quot;:3000&quot;,nil)
+<pre><code>Guarantee { seal in
+    seal(&quot;Hello World&quot;)
+}.done {
+            print($0)
+        }
+</code></pre>
+
+<h3 id="promise-链">Promise 链</h3>
+
+<h4 id="then-done-catch"><code>then(),done(),catch()</code></h4>
+
+<p>上面我们创建了一个图片下载的<code>promise</code>请求，然后我们可以使用<code>then()</code>函数来链接，</p>
+
+<pre><code>fetch(url: &lt;backend-url&gt;).then { value in
+    // value
+}
+</code></pre>
+
+<p><code>then()</code>需要返回一个Promise，以此一直then，可以用<code>done()</code>来结束调用链，用<code>catch()</code>来捕获错误信息</p>
+
+<pre><code>fetch(url: &lt;backend-url&gt;).then { value in
+    // value
+}.then {value in 
+	// value
+}.done {value in 
+	// value
+}.catch {error in
+	//error
+}
+</code></pre>
+
+<h4 id="recover"><code>recover()</code></h4>
+
+<p>当然，有时候希望在发生错误前给一个默认值，可以用<code>recover()</code>函数</p>
+
+<pre><code>
+fetch(url: &lt;imageurl&gt;).recover { error -&gt; Promise&lt;UIImage&gt; in
+    return UIImage(name: &lt;placeholder&gt;)
+}...
+</code></pre>
+
+<p>因此上面图片请求例子就可以写成这样</p>
+
+<pre><code>func fetch(url: URL) -&gt; Promise&lt;Data&gt; {
+    return Promise { seal in
+        URLSession.shared.dataTask(with: url!) { data, _, error in
+            seal.resolve(data, error)
+        }.resume()
+    }
+}
+
+fetch(url: &lt;backendURL&gt;).then { data in
+		//解析返回结果
+    return JSONParsePromise(data)
+}.then { imageurl in
+    //下载图片文件
+    return fetch(url: imageurl)
+}.then { data in
+		//UI赋值
+    imageView.image = UIImage(data: data)
+}.catch { error in
+	//错误处理	
+}
+</code></pre>
+
+<p>其他链元素</p>
+
+<h4 id="firstly"><code>firstly()</code></h4>
+
+<p>使用<code>firstly()</code>来作为一个链的开始</p>
+
+<pre><code>firstly {
+    return fetch(url:url)
+}.then{ 
+    ...
+}
+</code></pre>
+
+<h4 id="ensure"><code>ensure()</code></h4>
+
+<p>如果想在promise完成之前做的事情，可以使用<code>ensure()</code></p>
+
+<pre><code>firstly {
+    fetch(url: url)
+}.ensure {
+    cleanup()
+}.catch {
+    handle(error: $0)
+}
+</code></pre>
+
+<p>比如在请求中加入网络指示器</p>
+
+<pre><code>func fetch(url: URL) -&gt; Promise&lt;Data&gt; {
+    return Promise { seal in
+        URLSession.shared.dataTask(with: url!) { data, _, error in
+            seal.resolve(data, error)
+        }.resume()
+    }
+}
+
+firstly {
+//开始旋转
+  UIApplication.shared.isNetworkActivityIndicatorVisible = true
+  return fetch(url: &lt;backendURL&gt;)
+}.then { data in
+    return JSONParsePromise(data) // we skip the wrapping of JSONParsing
+}.then { imageurl in
+    return fetch(url: imageurl)
+}.then { data in
+    imageView.image = UIImage(data: data)
+}.ensure {
+	//在完成之前执行
+    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+}.catch { error in
+    // in case we have an error
+}
+</code></pre>
+
+<h4 id="get"><code>get()</code></h4>
+
+<p>如果想在同样的数据结果做不同的事情，可以用<code>get()</code>来讲任务分开</p>
+
+<pre><code>firstly {
+    fetch(url: url)
+}.get { data in
+    //…
+}.done { data in
+    // 跟get数据相同，并没有发生变化
+}
+</code></pre>
+
+<h4 id="when"><code>when()</code></h4>
+
+<p>使用when来链接多个promise，当每个promise都完成时才会回调，如果其中一个promise发生错误，那么就会跳到<code>catch</code>处</p>
+
+<pre><code>firstly {
+    when(fulfilled: promise1(), promise2())
+}.done { result1, result2 in
+    //…
+}
+</code></pre>
+
+<h3 id="自定义回调线程">自定义回调线程</h3>
+
+<p>Promise默认的所有回调都在主线程，如果想在其他线程中处理事，可以这样做</p>
+
+<pre><code>fetch(url: url).then(on: .global(QoS: .userInitiated)) {
+    //then closure executes on different thread 
+}
+</code></pre>
+
+<h3 id="延迟delay">延迟Delay</h3>
+
+<pre><code>let waitAtLeast = after(seconds: 0.3)
+
+firstly {
+    fetch(url: url)
+}.then {
+    waitAtLeast
+}.done {
+    //…
+}
+</code></pre>
+
+<h3 id="超时">超时</h3>
+
+<p>使用<code>race()</code>来处理超时</p>
+
+<pre><code>let timeout = after(seconds: 4)
+
+race(when(fulfilled: fetch(url:url)).asVoid(), timeout).then {
+    //…
+}
+</code></pre>
+
+<h3 id="重试">重试</h3>
+
+<p>网络请求不会总是成功，有时我们希望在一次失败时，再重新请求几次，那么可以使用<code>recover().</code></p>
+
+<pre><code>func attempt&lt;T&gt;(maximumRetryCount: Int = 3, delayBeforeRetry: DispatchTimeInterval = .seconds(2), _ body: @escaping () -&gt; Promise&lt;T&gt;) -&gt; Promise&lt;T&gt; {
+    var attempts = 0
+    func attempt() -&gt; Promise&lt;T&gt; {
+        attempts += 1
+        return body().recover { error -&gt; Promise&lt;T&gt; in
+            guard attempts &lt; maximumRetryCount else { throw error }
+            return after(delayBeforeRetry).then(on: nil, attempt)
+        }
+    }
+    return attempt()
+}
+
+attempt(maximumRetryCount: 3) {
+    fetch(url: url)
+}.then {
+    //…
+}.catch { _ in
+    // we still failed
+}
 </code></pre>
 
 
@@ -307,13 +546,13 @@ func main() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/04/11/iosunderlying_ocobjectessence/" data-toggle="tooltip" data-placement="top" title="IOS底层原理一  探寻OC对象本质">&larr;
+                        <a href="/2018/04/13/swiftTipsRecord/" data-toggle="tooltip" data-placement="top" title="Siwft 小技巧记录">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/04/13/swiftTipsRecord/" data-toggle="tooltip" data-placement="top" title="Siwft 小技巧记录">Next
+                        <a href="/2018/04/18/swiftURlSession/" data-toggle="tooltip" data-placement="top" title="Siwft网络请求 - URLSession">Next
                             Post &rarr;</a>
                     </li>
                     

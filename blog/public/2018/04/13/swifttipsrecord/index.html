@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="go 错误收集" />
-    <meta property="og:title" content="go 错误收集" />
-    <meta property="twitter:title" content="go 错误收集" />
+    <meta name="title" content="Siwft 小技巧记录" />
+    <meta property="og:title" content="Siwft 小技巧记录" />
+    <meta property="twitter:title" content="Siwft 小技巧记录" />
     
 
     
-    <meta name="description" content="初学go语言，收集一些平时学习时遇到的错误和坑">
-    <meta property="og:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
-    <meta property="twitter:description" content="初学go语言，收集一些平时学习时遇到的错误和坑" />
+    <meta name="description" content="记录在Swift开发中常用的小技巧，方便忘记的时候查阅">
+    <meta property="og:description" content="记录在Swift开发中常用的小技巧，方便忘记的时候查阅" />
+    <meta property="twitter:description" content="记录在Swift开发中常用的小技巧，方便忘记的时候查阅" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>go 错误收集-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+    <title>Siwft 小技巧记录-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
 
-    <link rel="canonical" href="/2018/04/12/goerror/">
+    <link rel="canonical" href="/2018/04/13/swiftTipsRecord/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -179,12 +179,16 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/go" title="go">
-                            go
+                        <a class="tag" href="/tags/ios" title="IOS">
+                            IOS
+                        </a>
+                        
+                        <a class="tag" href="/tags/swift" title="Swift">
+                            Swift
                         </a>
                         
                     </div>
-                    <h1>go 错误收集</h1>
+                    <h1>Siwft 小技巧记录</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by 
@@ -192,7 +196,7 @@
                             Cheng
                          
                         on 
-                        Thursday, April 12, 2018
+                        Friday, April 13, 2018
                         
                         
                         
@@ -224,40 +228,30 @@
 <ul>
 <li>
 <ul>
-<li><a href="#listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</a></li>
+<li>
+<ul>
+<li><a href="#swift-记录">Swift 记录</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<h2 id="listenandserve-listen-tcp-address-3000-missing-port-in-address-exit-status-1">ListenAndServe: listen tcp: address 3000: missing port in address exit status 1</h2>
+<h3 id="swift-记录">Swift 记录</h3>
 
-<p>学习go net/http包，代码如下</p>
+<ol>
+<li>通过字符串初始化类</li>
+</ol>
 
-<pre><code class="language-go">func getNews(writer http.ResponseWriter, request *http.Request) {
-	writer.Write([]byte(&quot;hello&quot;))
-}
+<p>比如有个类名为<code>URLSessionViewController</code>，在Swift中通过字符串来初始化</p>
 
-func main() {
-
-	http.HandleFunc(&quot;/getNews&quot;,getNews)
-	log.Println(&quot;Listening....&quot;)
-	err := http.ListenAndServe(&quot;3000&quot;,nil)
-	if err != nil {
-		log.Fatal(&quot;ListenAndServe: &quot;, err)
-	}
-}
-</code></pre>
-
-<p>执行命令 <code>$ go run main.go</code>的时候得到如下报错</p>
-
-<pre><code class="language-go">## ListenAndServe: listen tcp: address 3000: missing port in address exit status 1
-</code></pre>
-
-<p>这是端口号不正确，把上面端口号前加个冒号解决 (有时不注意忘记写了，而且初学者难找原因)</p>
-
-<pre><code class="language-go">err := http.ListenAndServe(&quot;:3000&quot;,nil)
+<pre><code class="language-swift">   ///规则：项目名.类名 (注意：如果项目名有特色字符是不能用该方法)
+   let vcClassType = NSClassFromString(&quot;SwiftRequestDemo.&quot;+itemModel.vcString) as? URLSessionViewController.Type
+   if let vcClass = vcClassType {
+       let vc = vcClass.init()
+       self?.navigationController?.pushViewController(vc, animated: true)
+   }
 </code></pre>
 
 
@@ -307,13 +301,13 @@ func main() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/04/11/iosunderlying_ocobjectessence/" data-toggle="tooltip" data-placement="top" title="IOS底层原理一  探寻OC对象本质">&larr;
+                        <a href="/2018/04/12/goerror/" data-toggle="tooltip" data-placement="top" title="go 错误收集">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/04/13/swiftTipsRecord/" data-toggle="tooltip" data-placement="top" title="Siwft 小技巧记录">Next
+                        <a href="/2018/04/17/swiftPromisKit/" data-toggle="tooltip" data-placement="top" title="Swift - PromisKit使用">Next
                             Post &rarr;</a>
                     </li>
                     
