@@ -10,7 +10,7 @@ image: "https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gatew
 published: true
 tags:
     - go
-URL: "/2018/03/10/gonet/"
+URL: "/2018/03/10/goNet/"
 categories: [ go ]
 
 ---
