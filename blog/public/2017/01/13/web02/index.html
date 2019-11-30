@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="CSS基础复习" />
+    <meta property="og:title" content="CSS基础复习" />
+    <meta property="twitter:title" content="CSS基础复习" />
+    
+
+    
+    <meta name="description" content="主要包含CSS盒子模型，浮动和定位">
+    <meta property="og:description" content="主要包含CSS盒子模型，浮动和定位" />
+    <meta property="twitter:description" content="主要包含CSS盒子模型，浮动和定位" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>CSS基础复习-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2017/01/13/web02/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                    </div>
+                    <h1>CSS基础复习</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Friday, January 13, 2017
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#盒子-模型">盒子 模型</a></li>
+<li><a href="#跨浏览器的css">跨浏览器的css</a></li>
+<li><a href="#浏览器的属性前缀">浏览器的属性前缀</a>
+<ul>
+<li><a href="#常用的属性前缀">常用的属性前缀</a></li>
+</ul></li>
+<li><a href="#浮动布局">浮动布局</a>
+<ul>
+<li><a href="#浮动导致的布局变动">浮动导致的布局变动</a></li>
+<li><a href="#清除浮动">清除浮动</a></li>
+</ul></li>
+<li><a href="#定位">定位</a>
+<ul>
+<li><a href="#相对定位">相对定位</a></li>
+<li><a href="#绝对定位">绝对定位</a>
+<ul>
+<li><a href="#absolute属性值">absolute属性值</a></li>
+<li><a href="#fixed属性值">fixed属性值</a></li>
+</ul></li>
+<li><a href="#sticky定位属性">sticky定位属性</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h3 id="盒子-模型">盒子 模型</h3>
+
+<p>一个块级元素，包括内容、外边距（margin）、边框（border）、内边距（padding）4个组成部分，在不设定的情况下内外边距和边框都是没有的</p>
+
+<p><img src="/img/web/css_box.png" alt="盒子模型" /></p>
+
+<h3 id="跨浏览器的css">跨浏览器的css</h3>
+
+<p>如果您需要IE10或以上的特殊样式，则必须找到其他方法，因为条件注释在IE10中被禁用。然而，这些版本相比与早期版本还是少得多。</p>
+
+<p>兼容浏览器的通用方法</p>
+
+<pre><code>&lt;!--[if IE]&gt;
+      // 支持所有IE浏览器
+&lt;![endif]--&gt;
+
+&lt;!--[if IE 6]&gt;
+     // 仅仅支持IE6
+&lt;![endif]--&gt;
+
+&lt;!--[if IE 7]&gt;
+      // 仅仅支持IE7
+&lt;![endif]--&gt;
+
+&lt;!--[if IE 8]&gt;
+     //仅仅支持IE8
+&lt;![endif]--&gt;
+
+&lt;!--[if IE 9]&gt;
+       // 仅仅支持IE9
+&lt;![endif]--&gt;
+
+&lt;!--[if gte IE 8]&gt;
+      // 高于IE8(包括IE8)的版本
+&lt;![endif]--&gt;
+
+&lt;!--[if lt IE 9]&gt;
+        // 小于IE9的版本
+&lt;![endif]--&gt;
+
+&lt;!--[if lte IE 7]&gt;
+        // 小于等于IE7的版本
+&lt;![endif]--&gt;
+
+&lt;!--[if gt IE 6]&gt;
+        //大于IE的版本
+&lt;![endif]--&gt;
+
+&lt;!--[if !IE]&gt; --&gt;
+        // 非IE浏览器
+&lt;!-- &lt;![endif]--&gt;
+</code></pre>
+
+<ul>
+<li><code>lt</code>表示小于版本号，不包括条件版本号本身；而<code>lte</code>是小于或等于版本号，包括了版本号自身。</li>
+<li><code>gt</code>表示大于, <code>gte</code>则表示大于或等于。</li>
+</ul>
+
+<h3 id="浏览器的属性前缀">浏览器的属性前缀</h3>
+
+<h4 id="常用的属性前缀">常用的属性前缀</h4>
+
+<ul>
+<li>-webkit: webkit核心浏览器，包括Chrome、Safari等</li>
+<li>-moz：火狐（Firefox）浏览器</li>
+<li>-ms：IE浏览器</li>
+<li>-o：Opera浏览器</li>
+</ul>
+
+<p>在实际开发中，考虑到兼容性往往需要把所有前缀都写上去</p>
+
+<pre><code>  .transform{
+      -webkit-transform: rotate(-3deg); /*带有Chrome、safari浏览器属性前缀*/
+      -moz-transform: rotate(-3deg);/*带有Firefox浏览器的属性前缀*/
+      -ms-transform: rotate(-3deg); /*带IE浏览器属性的前缀*/
+      -o-transform: rotate(-3deg); /*带opera浏览器的属性前缀*/
+      transform: rotate(-3deg); /*W3C标准愈发，无属性前缀*/
+  }
+</code></pre>
+
+<h3 id="浮动布局">浮动布局</h3>
+
+<p>正常情况下，页面中的块级元素（block）就像一个个沉在水中的铁块，如果换成木块呢就飘起来了</p>
+
+<h4 id="浮动导致的布局变动">浮动导致的布局变动</h4>
+
+<p>float属性有4个可选项：none、left、right、inherit。</p>
+
+<ul>
+<li>none为默认值即不浮动</li>
+<li>inherit表示继承父元素的float值</li>
+<li>left、right 向左、右浮动</li>
+</ul>
+
+<p><strong>注意</strong>：一般不建议使用inherit，因为IE不支持这个选项</p>
+
+<ol>
+<li><p>对于块级元素来说，在不设置宽度的情况下，默认的宽度是100%，一旦设置了浮动，它的宽度就会根据内容进行自动调整</p></li>
+
+<li><p>设置浮动的元素会脱离正常的文档流，设置浮动后，元素不仅在y轴上浮了起来，在z轴上也浮起来。 比如：默认情况下父元素的高度会根据子元素的内容自动进行调整，如果我们将子元素设置为浮动，父元素的高度就会变为0</p></li>
+
+<li><p>浮动元素虽然脱离了文档流，但里面的内容仍然占据空间，会根据相对位置进行布局</p></li>
+</ol>
+
+<h4 id="清除浮动">清除浮动</h4>
+
+<p>有时我们需要用到浮动，但又不想浮动的某些特性影响布局，这时就要清除浮动</p>
+
+<p>主要应用的是css中的clear属性，可选值：left、right、both</p>
+
+<pre><code>img{float:left; clear: both} /*左右两侧都不允许出现浮动元素*/
+</code></pre>
+
+<p>应用比较广泛的两种清除浮动的方法</p>
+
+<ol>
+<li><p>在需要的地方添加定义了<code>clear：both</code>的空标签</p>
+
+<pre><code> html body div.clear,
+ html body span.clear {
+     background: none;
+     border: 0;
+     clear: both; /*这句是重点，其他的都是兼容性代码*/
+     display: block;
+     font-size: 0;
+     float: none;
+     margin: 0;
+     padding: 0;
+     overflow: hidden;
+     visibility: hidden;
+     width: 0;
+     height: 0;
+ }
+   
+</code></pre>
+
+<p>在需要清除浮动的元素后面添加<div class="clear"><div>即可</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+   &lt;meta charset=&quot;UTF-8&quot;&gt;
+   &lt;title&gt;清除浮动&lt;/title&gt;
+   &lt;style&gt;
+       html body div.clear,
+       html body span.clear {
+           background: none;
+           border: 0;
+           clear: both; /*这句是重点，其他的都是兼容性代码*/
+           display: block;
+           font-size: 0;
+           float: none;
+           margin: 0;
+           padding: 0;
+           overflow: hidden;
+           visibility: hidden;
+           width: 0;
+           height: 0;
+       }
+       .box {
+           border: 1px solid #cccccc;
+           background: #fc9;
+           color: #fff;
+           margin: 50px auto;
+           padding: 50px;
+       }
+       .div1{
+           width: 100px;
+           height: 100px;
+           background: darkblue;
+           float: left;
+       }
+       .div2 {
+           width: 100px;
+           height: 100px;
+           background: darkgoldenrod;
+           float: left;
+       }
+       .div3{
+           width: 100px;
+           height: 100px;
+           background: darkgreen;
+           float: left;
+       }
+   &lt;/style&gt;
+&lt;!--在需要清除浮动的元素后面添加&lt;div class=&quot;clear&quot;&gt;&lt;div&gt;即可--&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;box&quot;&gt;
+   &lt;div class=&quot;div1&quot;&gt;1&lt;/div&gt;
+   &lt;div class=&quot;div2&quot;&gt;1&lt;/div&gt;
+   &lt;div class=&quot;div3&quot;&gt;1&lt;/div&gt;
+&lt;!--    清除浮动后 父元素高度会根据子元素高度计算，如果不使用父元素内容高度为0--&gt;
+   &lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+</ol>
+
+<p>这是一个万能的清除浮动代码，可以在不同浏览器下兼容</p>
+
+<ol>
+<li><p>对父元素使用：after伪类</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+   &lt;meta charset=&quot;UTF-8&quot;&gt;
+   &lt;title&gt;清除浮动&lt;/title&gt;
+   &lt;style&gt;
+       .clearfix:after{
+       /*    对父元素使用after*/
+           content: '020';
+           display: block;
+           height: 0;
+           clear:both;
+   
+       }
+       .clearfix{
+   				/*兼容IE6和IE7*/
+           zoom: 1;
+           background: red;
+       }
+       .left{
+           float: left;
+       }
+       .right{
+           float: right;
+       }
+   
+   &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;div1 clearfix&quot;&gt;
+   &lt;div class=&quot;left&quot;&gt;Left&lt;/div&gt;
+   &lt;div class=&quot;right&quot;&gt;Right&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></li>
+</ol>
+
+<p>可以看到父元素的高度不再为0，由于IE6和IE7不支持：after伪类，因此需要添加zoom:1兼容代码</p>
+
+<h3 id="定位">定位</h3>
+
+<p>CSS使用<code>top、left、right、bottom</code>设置元素的二维（x轴和y轴）偏移量，使用<code>z-index</code>设置元素的垂直于屏幕的方向，也就是&rdquo;z轴&rdquo;的偏移量</p>
+
+<p>CSS使用<code>position</code>属性来定义元素的定位属性</p>
+
+<p>可选值<code>static、relative、absolute、fixed、sticky、inherit</code>，默认值为<code>static</code>。<code>inherit</code>属性表示继承父元素的定位属性</p>
+
+<h4 id="相对定位">相对定位</h4>
+
+<p>指相对于文档流中其他已定义的元素位置进行定位</p>
+
+<p><strong>注意：</strong>那些脱离文档流的元素，比如设置了浮动或者绝对定位的元素不会对相对定位产生影响。</p>
+
+<p><code>relative</code>和<code>static</code>都是相对定位</p>
+
+<ol>
+<li><p>static(默认值)：在CSS中为元素定义<code>top、left、right、bottom、z-index</code>都不会生效，如果想设置元素的偏移量和<code>z-index</code>必须为元素定义<code>position</code>属性</p></li>
+
+<li><p><code>relative</code>表现和默认值一样，只不过可以通过设置偏移量和z-index俩控制相对于其正常位置进行偏移</p>
+
+<pre><code>div {
+ position: relative;
+ top: 20px;
+}
+</code></pre></li>
+</ol>
+
+<p>所有元素的定位都默认是static相对定位，relative在不设置top、left、z-index等值情况下和默认值表现一样的</p>
+
+<h4 id="绝对定位">绝对定位</h4>
+
+<p>绝对定位的元素有以下几个特点</p>
+
+<ul>
+<li>块级元素的宽度在未定义时不再为100%，而是根据内容自动调整。</li>
+<li>在不定义z-index的情况下，absolute元素会覆盖在其他元素之上。</li>
+<li>它会脱离正常的文档流，不再占据空间，类似于浮动后的效果</li>
+</ul>
+
+<p><code>absolute</code>和<code>fixed</code>都属于绝对定位</p>
+
+<h5 id="absolute属性值">absolute属性值</h5>
+
+<p><code>absolute</code>表示相对于<strong>不为<code>static</code>的上级元素</strong>（一般是父元素）进行偏移，即定位基点是父元素，如果不指定父元素的position，absolute将相对于整个html文档进行绝对定位</p>
+
+<pre><code>/*
+  HTML 代码如下
+  &lt;div id=&quot;father&quot;&gt;
+    &lt;div id=&quot;son&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+*/
+#father {
+  positon: relative; //必须指定position不为static元素
+}
+#son {
+  position: absolute; //相对于father进行绝对定位，如果father为static，则相对于html文档进行定位
+  top: 20px;
+}
+</code></pre>
+
+<h5 id="fixed属性值">fixed属性值</h5>
+
+<p>fixed表示相对于浏览器窗口（viewport）进行定位，这会导致元素的位置不随页面滚动而变化，好像固定在网页上一样。比如希望侧边栏始终对用户可见可以使用<code>position:fixed</code>来进行定位</p>
+
+<h4 id="sticky定位属性">sticky定位属性</h4>
+
+<p>这是2017年才出来的新的属性值，跟前面四个属性都不一样，它会产生动态效果，很想<code>relative</code>和<code>fixed</code>的结合：一些时候是<code>relative</code>定位（定位基点是自身位置），另外一些时候会自动变成<code>fixed</code>定位（定位基点是浏览器窗口）</p>
+
+<p>就像网页搜索工具栏，初始加载时在自己的默认位置（<code>relative</code>定位）。页面向下滚动时，工具栏变成固定位置，始终停留在页面头部（<code>fixed</code>定位）</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/03/java01/" data-toggle="tooltip" data-placement="top" title="Java（一）- String">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/14/web03/" data-toggle="tooltip" data-placement="top" title="CSS选择器">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

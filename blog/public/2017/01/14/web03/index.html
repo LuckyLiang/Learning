@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="CSS选择器" />
+    <meta property="og:title" content="CSS选择器" />
+    <meta property="twitter:title" content="CSS选择器" />
+    
+
+    
+    <meta name="description" content="CSS选择器详解">
+    <meta property="og:description" content="CSS选择器详解" />
+    <meta property="twitter:description" content="CSS选择器详解" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>CSS选择器-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2017/01/14/web03/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                    </div>
+                    <h1>CSS选择器</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Saturday, January 14, 2017
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#基础选择器">基础选择器</a>
+<ul>
+<li><a href="#标签选择器">标签选择器</a></li>
+<li><a href="#类选择器">类选择器</a></li>
+<li><a href="#id选择器">id选择器</a></li>
+<li><a href="#通配符选择器">通配符选择器</a></li>
+<li><a href="#子元素选择器">子元素选择器</a></li>
+<li><a href="#后代选择器">后代选择器</a></li>
+<li><a href="#相邻元素选择器">相邻元素选择器</a></li>
+<li><a href="#属性选择器">属性选择器</a></li>
+<li><a href="#组选择器">组选择器</a></li>
+<li><a href="#复合选择器">复合选择器</a></li>
+</ul></li>
+<li><a href="#伪类选择器">伪类选择器</a>
+<ul>
+<li><a href="#结构化伪类">结构化伪类</a>
+<ul>
+<li><a href="#nth-child-n">:nth-child(n)</a></li>
+<li><a href="#nth-last-child-n">:nth-last-child(n)</a></li>
+<li><a href="#nth-of-type-n">:nth-of-type(n)</a></li>
+<li><a href="#nth-last-of-type-n">:nth-last-of-type(n)</a></li>
+<li><a href="#last-child">:last-child</a></li>
+<li><a href="#first-of-type和last-of-type">:first-of-type和last-of-type</a></li>
+<li><a href="#only-child">:only-child</a></li>
+<li><a href="#only-of-type">:only-of-type</a></li>
+<li><a href="#root">：root</a></li>
+<li><a href="#empty">:empty</a></li>
+</ul></li>
+<li><a href="#目标伪类">目标伪类</a></li>
+<li><a href="#状态伪类">状态伪类</a>
+<ul>
+<li><a href="#enabled和-disabled">:enabled和:disabled</a></li>
+<li><a href="#checked">:checked</a></li>
+<li><a href="#indeterminate和-default-不建议使用">:indeterminate和:default（不建议使用）</a></li>
+</ul></li>
+<li><a href="#否定伪类">否定伪类</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="基础选择器">基础选择器</h2>
+
+<h3 id="标签选择器">标签选择器</h3>
+
+<p>命名只要和对应的html标签相同即可</p>
+
+<pre><code>  h1{
+      font-size: 30px;
+      color: #333333;
+  }
+</code></pre>
+
+<p>在开发中标签选择器一般用于定义全局样式</p>
+
+<h3 id="类选择器">类选择器</h3>
+
+<p>也称class选择器，在class名称前加一个“，“符号</p>
+
+<pre><code>&lt;style&gt;
+	.red{
+		background:red
+	}
+&lt;/style&gt;
+&lt;div class=&quot;red content&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p><strong>注意：</strong>从代码可读性，可维护性角度来讲，不要滥用类选择器，尽量不要为一个标签添加多于两个的class属性，如果项目比较大，可以考虑在命名时进行单词组合比如<code>control-group</code>这样的命名</p>
+
+<h3 id="id选择器">id选择器</h3>
+
+<p>”#“号加上id名称</p>
+
+<pre><code>&lt;style&gt;
+    #user_123{
+        width: 130px;
+        line-height: 30px;
+        height: 3px;
+    }
+&lt;/style&gt;
+&lt;div id=&quot;user_123&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>id选择器一般两个用途</p>
+
+<ul>
+<li>id选择器拥有最高的权重，因此可以用于覆盖之前的一些定义</li>
+<li>和后台数据定义，从而配合JavaScript进行一些逻辑操作</li>
+</ul>
+
+<h3 id="通配符选择器">通配符选择器</h3>
+
+<pre><code>*{
+	color: red;
+}
+</code></pre>
+
+<p>一般用于全局样式定义，可以与任意元素匹配</p>
+
+<h3 id="子元素选择器">子元素选择器</h3>
+
+<p>用于表示某些特定html嵌套关系时的样式展现，器语法关键词是一个”&gt;“符号</p>
+
+<pre><code>&lt;li&gt;&lt;a href=&quot;#&quot;&gt;www.baidu.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div&gt;&lt;a href=&quot;#&quot;&gt;www.baidu.com&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;style&gt;
+    li &gt; a{
+        color: red;
+    }
+&lt;/style&gt;
+</code></pre>
+
+<p>要求两个元素必修时严格的”父子关系“，否则不会生效</p>
+
+<h3 id="后代选择器">后代选择器</h3>
+
+<p>类似于子元素选择器，只不过要求不那么严格，语法关键词是一个空格</p>
+
+<pre><code>&lt;li&gt;&lt;a href=&quot;#&quot;&gt;www.baidu.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div&gt;&lt;a href=&quot;#&quot;&gt;www.baidu.com&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;style&gt;
+    li  a{
+        color: red;
+    }
+&lt;/style&gt;
+</code></pre>
+
+<p>只要链接<code>&lt;a&gt;</code>标签是列表<code>&lt;li&gt;</code>的后代元素即可</p>
+
+<h3 id="相邻元素选择器">相邻元素选择器</h3>
+
+<p>用于选取和某个元素相邻的同级元素，语法关键词”+“符号</p>
+
+<pre><code>&lt;div class=&quot;content&quot;&gt;
+    &lt;h1&gt;测试&lt;/h1&gt;
+    &lt;p&gt;测试内容&lt;/p&gt;
+&lt;/div&gt;
+&lt;style&gt;
+    h1+p{ //相邻选择器
+        font-size: 15px;
+    }
+&lt;/style&gt;
+</code></pre>
+
+<p>使用两个条件：</p>
+
+<ul>
+<li>二者必须拥有同一个父元素</li>
+<li>二者相邻</li>
+</ul>
+
+<h3 id="属性选择器">属性选择器</h3>
+
+<p>有些标签可以添加其他属性，比如<code>title、href、name</code>等。在css选择器中，开发中也可以通过判断某些属性是否存在或者通过属性的值来选取html元素，使用一对中括号</p>
+
+<pre><code>[title]{
+	color:red;
+	/*所有拥有title属性的元素的文字颜色设为红色*/
+}
+a[href][title]{
+	color:red
+	/*同时拥有href和title属性的a标签的文字颜色设为红色*/
+}
+</code></pre>
+
+<p>还可以通过属性赋值来选取拥有特定属性值得元素</p>
+
+<pre><code>a[href=&quot;http:www.baidu.com&quot;][title=&quot;baidu&quot;] {
+		color: red
+}
+</code></pre>
+
+<h3 id="组选择器">组选择器</h3>
+
+<p>对多个元素定义同样的样式，使用”,“</p>
+
+<pre><code>h1, h2, h3, h4, h5, h6 {
+	font-wight:bold
+} 
+</code></pre>
+
+<h3 id="复合选择器">复合选择器</h3>
+
+<p>如果说组选择器相当于一种并集关系，那么复合选择器久表示”与“（&amp;）的关系</p>
+
+<pre><code>p.test{/*同时满足p标签和class=test的两个条件*/
+	color:red
+}
+&lt;p class=&quot;test&quot;&gt;hehe&lt;/p&gt;
+&lt;div&gt;hehe&lt;/div&gt;
+&lt;div class=&quot;test&quot;&gt;hehe&lt;/div&gt;
+&lt;p&gt;hehe&lt;/p&gt;
+</code></pre>
+
+<h2 id="伪类选择器">伪类选择器</h2>
+
+<p>伪类表示元素的状态：排序、鼠标是否悬停、是否已被访问过、光标是否指向等。</p>
+
+<p>使用伪类选择器就可以得到诸如有鼠标悬停的元素、父元素下的第n个子元素、已被访问过的链接等使用基本选择器无法进行区分的元素</p>
+
+<p>CSS2中只有：hover、:active、:visited、:link、:first-child、:lang、:link等几种有限的几种伪类选择器，CSS3增添了大量新的伪类选择器</p>
+
+<h3 id="结构化伪类">结构化伪类</h3>
+
+<p>其实就是可以根据文档的结构来选取元素</p>
+
+<p>这里用一个基本样例，后面介绍都是基于此样例</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;伪类选择器&lt;/title&gt;
+    &lt;style&gt;
+        ul&gt;li{
+            display: inline-block;
+            height: 24px;
+            line-height:24px;
+            width: 24px;
+            font-size: 15px;
+            text-align: center;
+            background-color: rgb(226,129,129);
+            border-radius: 4px;
+            margin: 5px;
+        }
+    &lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;ul class=&quot;test&quot;&gt;
+    &lt;li&gt;1&lt;/li&gt;
+    &lt;li&gt;2&lt;/li&gt;
+    &lt;li&gt;3&lt;/li&gt;
+    &lt;li&gt;4&lt;/li&gt;
+    &lt;li&gt;5&lt;/li&gt;
+    &lt;li&gt;6&lt;/li&gt;
+    &lt;li&gt;7&lt;/li&gt;
+    &lt;li&gt;8&lt;/li&gt;
+    &lt;li&gt;9&lt;/li&gt;
+    &lt;li&gt;10&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div&gt;
+    &lt;ul class=&quot;test_one&quot;&gt;
+        &lt;li&gt;1&lt;/li&gt;
+        &lt;li&gt;2&lt;/li&gt;
+        &lt;li&gt;3&lt;/li&gt;
+        &lt;li&gt;4&lt;/li&gt;
+        &lt;li&gt;5&lt;/li&gt;
+        &lt;li&gt;6&lt;/li&gt;
+        &lt;li&gt;7&lt;/li&gt;
+        &lt;li&gt;8&lt;/li&gt;
+        &lt;li&gt;9&lt;/li&gt;
+        &lt;li&gt;10&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre>
+
+<h4 id="nth-child-n">:nth-child(n)</h4>
+
+<p><code>:nth-child(n)</code>n可以是大于0的整数</p>
+
+<pre><code>  /*:nth-child(n): 取某个父元素内第n个元素*/
+  li:nth-child(2){
+      background-color: #333333;
+      color: white;
+  }
+</code></pre>
+
+<p>表示取<code>&lt;li&gt;</code>元素父元素的第二个<code>&lt;li&gt;</code>元素</p>
+
+<p>即需要同时满足两个条件</p>
+
+<ul>
+<li>是不是第2个</li>
+<li>是不是<code>&lt;li&gt;</code>元素</li>
+</ul>
+
+<p><code>:nth-child(n)</code>还能进行相应的计算，比如<code>:nth-child(n)</code>这种相当于全选</p>
+
+<pre><code>  li:nth-child(n){
+      background-color: #333333;
+      color: white;
+  }
+</code></pre>
+
+<p><strong>注意</strong>：这里的变量只能用字母n来表示</p>
+
+<p><code>:nth-child(2n)</code>则表示选取所有的偶数项</p>
+
+<p><code>:nth-child(2n+1)</code>表示所有的奇数项</p>
+
+<p><code>:nth-child(n+5)</code>从第5个元素开始进行全选</p>
+
+<h4 id="nth-last-child-n">:nth-last-child(n)</h4>
+
+<p><code>:nth-last-child(n)</code>和<code>:nth-child(n)</code>顺序相反，是从最后一个元素开始计算</p>
+
+<h4 id="nth-of-type-n">:nth-of-type(n)</h4>
+
+<p><code>:nth-of-type(n)</code>如果使用<code>p:nth-of-type(3)</code>这样的条件时，一旦第3个元素不为<code>&lt;p&gt;</code>元素，这个选择器就不起作用，<code>p:nth-of-type(3)</code>查询的是第3个<code>&lt;p&gt;</code>元素</p>
+
+<h4 id="nth-last-of-type-n">:nth-last-of-type(n)</h4>
+
+<p>与<code>:nth-of-type(n)</code>顺序相反，从最后一个开始计算</p>
+
+<h4 id="last-child">:last-child</h4>
+
+<p>选择的是最后一个子元素，比如需要给列表最有一项设置不同的样式</p>
+
+<h4 id="first-of-type和last-of-type">:first-of-type和last-of-type</h4>
+
+<p><code>first-of-type</code>相当于<code>:nth-of-type</code>, <code>:last-of-type</code>相当于<code>:nth-last-of-type(1)</code></p>
+
+<h4 id="only-child">:only-child</h4>
+
+<p>父元素只有一个子元素那么选取这个子元素</p>
+
+<pre><code>&lt;style&gt;
+/*父元素中只有一个p元素，那么选取这个p元素*/
+	p:only-child{
+			color:red
+	}
+&lt;/style&gt;
+</code></pre>
+
+<h4 id="only-of-type">:only-of-type</h4>
+
+<p>基本同：only-child，区别在于如果不指定type而直接使用：only-of-type的话会造成body被选中，而:only-child不会出现这种情况</p>
+
+<h4 id="root">：root</h4>
+
+<p>选取文档元的根元素，不兼容IE6~8</p>
+
+<h4 id="empty">:empty</h4>
+
+<p>选择没有任何内容的元素，哪怕是一个空格也不能有</p>
+
+<h3 id="目标伪类">目标伪类</h3>
+
+<p>URL前面有锚名称#，指向文档内某个具体的元素，例如<code>&lt;a href=&quot;#id_name&quot;&gt;&lt;/a&gt;</code>那么<code>&lt;div id=&quot;id_name&quot;&gt;&lt;/div&gt;</code>这个被链接的元素就是目标元素</p>
+
+<h3 id="状态伪类">状态伪类</h3>
+
+<p>CSS3中新增状态伪类选择器，用于表示表单元素的状态，虽然使用属性选择器可以达到同样的效果，但是使用状态伪类的语义性更强，但是IE6~8不支持状态伪类选择器，所以不建议使用</p>
+
+<h4 id="enabled和-disabled">:enabled和:disabled</h4>
+
+<p>设置disabled属性表示禁用，<code>:enabled</code>选择器用于选择可用的元素，而<code>:disabled</code>则用于选择所有已被禁用的元素</p>
+
+<pre><code>/*将被禁用的input元素设置为透明*/
+input:disabled{
+	opacity:0;
+}
+</code></pre>
+
+<p>使用属性选择器也可有同样效果</p>
+
+<pre><code>inout[disabled] {
+	opacity:0
+}
+</code></pre>
+
+<h4 id="checked">:checked</h4>
+
+<dl>
+<dt>input表单中的checkbox和radio都是用checked属性表示是否选中，只要checked属性存在，使用checked=false或checked=0都会表示单选/复选框被选中</dt>
+</dl>
+
+<p>:checked选择器用于选择所有被选中的checkbox或者radio标签/</p>
+
+<pre><code>/*将被选中的输入框设置为透明*/
+input:checked{
+	opacity:0
+}
+</code></pre>
+
+<h4 id="indeterminate和-default-不建议使用">:indeterminate和:default（不建议使用）</h4>
+
+<p><code>:default</code>状态伪类选择器用来指定当前元素处于非选取状态的单选框或复选框的样式，<code>:indeterminate</code>状态伪类选择器用来指定当前页面打开时，某组中的单选框或复选框元素还没有选取状态时的样式</p>
+
+<p><strong>注意：</strong>这两个选择器只有Opera才支持</p>
+
+<h3 id="否定伪类">否定伪类</h3>
+
+<p><code>:not(selector)</code>选择器匹配非指定元素/选择器的每个元素</p>
+
+<pre><code>:not(p){
+	backgroud-color: red;
+}
+</code></pre>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/13/web02/" data-toggle="tooltip" data-placement="top" title="CSS基础复习">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/14/java02/" data-toggle="tooltip" data-placement="top" title="Java（二）- 正则">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

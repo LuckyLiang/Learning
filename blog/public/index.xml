@@ -103,10 +103,10 @@
     
     <item>
       <title>go 错误收集</title>
-      <link>https://luckyliang.github.io/2018/04/12/goerror/</link>
+      <link>https://luckyliang.github.io/2018/04/12/goerrorcollection/</link>
       <pubDate>Thu, 12 Apr 2018 19:32:00 +0000</pubDate>
       
-      <guid>https://luckyliang.github.io/2018/04/12/goerror/</guid>
+      <guid>https://luckyliang.github.io/2018/04/12/goerrorcollection/</guid>
       <description>ListenAndServe: listen tcp: address 3000: missing port in address exit status 1 学习go net/http包，代码如下 func getNews(writer http.ResponseWriter, request *http.Request) { writer.Write([]byte(&amp;quot;hello&amp;quot;)) } func main() { http.HandleFunc(&amp;quot;/getNews&amp;quot;,getNews) log.Println(&amp;quot;Listening....&amp;quot;) err := http.ListenAndServe(&amp;quot;3000&amp;quot;,nil) if err != nil { log.Fatal(&amp;quot;ListenAndServe: &amp;quot;, err) } } 执行命令 $ go run main.go</description>
     </item>
     
@@ -117,6 +117,24 @@
       
       <guid>https://luckyliang.github.io/2018/04/11/iosunderlying_ocobjectessence/</guid>
       <description>IOS底层原理总结 - 探寻oc对象的本质 面试题：一个NSObject对象占用多少内存？ 探寻OC对象的本质，我们平时编写的Objective-C</description>
+    </item>
+    
+    <item>
+      <title>go - 正则表达式</title>
+      <link>https://luckyliang.github.io/2018/03/15/goexpress/</link>
+      <pubDate>Thu, 15 Mar 2018 21:25:23 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/03/15/goexpress/</guid>
+      <description>正则的使用 golang中的正则和其他语言的用法，没有太多的差别。只是方法上稍微不同。 2.1 常用的方法以及说明 //判断在 b（s、r）中能否找到 pattern 所</description>
+    </item>
+    
+    <item>
+      <title>go - gin框架</title>
+      <link>https://luckyliang.github.io/2018/03/14/gogin/</link>
+      <pubDate>Wed, 14 Mar 2018 19:25:23 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/03/14/gogin/</guid>
+      <description>gin简介 Gin是一个golang的微框架，封装比较优雅，API友好，源码注释比较明确，已经发布了1.0版本。具有快速灵活，容错方便等特点。</description>
     </item>
     
     <item>
@@ -219,6 +237,87 @@
     </item>
     
     <item>
+      <title>Java（四）- I/O操作</title>
+      <link>https://luckyliang.github.io/2017/01/16/java02/</link>
+      <pubDate>Mon, 16 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/16/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java（三）- Exceptions</title>
+      <link>https://luckyliang.github.io/2017/01/15/java02/</link>
+      <pubDate>Sun, 15 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/15/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MacOS安装SASS</title>
+      <link>https://luckyliang.github.io/2017/01/15/web05/</link>
+      <pubDate>Sun, 15 Jan 2017 19:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/15/web05/</guid>
+      <description>Homebrew安装 （推荐） brew install sass/sass/sass NPM安装 npm install -g sass 注：国内 npm 建议使用淘宝镜像来安装，参考：NPM 国内慢的问题解决 ruby 安装 这个方法比较麻烦不推</description>
+    </item>
+    
+    <item>
+      <title>CSS布局</title>
+      <link>https://luckyliang.github.io/2017/01/14/web04/</link>
+      <pubDate>Sat, 14 Jan 2017 21:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/web04/</guid>
+      <description>使用float属性或position属性布局 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt; &amp;lt;title&amp;gt;float或postion布局&amp;lt;/title&amp;gt</description>
+    </item>
+    
+    <item>
+      <title>Java（二）- 正则</title>
+      <link>https://luckyliang.github.io/2017/01/14/java02/</link>
+      <pubDate>Sat, 14 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CSS选择器</title>
+      <link>https://luckyliang.github.io/2017/01/14/web03/</link>
+      <pubDate>Sat, 14 Jan 2017 12:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/web03/</guid>
+      <description>基础选择器 标签选择器 命名只要和对应的html标签相同即可 h1{ font-size: 30px; color: #333333; } 在开发中标签选择器一般用于定义全局样式 类选择器 也称class选择器，在c</description>
+    </item>
+    
+    <item>
+      <title>CSS基础复习</title>
+      <link>https://luckyliang.github.io/2017/01/13/web02/</link>
+      <pubDate>Fri, 13 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/13/web02/</guid>
+      <description>盒子 模型 一个块级元素，包括内容、外边距（margin）、边框（border）、内边距（padding）4个组成部分，在不设定的情况下内外边距</description>
+    </item>
+    
+    <item>
+      <title>Java（一）- String</title>
+      <link>https://luckyliang.github.io/2017/01/03/java01/</link>
+      <pubDate>Fri, 13 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/03/java01/</guid>
+      <description>String类 字符串创建 在java中string是字符序列对象，可以通过两种方式创建 通过字面创建 String s = &amp;quot;welcome&amp;quot; 通过new关键字 String s = new String(&amp;quot;Welcome&amp;quot;) char ch[] = {&#39;s&#39;,&#39;t&#39;,&#39;r&#39;,&#39;i&#39;,&#39;n&#39;,&#39;g&#39;} String</description>
+    </item>
+    
+    <item>
+      <title>web学习笔记（一）- html5的结构</title>
+      <link>https://luckyliang.github.io/2017/01/12/web01/</link>
+      <pubDate>Thu, 12 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/12/web01/</guid>
+      <description>新增的主体结构元素 article`元素 article元素代表文档、页面或应用程序中独立完整的、可以独自被外部引用的内容 一个article元素</description>
+    </item>
+    
+    <item>
       <title></title>
       <link>https://luckyliang.github.io/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -229,6 +328,15 @@
 protocol Sequence { associatedtype Iterator: IteratorProtocol func makeIterator() -&amp;gt; Iterator // ... }  迭代器 序列通过创建一个迭代器来提供对元素的访问。 迭代器每次产生一个序列的值，并且当遍历序 列时对遍历状态进行管理。在 IteratorProtocol 协议中唯一的一个方法是 next()，这个方法需 要在每次被调用时返回序列中的下一个值。当序列被耗尽时，next() 应该返回 nil:
 protocol IteratorProtocol { associatedtype Element mutating func next() -&amp;gt; Element? }  for 循环其实是下面这段代码 的一种简写形式:
 var iterator = someSequence.makeIterator() while let element = iterator.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://luckyliang.github.io/post/web/06-sass%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/post/web/06-sass%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</guid>
+      <description></description>
     </item>
     
     <item>

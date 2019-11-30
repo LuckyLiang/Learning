@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web on Cheng Blog</title>
+    <link>https://luckyliang.github.io/categories/web/</link>
+    <description>Recent content in web on Cheng Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 15 Jan 2017 19:30:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://luckyliang.github.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MacOS安装SASS</title>
+      <link>https://luckyliang.github.io/2017/01/15/web05/</link>
+      <pubDate>Sun, 15 Jan 2017 19:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/15/web05/</guid>
+      <description>Homebrew安装 （推荐） brew install sass/sass/sass NPM安装 npm install -g sass 注：国内 npm 建议使用淘宝镜像来安装，参考：NPM 国内慢的问题解决 ruby 安装 这个方法比较麻烦不推</description>
+    </item>
+    
+    <item>
+      <title>CSS布局</title>
+      <link>https://luckyliang.github.io/2017/01/14/web04/</link>
+      <pubDate>Sat, 14 Jan 2017 21:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/web04/</guid>
+      <description>使用float属性或position属性布局 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt; &amp;lt;title&amp;gt;float或postion布局&amp;lt;/title&amp;gt</description>
+    </item>
+    
+    <item>
+      <title>CSS选择器</title>
+      <link>https://luckyliang.github.io/2017/01/14/web03/</link>
+      <pubDate>Sat, 14 Jan 2017 12:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/web03/</guid>
+      <description>基础选择器 标签选择器 命名只要和对应的html标签相同即可 h1{ font-size: 30px; color: #333333; } 在开发中标签选择器一般用于定义全局样式 类选择器 也称class选择器，在c</description>
+    </item>
+    
+    <item>
+      <title>CSS基础复习</title>
+      <link>https://luckyliang.github.io/2017/01/13/web02/</link>
+      <pubDate>Fri, 13 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/13/web02/</guid>
+      <description>盒子 模型 一个块级元素，包括内容、外边距（margin）、边框（border）、内边距（padding）4个组成部分，在不设定的情况下内外边距</description>
+    </item>
+    
+    <item>
+      <title>web学习笔记（一）- html5的结构</title>
+      <link>https://luckyliang.github.io/2017/01/12/web01/</link>
+      <pubDate>Thu, 12 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/12/web01/</guid>
+      <description>新增的主体结构元素 article`元素 article元素代表文档、页面或应用程序中独立完整的、可以独自被外部引用的内容 一个article元素</description>
+    </item>
+    
+  </channel>
+</rss>

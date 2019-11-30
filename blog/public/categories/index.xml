@@ -38,5 +38,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>java</title>
+      <link>https://luckyliang.github.io/categories/java/</link>
+      <pubDate>Mon, 16 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web</title>
+      <link>https://luckyliang.github.io/categories/web/</link>
+      <pubDate>Sun, 15 Jan 2017 19:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/categories/web/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on Cheng Blog</title>
+    <link>https://luckyliang.github.io/tags/java/</link>
+    <description>Recent content in java on Cheng Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 16 Jan 2017 19:32:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://luckyliang.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java（四）- I/O操作</title>
+      <link>https://luckyliang.github.io/2017/01/16/java02/</link>
+      <pubDate>Mon, 16 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/16/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java（三）- Exceptions</title>
+      <link>https://luckyliang.github.io/2017/01/15/java02/</link>
+      <pubDate>Sun, 15 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/15/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java（二）- 正则</title>
+      <link>https://luckyliang.github.io/2017/01/14/java02/</link>
+      <pubDate>Sat, 14 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java（一）- String</title>
+      <link>https://luckyliang.github.io/2017/01/03/java01/</link>
+      <pubDate>Fri, 13 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/03/java01/</guid>
+      <description>String类 字符串创建 在java中string是字符序列对象，可以通过两种方式创建 通过字面创建 String s = &amp;quot;welcome&amp;quot; 通过new关键字 String s = new String(&amp;quot;Welcome&amp;quot;) char ch[] = {&#39;s&#39;,&#39;t&#39;,&#39;r&#39;,&#39;i&#39;,&#39;n&#39;,&#39;g&#39;} String</description>
+    </item>
+    
+  </channel>
+</rss>
