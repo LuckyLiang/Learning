@@ -4,14 +4,14 @@ title:      "Siwft 小技巧记录"
 subtitle:   ""
 description: "记录在Swift开发中常用的小技巧，方便忘记的时候查阅"
 excerpt: ""
-date:       2018-04-18 19:22:00
+date:       2018-04-13 19:22:00
 author:     "Cheng"
 image: "https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg"
 published: true
 tags:
     - IOS
     - Swift
-URL: "/2018/04/18/swiftTipsRecord/"
+URL: "/2018/04/13/swiftTipsRecord/"
 categories: [ IOS ]
 
 ---

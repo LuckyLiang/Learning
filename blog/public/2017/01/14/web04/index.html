@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="CSS布局" />
+    <meta property="og:title" content="CSS布局" />
+    <meta property="twitter:title" content="CSS布局" />
+    
+
+    
+    <meta name="description" content="CSS布局方式：网格布局、盒布局、flex布局">
+    <meta property="og:description" content="CSS布局方式：网格布局、盒布局、flex布局" />
+    <meta property="twitter:description" content="CSS布局方式：网格布局、盒布局、flex布局" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>CSS布局-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2017/01/14/web04/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                    </div>
+                    <h1>CSS布局</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Saturday, January 14, 2017
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#使用float属性或position属性布局">使用float属性或position属性布局</a></li>
+<li><a href="#多栏布局">多栏布局</a>
+<ul>
+<li><a href="#column-count设定多栏显示">column-count设定多栏显示</a></li>
+<li><a href="#column-width-单独设置每一栏的宽度">column-width 单独设置每一栏的宽度</a></li>
+<li><a href="#column-rule属性">column-rule属性</a></li>
+</ul></li>
+<li><a href="#盒布局">盒布局</a>
+<ul>
+<li><a href="#使用盒布局">使用盒布局</a></li>
+</ul></li>
+<li><a href="#css-grid-网格布局教程">CSS Grid 网格布局教程</a></li>
+<li><a href="#flex-布局">Flex 布局</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="使用float属性或position属性布局">使用float属性或position属性布局</h2>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;float或postion布局&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        div{
+            width: 20em;
+            float: left;
+        }
+        div#div1{
+            margin-right: 2em;
+
+        }
+        div#div3 {
+            width: 100%;
+            background-color: yellow;
+            height: 200px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;div1&quot;&gt;
+    &lt;p&gt;示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&quot;div2&quot;&gt;
+    &lt;p&gt;示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&quot;div3&quot;&gt;页面中其他内容&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>运行效果如下：</p>
+
+<p><img src="/img/web/css_float.png" alt="css_float" /></p>
+
+<p>使用flaot属性或position属性进行布局的一个比较明显的缺点：</p>
+
+<p>第一个div元素与第二个div元素各自独立，其中一个内容多点就会导致底部对齐不了</p>
+
+<h2 id="多栏布局">多栏布局</h2>
+
+<h3 id="column-count设定多栏显示">column-count设定多栏显示</h3>
+
+<p>使用多栏布局可以将一个元素中的内容分为两栏或多栏显示，并且确保各栏中的内容底部对齐</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;多栏布局&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        div#div1{
+            width: 40em;
+            column-count: 2;
+            -moz-column-count: 2;
+            -webkit-column-count: 2;
+        }
+        div#div3{
+            width: 100%;
+            background-color: yellow;
+            height: 200px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;div1&quot;&gt;
+    &lt;p&gt;示例文字11.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长&lt;/p&gt;
+    &lt;p&gt;示例文字2.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长，示例文字1.文字内容比较长&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;div id=&quot;div3&quot;&gt;页面中其他内容&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>通过<code>column-count</code>属性来使用多栏布局方式，该属性的含义是将一个元素中的内容分为多个栏进行显示</p>
+
+<p>使用多栏布局时，需要将元素的宽度<strong>设置成多个栏目的总宽度</strong></p>
+
+<h3 id="column-width-单独设置每一栏的宽度">column-width 单独设置每一栏的宽度</h3>
+
+<p>也可以使用<code>column-width</code>属性单独设置每一栏的宽度而不设定元素的宽度</p>
+
+<pre><code>  div#div1{
+      column-count: 2;
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-width: 20em;
+      -moz-column-width: 20em;
+      -webkit-column-width: 20em;
+  }
+</code></pre>
+
+<p>使用<code>column-width</code>属性指定每栏宽度而不设定元素的宽度，则需要在元素外面单独设立一个容器元素，然后指定该容器元素的宽度</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;多栏布局&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        div#container{
+            width: 42em;
+        }
+        div#div1{
+            column-count: 2;
+            -moz-column-count: 2;
+            -webkit-column-count: 2;
+            column-width: 20em;
+            -moz-column-width: 20em;
+            -webkit-column-width: 20em;
+        }
+        div#div3{
+            width: 100%;
+            background-color: yellow;
+            height: 200px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;container&quot;&gt;
+    &lt;div id=&quot;div1&quot;&gt;
+        &lt;p&gt;示例文字1.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长示例文字.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长，较长，示例文字.文字内容比较长，示例文字.文字内容比较长较长，示例文字.文字内容比较长，示例文字.文字内容比较长较长，示例文字.文字内容比较长，示例文字.文字内容比较长示例文.文字内容比较长&lt;/p&gt;
+        &lt;p&gt;示例文字2.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长，示例文字.文字内容比较长&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div3&quot;&gt;页面中其他内容&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>column-gap属性设定多栏之间的间隔距离</p>
+
+<pre><code> div#div1{
+      column-count: 2;
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-width: 20em;
+      -moz-column-width: 20em;
+      -webkit-column-width: 20em;
+      column-gap: 3em;
+      -moz-column-gap: 3em;
+      -webkit-column-gap: 3em;
+  }
+</code></pre>
+
+<h3 id="column-rule属性">column-rule属性</h3>
+
+<p>在栏栏之间增加一条间隔线，并且可设定该间隔线的宽度、颜色等</p>
+
+<h2 id="盒布局">盒布局</h2>
+
+<p>先使用float属性布局三个div元素，展示网页中左侧栏、中间内容和右侧边栏</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;使用float属性进行布局&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        #left-sidebar{
+            float: left;
+            width: 200px;
+            padding: 20px;
+            background-color: orange;
+        }
+        #contents{
+            float: left;
+            width: 300px;
+            padding: 20px;
+            background-color: yellow;
+        }
+        #right-sidebar{
+            float: left;
+            width: 300px;
+            padding: 20px;
+            background-color: limegreen;
+        }
+        #left-sidebar,#contents,#right-sidebar{
+            box-sizing: border-box;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;container&quot;&gt;
+    &lt;div id=&quot;left-sidebar&quot;&gt;
+        &lt;h2&gt;左侧边栏&lt;/h2&gt;
+        &lt;ul&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;contents&quot;&gt;
+        &lt;h2&gt;内容&lt;/h2&gt;
+        &lt;p&gt;示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字示例文字&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;right-sidebar&quot;&gt;
+        &lt;h2&gt;右侧边栏&lt;/h2&gt;
+        &lt;ul&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+            &lt;li&gt;超链接&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>效果如下</p>
+
+<p><img src="/Users/admin/Desktop/leo/other/blog/Learning/blog/static/img/web/css_floatbox.png" alt="css_floatbox" /></p>
+
+<p>使用float属性或position属性时，左右两栏或多栏中div元素底部并没有对齐</p>
+
+<h3 id="使用盒布局">使用盒布局</h3>
+
+<p>使用盒布局可以很容易解决这个问题</p>
+
+<p>修改代码如下</p>
+
+<pre><code>&lt;style type=&quot;text/css&quot;&gt;
+        #container{
+            display: -moz-box;
+            display: -webkit-box;
+        }
+        #left-sidebar{
+            width: 200px;
+            padding: 20px;
+            background-color: orange;
+        }
+        #contents{
+            width: 300px;
+            padding: 20px;
+            background-color: yellow;
+        }
+        #right-sidebar{
+            width: 300px;
+            padding: 20px;
+            background-color: limegreen;
+        }
+        #left-sidebar,#contents,#right-sidebar{
+            box-sizing: border-box;
+        }
+    &lt;/style&gt;
+</code></pre>
+
+<p>盒布局与多栏布局区别</p>
+
+<ul>
+<li>使用多栏布局时各栏宽度必须相等，在指定每栏宽度时，也只能为所有栏指定一个统一宽度，栏与栏之间的宽度不可能是一样的</li>
+<li>使用多栏布局也不可能具体指定什么栏中显示什么内容，因此比较适合使用在显示文章内容的时候，不适合用于安排整个网页中由各元素组成的网页结构的时候</li>
+</ul>
+
+<h2 id="css-grid-网格布局教程">CSS Grid 网格布局教程</h2>
+
+<p><a href="https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html">Grid 网格布局教程</a></p>
+
+<h2 id="flex-布局">Flex 布局</h2>
+
+<p><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex 布局教程：语法篇</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2015/07/flex-examples.html">Flex 布局教程：实例篇</a></p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/14/java02/" data-toggle="tooltip" data-placement="top" title="Java（二）- 正则">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/15/web05/" data-toggle="tooltip" data-placement="top" title="MacOS安装SASS">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

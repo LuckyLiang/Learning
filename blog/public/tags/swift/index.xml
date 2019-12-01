@@ -21,15 +21,6 @@
     </item>
     
     <item>
-      <title>Swift - PromisKit使用和原理解析</title>
-      <link>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</link>
-      <pubDate>Sat, 21 Apr 2018 16:30:00 +0000</pubDate>
-      
-      <guid>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Moya - 源码解析</title>
       <link>https://luckyliang.github.io/2018/04/20/swifturlmoyadetail/</link>
       <pubDate>Fri, 20 Apr 2018 20:31:08 +0000</pubDate>
@@ -39,12 +30,12 @@
     </item>
     
     <item>
-      <title>Swift网络请求 - Moya</title>
+      <title>Swift网络请求 - RXSwift &#43; PromiseKit &#43; Moya</title>
       <link>https://luckyliang.github.io/2018/04/20/swifturlmoya/</link>
       <pubDate>Fri, 20 Apr 2018 16:30:00 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/2018/04/20/swifturlmoya/</guid>
-      <description></description>
+      <description>Moya是基于Alamofire网络框架上进行的封装，支持RXSwift 创建模型 import Foundation /// 实用泛行实现通用格式 public struct ResponseData&amp;lt;T&amp;gt;: Codable where T: Codable { let code: String let message: String let data: T?</description>
     </item>
     
     <item>
@@ -62,7 +53,7 @@
       <pubDate>Wed, 18 Apr 2018 20:30:00 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/2018/04/18/swifturlalamofire/</guid>
-      <description></description>
+      <description>一个简单的get请求接口为例，搭建一个比较完整的网络框架，其中包括Session管理，路由和错误处理 这里以获取用户文章列表接口为例 创建模型 ///</description>
     </item>
     
     <item>
@@ -75,11 +66,20 @@
     </item>
     
     <item>
-      <title>Siwft 小技巧记录</title>
-      <link>https://luckyliang.github.io/2018/04/18/swifttipsrecord/</link>
-      <pubDate>Wed, 18 Apr 2018 19:22:00 +0000</pubDate>
+      <title>Swift - PromisKit使用</title>
+      <link>https://luckyliang.github.io/2018/04/17/swiftpromiskit/</link>
+      <pubDate>Tue, 17 Apr 2018 20:31:08 +0000</pubDate>
       
-      <guid>https://luckyliang.github.io/2018/04/18/swifttipsrecord/</guid>
+      <guid>https://luckyliang.github.io/2018/04/17/swiftpromiskit/</guid>
+      <description>promistKit主要是解决异步回调地狱的问题，举个例子，比如需要下载一个图片文件，而且这个图片文件的下载链接也需要请求，也就是先请求一个</description>
+    </item>
+    
+    <item>
+      <title>Siwft 小技巧记录</title>
+      <link>https://luckyliang.github.io/2018/04/13/swifttipsrecord/</link>
+      <pubDate>Fri, 13 Apr 2018 19:22:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/13/swifttipsrecord/</guid>
       <description>Swift 记录 通过字符串初始化类 比如有个类名为URLSessionViewController，在Swift中通过字符串来初始化 ///规则：项目名.</description>
     </item>
     

@@ -39,15 +39,6 @@
     </item>
     
     <item>
-      <title>Swift - PromisKit使用和原理解析</title>
-      <link>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</link>
-      <pubDate>Sat, 21 Apr 2018 16:30:00 +0000</pubDate>
-      
-      <guid>https://luckyliang.github.io/2018/04/21/swiftpromiskit/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Moya - 源码解析</title>
       <link>https://luckyliang.github.io/2018/04/20/swifturlmoyadetail/</link>
       <pubDate>Fri, 20 Apr 2018 20:31:08 +0000</pubDate>
@@ -57,12 +48,12 @@
     </item>
     
     <item>
-      <title>Swift网络请求 - Moya</title>
+      <title>Swift网络请求 - RXSwift &#43; PromiseKit &#43; Moya</title>
       <link>https://luckyliang.github.io/2018/04/20/swifturlmoya/</link>
       <pubDate>Fri, 20 Apr 2018 16:30:00 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/2018/04/20/swifturlmoya/</guid>
-      <description></description>
+      <description>Moya是基于Alamofire网络框架上进行的封装，支持RXSwift 创建模型 import Foundation /// 实用泛行实现通用格式 public struct ResponseData&amp;lt;T&amp;gt;: Codable where T: Codable { let code: String let message: String let data: T?</description>
     </item>
     
     <item>
@@ -80,7 +71,7 @@
       <pubDate>Wed, 18 Apr 2018 20:30:00 +0000</pubDate>
       
       <guid>https://luckyliang.github.io/2018/04/18/swifturlalamofire/</guid>
-      <description></description>
+      <description>一个简单的get请求接口为例，搭建一个比较完整的网络框架，其中包括Session管理，路由和错误处理 这里以获取用户文章列表接口为例 创建模型 ///</description>
     </item>
     
     <item>
@@ -93,20 +84,29 @@
     </item>
     
     <item>
-      <title>Siwft 小技巧记录</title>
-      <link>https://luckyliang.github.io/2018/04/18/swifttipsrecord/</link>
-      <pubDate>Wed, 18 Apr 2018 19:22:00 +0000</pubDate>
+      <title>Swift - PromisKit使用</title>
+      <link>https://luckyliang.github.io/2018/04/17/swiftpromiskit/</link>
+      <pubDate>Tue, 17 Apr 2018 20:31:08 +0000</pubDate>
       
-      <guid>https://luckyliang.github.io/2018/04/18/swifttipsrecord/</guid>
+      <guid>https://luckyliang.github.io/2018/04/17/swiftpromiskit/</guid>
+      <description>promistKit主要是解决异步回调地狱的问题，举个例子，比如需要下载一个图片文件，而且这个图片文件的下载链接也需要请求，也就是先请求一个</description>
+    </item>
+    
+    <item>
+      <title>Siwft 小技巧记录</title>
+      <link>https://luckyliang.github.io/2018/04/13/swifttipsrecord/</link>
+      <pubDate>Fri, 13 Apr 2018 19:22:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/04/13/swifttipsrecord/</guid>
       <description>Swift 记录 通过字符串初始化类 比如有个类名为URLSessionViewController，在Swift中通过字符串来初始化 ///规则：项目名.</description>
     </item>
     
     <item>
       <title>go 错误收集</title>
-      <link>https://luckyliang.github.io/2018/04/12/goerror/</link>
+      <link>https://luckyliang.github.io/2018/04/12/goerrorcollection/</link>
       <pubDate>Thu, 12 Apr 2018 19:32:00 +0000</pubDate>
       
-      <guid>https://luckyliang.github.io/2018/04/12/goerror/</guid>
+      <guid>https://luckyliang.github.io/2018/04/12/goerrorcollection/</guid>
       <description>ListenAndServe: listen tcp: address 3000: missing port in address exit status 1 学习go net/http包，代码如下 func getNews(writer http.ResponseWriter, request *http.Request) { writer.Write([]byte(&amp;quot;hello&amp;quot;)) } func main() { http.HandleFunc(&amp;quot;/getNews&amp;quot;,getNews) log.Println(&amp;quot;Listening....&amp;quot;) err := http.ListenAndServe(&amp;quot;3000&amp;quot;,nil) if err != nil { log.Fatal(&amp;quot;ListenAndServe: &amp;quot;, err) } } 执行命令 $ go run main.go</description>
     </item>
     
@@ -117,6 +117,24 @@
       
       <guid>https://luckyliang.github.io/2018/04/11/iosunderlying_ocobjectessence/</guid>
       <description>IOS底层原理总结 - 探寻oc对象的本质 面试题：一个NSObject对象占用多少内存？ 探寻OC对象的本质，我们平时编写的Objective-C</description>
+    </item>
+    
+    <item>
+      <title>go - 正则表达式</title>
+      <link>https://luckyliang.github.io/2018/03/15/goexpress/</link>
+      <pubDate>Thu, 15 Mar 2018 21:25:23 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/03/15/goexpress/</guid>
+      <description>正则的使用 golang中的正则和其他语言的用法，没有太多的差别。只是方法上稍微不同。 2.1 常用的方法以及说明 //判断在 b（s、r）中能否找到 pattern 所</description>
+    </item>
+    
+    <item>
+      <title>go - gin框架</title>
+      <link>https://luckyliang.github.io/2018/03/14/gogin/</link>
+      <pubDate>Wed, 14 Mar 2018 19:25:23 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/03/14/gogin/</guid>
+      <description>gin简介 Gin是一个golang的微框架，封装比较优雅，API友好，源码注释比较明确，已经发布了1.0版本。具有快速灵活，容错方便等特点。</description>
     </item>
     
     <item>
@@ -153,6 +171,150 @@
       
       <guid>https://luckyliang.github.io/2018/02/11/nasminstall/</guid>
       <description>一. 安装NASM NASM网站： https://www.nasm.us/ 点击Downloads 到下载页面，下载最新安装包 点击展开包，点击x x x.tar.gz包 下载 双击下载的包解压，</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（七） - 错误处理</title>
+      <link>https://luckyliang.github.io/2018/02/09/goerror/</link>
+      <pubDate>Fri, 09 Feb 2018 19:35:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/09/goerror/</guid>
+      <description>错误指出程序中的异常情况。假设我们正在尝试打开一个文件，文件系统中不存在这个文件。这是一个异常情况，它表示为一个错误。 Go中的错误也是一种类</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（六） - 接口</title>
+      <link>https://luckyliang.github.io/2018/02/08/gointerface/</link>
+      <pubDate>Thu, 08 Feb 2018 22:45:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/08/gointerface/</guid>
+      <description>在Go中，接口是一组方法签名。当类型为接口中的所有方法提供定义时，它被称为实现接口。 接口的定义语法 定义接口 /* 定义接口 */ type interface_name interface { method_name1 [return_type] method_name2 [return_type] method_name3 [return_type] ...</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（五） - 方法</title>
+      <link>https://luckyliang.github.io/2018/02/08/gomethod/</link>
+      <pubDate>Thu, 08 Feb 2018 18:42:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/08/gomethod/</guid>
+      <description>方法声明 package geometry import &amp;quot;math&amp;quot; type Point struct{ X, Y float64 } // traditional function func Distance(p, q Point) float64 { return math.Hypot(q.X-p.X, q.Y-p.Y) } // same thing, but as a method of the Point type func (p Point) Distance(q Point) float64 { return math.Hypot(q.X-p.X, q.Y-p.Y) } 在方法调用过程中，接收器参数一般会在方法</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（四） - 函数</title>
+      <link>https://luckyliang.github.io/2018/02/07/gofunc/</link>
+      <pubDate>Wed, 07 Feb 2018 23:12:34 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/07/gofunc/</guid>
+      <description>函数 函数声明 函数声明包括函数名、形式参数列表、返回值列表（可省略）以及函数体。 func name(parameter-list) (result-list) { body } 返回值列表描述了函数返回值的变量名以及类型，如果一</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（三） - 复合类型</title>
+      <link>https://luckyliang.github.io/2018/02/06/gocomplextype/</link>
+      <pubDate>Tue, 06 Feb 2018 20:39:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/06/gocomplextype/</guid>
+      <description>复合数据类型 数组 数组是一个由固定长度的特定类型元素组成的序列，因为数组的长度是固定的，因此在Go语言中很少直接使用数组 数组的每个元素可以通过</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（二） - 基础数据类型</title>
+      <link>https://luckyliang.github.io/2018/02/05/gobasetype/</link>
+      <pubDate>Mon, 05 Feb 2018 21:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/05/gobasetype/</guid>
+      <description>基础数据类型 Go语言将数据类型分为四类：基础类型、复合类型、引用类型和接口类型。 基础类型：数字、字符串和布尔型等 复合数据类型：数组和结构体，</description>
+    </item>
+    
+    <item>
+      <title>Go 学习笔记（一） - 程序结构</title>
+      <link>https://luckyliang.github.io/2018/02/05/gostructure/</link>
+      <pubDate>Mon, 05 Feb 2018 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/05/gostructure/</guid>
+      <description>程序结构 命名 Go语言中的函数名、变量名、常量名、类型名、语句标号和包名等所有的命名，都遵循一个简单的命名规则：一个名字必须以一个字母（Uni</description>
+    </item>
+    
+    <item>
+      <title>Java（四）- I/O操作</title>
+      <link>https://luckyliang.github.io/2017/01/16/java02/</link>
+      <pubDate>Mon, 16 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/16/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java（三）- Exceptions</title>
+      <link>https://luckyliang.github.io/2017/01/15/java02/</link>
+      <pubDate>Sun, 15 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/15/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MacOS安装SASS</title>
+      <link>https://luckyliang.github.io/2017/01/15/web05/</link>
+      <pubDate>Sun, 15 Jan 2017 19:30:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/15/web05/</guid>
+      <description>Homebrew安装 （推荐） brew install sass/sass/sass NPM安装 npm install -g sass 注：国内 npm 建议使用淘宝镜像来安装，参考：NPM 国内慢的问题解决 ruby 安装 这个方法比较麻烦不推</description>
+    </item>
+    
+    <item>
+      <title>CSS布局</title>
+      <link>https://luckyliang.github.io/2017/01/14/web04/</link>
+      <pubDate>Sat, 14 Jan 2017 21:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/web04/</guid>
+      <description>使用float属性或position属性布局 &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt; &amp;lt;title&amp;gt;float或postion布局&amp;lt;/title&amp;gt</description>
+    </item>
+    
+    <item>
+      <title>Java（二）- 正则</title>
+      <link>https://luckyliang.github.io/2017/01/14/java02/</link>
+      <pubDate>Sat, 14 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/java02/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CSS选择器</title>
+      <link>https://luckyliang.github.io/2017/01/14/web03/</link>
+      <pubDate>Sat, 14 Jan 2017 12:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/14/web03/</guid>
+      <description>基础选择器 标签选择器 命名只要和对应的html标签相同即可 h1{ font-size: 30px; color: #333333; } 在开发中标签选择器一般用于定义全局样式 类选择器 也称class选择器，在c</description>
+    </item>
+    
+    <item>
+      <title>CSS基础复习</title>
+      <link>https://luckyliang.github.io/2017/01/13/web02/</link>
+      <pubDate>Fri, 13 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/13/web02/</guid>
+      <description>盒子 模型 一个块级元素，包括内容、外边距（margin）、边框（border）、内边距（padding）4个组成部分，在不设定的情况下内外边距</description>
+    </item>
+    
+    <item>
+      <title>Java（一）- String</title>
+      <link>https://luckyliang.github.io/2017/01/03/java01/</link>
+      <pubDate>Fri, 13 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/03/java01/</guid>
+      <description>String类 字符串创建 在java中string是字符序列对象，可以通过两种方式创建 通过字面创建 String s = &amp;quot;welcome&amp;quot; 通过new关键字 String s = new String(&amp;quot;Welcome&amp;quot;) char ch[] = {&#39;s&#39;,&#39;t&#39;,&#39;r&#39;,&#39;i&#39;,&#39;n&#39;,&#39;g&#39;} String</description>
+    </item>
+    
+    <item>
+      <title>web学习笔记（一）- html5的结构</title>
+      <link>https://luckyliang.github.io/2017/01/12/web01/</link>
+      <pubDate>Thu, 12 Jan 2017 19:32:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2017/01/12/web01/</guid>
+      <description>新增的主体结构元素 article`元素 article元素代表文档、页面或应用程序中独立完整的、可以独自被外部引用的内容 一个article元素</description>
     </item>
     
     <item>

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="web学习笔记（一）- html5的结构" />
+    <meta property="og:title" content="web学习笔记（一）- html5的结构" />
+    <meta property="twitter:title" content="web学习笔记（一）- html5的结构" />
+    
+
+    
+    <meta name="description" content="读html5与css权威指南 - html5的结构">
+    <meta property="og:description" content="读html5与css权威指南 - html5的结构" />
+    <meta property="twitter:description" content="读html5与css权威指南 - html5的结构" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>web学习笔记（一）- html5的结构-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2017/01/12/web01/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                    </div>
+                    <h1>web学习笔记（一）- html5的结构</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Thursday, January 12, 2017
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#新增的主体结构元素">新增的主体结构元素</a>
+<ul>
+<li><a href="#article-元素">article`元素</a></li>
+<li><a href="#section-元素"><code>section</code>元素</a>
+<ul>
+<li><a href="#作用"><strong>作用</strong>：</a></li>
+<li><a href="#使用注意"><strong>使用注意：</strong></a></li>
+</ul></li>
+<li><a href="#nav-元素"><code>nav</code>元素</a>
+<ul>
+<li><a href="#使用场合">使用场合</a></li>
+<li><a href="#注意">注意：</a></li>
+</ul></li>
+<li><a href="#aside-元素"><code>aside</code>元素</a>
+<ul>
+<li><a href="#使用方法">使用方法</a></li>
+</ul></li>
+<li><a href="#time元素与微格式">time元素与微格式</a></li>
+<li><a href="#pubdate-属性"><code>pubdate</code>属性</a></li>
+</ul></li>
+<li><a href="#新增非主体结构元素">新增非主体结构元素</a>
+<ul>
+<li><a href="#header-元素"><code>header</code>元素</a></li>
+<li><a href="#footer-元素"><code>footer</code>元素</a></li>
+<li><a href="#address-元素"><code>address</code>元素</a></li>
+<li><a href="#main-元素"><code>main</code>元素</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="新增的主体结构元素">新增的主体结构元素</h2>
+
+<h3 id="article-元素">article`元素</h3>
+
+<blockquote>
+<p><code>article</code>元素代表文档、页面或应用程序中独立完整的、可以独自被外部引用的内容</p>
+</blockquote>
+
+<p>一个article元素通常有它自己的标题（一般放在一个header元素里面），有时还有自己的脚注</p>
+
+<p>例如：讲述苹果的博客</p>
+
+<pre><code>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1&gt;苹果 &lt;/h1&gt;
+        &lt;p&gt;发表日期：&lt;time pubdate=&quot;pubdate&quot;&gt;2010/10/09&lt;/time&gt;&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;&lt;b&gt;苹果&lt;/b&gt;植物类水果，多次花果...(&quot;苹果&quot;文章正文)&lt;/p&gt;
+    &lt;footer&gt;
+        &lt;p&gt;&lt;small&gt;著作全归****所有&lt;/small&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/article&gt;
+</code></pre>
+
+<p><code>article</code>元素是可以嵌套使用的，内层的内容在原则上需要与外层内容相关联</p>
+
+<p>例如：博客文章中，针对该文章的评论就可以使用嵌套article元素的方式</p>
+
+<pre><code>&lt;article&gt;
+    &lt;!--文章区 --&gt;
+    &lt;header&gt;
+        &lt;h1&gt;苹果 &lt;/h1&gt;
+        &lt;p&gt;发表日期：&lt;time pubdate=&quot;pubdate&quot;&gt;2010/10/09&lt;/time&gt;&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;&lt;b&gt;苹果&lt;/b&gt;植物类水果，多次花果...(&quot;苹果&quot;文章正文)&lt;/p&gt;
+    &lt;footer&gt;
+        &lt;p&gt;&lt;small&gt;著作全归****所有&lt;/small&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+
+    &lt;!-- 评论区 ，使用section把正文与评论部分区分开来   --&gt;
+    &lt;section&gt;
+        &lt;h2&gt;评论&lt;/h2&gt;
+        
+&lt;!--        每个人的评论都是相对独立的，所以每个评论都用article包起来--&gt;
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h3&gt;发表着：xxx1&lt;/h3&gt;
+                &lt;p&gt;
+                    &lt;time pubdate datetime=&quot;2010-10-10T19:10-01&quot;&gt;1小时前&lt;/time&gt;
+                &lt;/p&gt;
+            &lt;/header&gt;
+            &lt;p&gt;我喜欢苹果，我最喜爱的品种是红富士。&lt;/p&gt;
+        &lt;/article&gt;
+        
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h3&gt;发表着：xxx2&lt;/h3&gt;
+                &lt;p&gt;
+                    &lt;time pubdate datetime=&quot;2010-10-10T19:10-01&quot;&gt;1小时前&lt;/time&gt;
+                &lt;/p&gt;
+            &lt;/header&gt;
+            &lt;p&gt;我喜欢苹果，我最喜爱的品种是红富士。&lt;/p&gt;
+        &lt;/article&gt;
+    &lt;/section&gt;
+
+&lt;/article&gt;
+</code></pre>
+
+<h3 id="section-元素"><code>section</code>元素</h3>
+
+<blockquote>
+<p>section元素用来对网站或应用程序中页面上的内容进行分块，一个section元素通常由<strong>内容</strong>及其<strong>标题</strong>组成。</p>
+</blockquote>
+
+<h4 id="作用"><strong>作用</strong>：</h4>
+
+<p>对页面上的内容进行分块，或者说对文章进行分段</p>
+
+<h4 id="使用注意"><strong>使用注意：</strong></h4>
+
+<ul>
+<li>不要将<code>section</code>元素用作设置样式的页面容器，因为那是<code>div</code>元素的工作</li>
+<li>如果<code>article</code>元素、<code>aside</code>元素或<code>nav</code>元素更符合状态，不要使用<code>section</code></li>
+
+<li><p>不要为没有标题的内容区块使用<code>section</code>元素</p>
+
+<pre><code>&lt;article&gt;
+&lt;h1&gt;苹果&lt;/h1&gt;
+&lt;p&gt;&lt;b&gt;苹果&lt;/b&gt;植物类水果，多次花果...(&quot;苹果&quot;文章正文)&lt;/p&gt;
+    
+&lt;!--    使用section对文章进行分段--&gt;
+&lt;section&gt;
+&lt;!--        section中一般带标题--&gt;
+    &lt;h2&gt;红富士&lt;/h2&gt;
+    &lt;p&gt;红富士是从普通红富士的芽选育出来的。。。&lt;/p&gt;
+&lt;/section&gt;
+    
+&lt;section&gt;
+    &lt;h2&gt;国光&lt;/h2&gt;
+    &lt;p&gt;国光苹果xxxxxxxxxxxxx&lt;/p&gt;
+&lt;/section&gt;
+&lt;/article&gt;
+</code></pre></li>
+</ul>
+
+<h3 id="nav-元素"><code>nav</code>元素</h3>
+
+<blockquote>
+<p>nav元素可以用作页面导航的链接组，其中的导航元素链接到其他页面或者当前页面的其他部分，并不是所有的链接组都要放进nav元素，只需将主要的，基本的链接组放进nav元素即可</p>
+</blockquote>
+
+<pre><code>&lt;h1&gt;技术资料&lt;/h1&gt;
+&lt;!--只将主要链接放入nav元素中--&gt;
+&lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;/&quot;&gt;主页&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;/event&quot;&gt;开发文档&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1&gt;HTML5与CSS3的历史&lt;/h1&gt;
+&lt;!--         用来实现在这篇文章中的两个组成部分的页内导航--&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href=&quot;#HTML5&quot;&gt;HTML5的历史&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#CSS3&quot;&gt;CSS3的历史&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+    &lt;section id=&quot;HTML5&quot;&gt;
+        &lt;h1&gt;HTML5的历史&lt;/h1&gt;
+        &lt;p&gt;讲述HTML5的历史正文&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section id=&quot;CSS3&quot;&gt;
+        &lt;h1&gt;CSS3的历史&lt;/h1&gt;
+        &lt;p&gt;讲述CSS3的历史的正文&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;footer&gt;
+        &lt;p&gt;
+            &lt;a href=&quot;?edit&quot;&gt;编辑&lt;/a&gt;
+            &lt;a href=&quot;？delete&quot;&gt;删除&lt;/a&gt;
+            &lt;a href=&quot;？rename&quot;&gt;重命名&lt;/a&gt;
+        &lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/article&gt;
+&lt;footer&gt;&lt;p&gt;&lt;small&gt;版权所有：xxxx&lt;/small&gt;&lt;/p&gt;&lt;/footer&gt;
+</code></pre>
+
+<h4 id="使用场合">使用场合</h4>
+
+<ul>
+<li>传统导航条</li>
+<li>侧边栏导航</li>
+<li>页内导航</li>
+<li>翻页操作：多个页面的前后页或者博客网站的前后篇文章的滚动中</li>
+<li>也用在其他所有你觉得重要的、基本的导航链接组中</li>
+</ul>
+
+<h4 id="注意">注意：</h4>
+
+<p>html5中不要使用<code>menu</code>元素代替<code>nav</code>元素。<code>menu</code>元素是被用在一系列发出命令的菜单上的，是一种交互性的元素</p>
+
+<h3 id="aside-元素"><code>aside</code>元素</h3>
+
+<blockquote>
+<p>用来表示当前或文章的附属信息部分，它可以包含与当前页面或主要内容相关的引用、侧边栏、广告、导航条以及其他类似的有别于主要内容的部分</p>
+</blockquote>
+
+<h4 id="使用方法">使用方法</h4>
+
+<ol>
+<li><p>包含在article元素中作为主要内容的附属信息部分，其中的内容可以是与当前文章有关的参考资料、名词解释等。</p>
+
+<pre><code>&lt;header&gt;&lt;h1&gt;F#入门&lt;/h1&gt;&lt;/header&gt;
+&lt;article&gt;
+   &lt;h1&gt;此法闭包&lt;/h1&gt;
+   &lt;p&gt;lambda表达式可以创建词法闭包。。。（文章正文）&lt;/p&gt;
+   &lt;aside&gt;
+&lt;!--        因为这个aside元素被放置在一个article元素内部,
+所以分析器将这个aside元素的内容理解成是和artice元素的内容相关的资料--&gt;
+       &lt;h1&gt;名词解释&lt;/h1&gt;
+       &lt;dl&gt;
+           &lt;dt&gt;F#&lt;/dt&gt;
+           &lt;dd&gt;f#为.net2010中引入的新型函数型编程语言&lt;/dd&gt;
+       &lt;/dl&gt;
+       &lt;dl&gt;
+           &lt;dt&gt;此法闭包&lt;/dt&gt;
+           &lt;dd&gt;词法闭包是指，将创建lambda表达式时的环境保存起来...&lt;/dd&gt;
+       &lt;/dl&gt;
+   &lt;/aside&gt;
+&lt;/article&gt;
+</code></pre></li>
+
+<li><p>在article之外元素使用，作为页面或站点全局的附属信息部分。最典型的形式是侧边栏，其中的内容可以是友情链接、博客中的其他文章列表或者广告单元等。</p>
+
+<pre><code>&lt;aside&gt;
+   &lt;nav&gt;
+       &lt;h2&gt;评论&lt;/h2&gt;
+       &lt;ul&gt;
+           &lt;li&gt;&lt;a href=&quot;http://blog.sina.com.cn/1683&quot;&gt;erway&lt;/a&gt;&lt;/li&gt;
+           &lt;li&gt;
+               &lt;a href=&quot;http://blog.sina.com.cn/1683&quot;&gt;太阳雨&lt;/a&gt;
+               &lt;a href=&quot;http://blog.sina.com.cn/1683&quot;&gt;太阳雨&lt;/a&gt;
+           &lt;/li&gt;
+           &lt;li&gt;
+               &lt;a href=&quot;http://blog.sina.com.cn/1683&quot;&gt;新人&lt;/a&gt;
+               &lt;a href=&quot;http://blog.sina.com.cn/1683&quot;&gt;恭喜成功开通了博客&lt;/a&gt;
+           &lt;/li&gt;
+       &lt;/ul&gt;
+   &lt;/nav&gt;
+&lt;/aside
+</code></pre></li>
+</ol>
+
+<h3 id="time元素与微格式">time元素与微格式</h3>
+
+<p>微格式：利用html的class属性来对网页添加诸如新闻事件发生的日期和时间、个人电话号码、企业邮箱之类的附加信息的方法，但是在使用过程中日期和时间的机器码会出现一些问题，编码会产生一些歧义</p>
+
+<p><code>time</code>元素代表24小时中的某个时刻或某个日期，表示时刻时允许带时差</p>
+
+<pre><code>&lt;!--datetime属性中日期与时间之间要用&quot;T&quot;文字分割，&quot;T&quot;表示时间--&gt;
+&lt;time datetime=&quot;2010-11-13&quot;&gt;2010年11月13日&lt;/time&gt;
+&lt;time datetime=&quot;2010-11-13&quot;&gt;11月13日&lt;/time&gt;
+&lt;time datetime=&quot;2010-11-13&quot;&gt;我的生日&lt;/time&gt;
+&lt;time datetime=&quot;2010-11-13T20:00&quot;&gt;我生日的晚上8点&lt;/time&gt;
+&lt;time datetime=&quot;2010-11-13T20:00Z&quot;&gt;我生日的晚上8点&lt;/time&gt;
+&lt;time datetime=&quot;2010-11-13T20:00+09:00&quot;&gt;我生日的晚上8点的美国时间&lt;/time&gt;
+
+</code></pre>
+
+<h3 id="pubdate-属性"><code>pubdate</code>属性</h3>
+
+<p>一个可选的boolean值的属性，它可以被应用到article元素中的time元素上，意思是time元素代表了文章（article元素的内容）或整个网页的发布日期，pudate属性的具体使用方法</p>
+
+<pre><code>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1&gt;关于 &lt;time datetime=&quot;2010-10-29&quot;&gt;10月29日&lt;/time&gt;的舞会&lt;/h1&gt;
+        &lt;p&gt;发布日期：
+            &lt;time datetime=&quot;2010-10-11&quot; pubdate&gt;2010年10月11日&lt;/time&gt;
+        &lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;xxxxxxxxxxxxxxxxxx（关于舞会的通知）&lt;/p&gt;
+&lt;/article&gt;
+</code></pre>
+
+<h2 id="新增非主体结构元素">新增非主体结构元素</h2>
+
+<p>除来以上几个主要的结构元素之外，html5内还增加了一些表示逻辑结构或附加信息的非主体结构元素</p>
+
+<h3 id="header-元素"><code>header</code>元素</h3>
+
+<p>header元素是一种具有引导和导航作用的结构元素，通常用来放置整个页面或页面内的一个内容区块的标题</p>
+
+<p>一个网页内并不限制只能有一个header元素，可以拥有多个，可以为每个内容区块加一个header元素</p>
+
+<pre><code>&lt;header&gt;
+    &lt;hgroup&gt;
+        &lt;h1&gt;IT新技术&lt;/h1&gt;
+        &lt;a href=&quot;http://blog.sina.com.cn/itnewtech&quot;&gt;http://blog.sina.com.cn/itnewtech&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;[订阅]&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;[手机订阅]&lt;/a&gt;
+    &lt;/hgroup&gt;
+    &lt;nav&gt;
+        &lt;ul&gt;
+            &lt;li&gt;首页&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;博文目录&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;图片&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;关于我&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+</code></pre>
+
+<h3 id="footer-元素"><code>footer</code>元素</h3>
+
+<p>footer可以作为其上层父级内容区块或一个根区块的脚注。footer通常包括其相关区块的脚注信息，入作者、相关阅读链接以及版权信息等。</p>
+
+<pre><code>&lt;footer&gt;
+    &lt;ul&gt;
+        &lt;li&gt;版权信息&lt;/li&gt;
+        &lt;li&gt;站点地图&lt;/li&gt;
+        &lt;li&gt;联系方式&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/footer&gt;
+</code></pre>
+
+<h3 id="address-元素"><code>address</code>元素</h3>
+
+<p>用来在文档中呈县联系信息，包括文档作者或文档维护者的名字、文档作者或文档维护者网站链接、电子邮箱、真实地址、电话号码等</p>
+
+<pre><code>&lt;footer&gt;
+    &lt;div&gt;
+        &lt;address&gt;
+            &lt;a href=&quot;#&quot; title=&quot;文章作者：xxxx&quot;&gt;&lt;/a&gt;
+            发表于 &lt;time datetime=&quot;2010-10-04&quot;&gt;2010年10月4日&lt;/time&gt;
+        &lt;/address&gt;
+    &lt;/div&gt;
+&lt;/footer&gt;
+</code></pre>
+
+<h3 id="main-元素"><code>main</code>元素</h3>
+
+<p>表示网页中的主要内容。主内容区域指与网页标题或应用程序中本页面主要功能直接相关或进行扩展的内容。该区域应该为每一个网页中所特有的内容，不能包含整个网站的导航条、版权信息、网站Logo、公共搜索表单等整个网站内部的共同内容</p>
+
+<p>每个网页内部只能放置一个main元素，不能将main元素放置在任何article、aside、footer、或nav元素内部</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/" data-toggle="tooltip" data-placement="top" title="">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/03/java01/" data-toggle="tooltip" data-placement="top" title="Java（一）- String">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

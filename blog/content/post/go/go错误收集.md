@@ -10,10 +10,10 @@ image: "https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gatew
 published: true
 tags:
     - go
-URL: "/2018/04/12/goerror/"
+URL: "/2018/04/12/goErrorCollection/"
 categories: [ go ]
 ---
- 
+
 ## ListenAndServe: listen tcp: address 3000: missing port in address exit status 1
 
 学习go net/http包，代码如下
@@ -44,5 +44,24 @@ func main() {
 
 ```go
 err := http.ListenAndServe(":3000",nil)
+```
+
+## Go test执行单个测试文件提示未定义
+
+```
+# command-line-arguments [command-line-arguments.test]
+./citylist_test.go:15:17: undefined: ParserCityList
+```
+
+其实从看看上面的这段提示：`build failed`，构建失败，我们应该就能看出一下信息。go test与其他的指定源码文件进行编译或运行的命令程序一样（参考：`go run`和`go build`），会为指定的源码文件生成一个虚拟代码包——“command-line-arguments”，对于运行这次测试的命令程序来说，测试源码文件`getinfo_test.go`是属于代码包“command-line-arguments”的，可是它引用了其他包中的数据并不属于代码包“command-line-arguments”，编译不通过，错误自然发生了。
+
+**解决方法**
+
+**执行命令时加入这个测试文件需要引用的源码文件**，**在命令行后方的文件都会被加载到`command-line-arguments`中进行编译。**示例如下：
+
+```
+//citylist_test.go : 需要测试的文件
+//parser.go：依赖文件
+adminMacBook:parser admin$ go test -v citylist_test.go parser.go
 ```
 

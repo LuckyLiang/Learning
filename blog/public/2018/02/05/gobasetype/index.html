@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Go 学习笔记（二） - 基础数据类型" />
+    <meta property="og:title" content="Go 学习笔记（二） - 基础数据类型" />
+    <meta property="twitter:title" content="Go 学习笔记（二） - 基础数据类型" />
+    
+
+    
+    <meta name="description" content="读go圣经学习笔记 - 基础数据类型">
+    <meta property="og:description" content="读go圣经学习笔记 - 基础数据类型" />
+    <meta property="twitter:description" content="读go圣经学习笔记 - 基础数据类型" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Go 学习笔记（二） - 基础数据类型-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/02/05/goBaseType/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                    </div>
+                    <h1>Go 学习笔记（二） - 基础数据类型</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Monday, February 5, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#基础数据类型">基础数据类型</a>
+<ul>
+<li><a href="#整形">整形</a></li>
+<li><a href="#浮点数">浮点数</a></li>
+<li><a href="#复数">复数</a></li>
+<li><a href="#布尔型">布尔型</a></li>
+<li><a href="#字符串">字符串</a>
+<ul>
+<li><a href="#字符串面值">字符串面值</a></li>
+<li><a href="#字符串和byte切片">字符串和Byte切片</a></li>
+<li><a href="#字符串和数字的转换">字符串和数字的转换</a></li>
+</ul></li>
+<li><a href="#常量">常量</a>
+<ul>
+<li><a href="#iota-常量生成器">iota 常量生成器</a></li>
+<li><a href="#无类型常量">无类型常量</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="基础数据类型">基础数据类型</h2>
+
+<p>Go语言将数据类型分为四类：基础类型、复合类型、引用类型和接口类型。</p>
+
+<ul>
+<li>基础类型：数字、字符串和布尔型等</li>
+<li>复合数据类型：数组和结构体，是通过组合简单类型，来表达更加复杂的数据结构</li>
+<li>引用类型：指针、切片、字典、函数、通道</li>
+</ul>
+
+<h3 id="整形">整形</h3>
+
+<ul>
+<li>有符号整形：int8、int16、int32和int64，分别对应8、16、32、64bit大小的有符号整数</li>
+<li>无符号整形：uint8、uint16、uint32和uint64四种无符号整数类型。</li>
+</ul>
+
+<p>这里还有两种一般对应特定CPU平台机器字大小的有符号和无符号整数int和uint；其中int是应用最广泛的数值类型。这两种类型都有同样的大小，32或64bit，</p>
+
+<p>还有一种无符号的整数类型uintptr，没有指定具体的bit大小但是足以容纳指针。uintptr类型只有在底层编程时才需要，</p>
+
+<p>下面是Go语言中关于算术运算、逻辑运算和比较运算的二元运算符，它们按照优先级递减的顺序排列：</p>
+
+<pre><code>*      /      %      &lt;&lt;       &gt;&gt;     &amp;       &amp;^
++      -      |      ^
+==     !=     &lt;      &lt;=       &gt;      &gt;=
+&amp;&amp;
+||
+</code></pre>
+
+<p>Go语言还提供了以下的bit位操作运算符，前面4个操作运算符并不区分是有符号还是无符号数：</p>
+
+<pre><code>&amp;      位运算 AND
+|      位运算 OR
+^      位运算 XOR
+&amp;^     位清空 (AND NOT)
+&lt;&lt;     左移
+&gt;&gt;     右移
+</code></pre>
+
+<p>当使用fmt包打印一个数值时，我们可以用%d、%o或%x参数控制输出的进制格式，就像下面的例子：</p>
+
+<pre><code>o := 0666
+fmt.Printf(&quot;%d %[1]o %#[1]o\n&quot;, o) // &quot;438 666 0666&quot;
+x := int64(0xdeadbeef)
+fmt.Printf(&quot;%d %[1]x %#[1]x %#[1]X\n&quot;, x)
+// Output:
+// 3735928559 deadbeef 0xdeadbeef 0XDEADBEEF
+</code></pre>
+
+<h3 id="浮点数">浮点数</h3>
+
+<p>Go语言提供了两种精度的浮点数，<code>float32</code>和<code>float64</code></p>
+
+<p>浮点数的范围极限值可以在math包找到, 常量math.MaxFloat32表示float32能表示的最大数值，大约是 3.4e38；对应的math.MaxFloat64常量大约是1.8e308。它们分别能表示的最小值近似为1.4e-45和4.9e-324。</p>
+
+<pre><code>var f float32 = 16777216 // 1 &lt;&lt; 24
+fmt.Println(f == f+1)    // &quot;true&quot;!
+</code></pre>
+
+<h3 id="复数">复数</h3>
+
+<p>Go语言提供了两种精度的复数类型：<code>complex64</code>和<code>complex128</code>,分别对应<code>float32</code>和<code>float64</code>两种浮点数精度</p>
+
+<p>内置的<code>complex</code>函数用于构建复数,内建的<code>real</code>和<code>imag</code>函数分别返回复数的实部和虚部：</p>
+
+<pre><code>var x complex128 = complex(1, 2) // 1+2i
+var y complex128 = complex(3, 4) // 3+4i
+fmt.Println(x*y)                 // &quot;(-5+10i)&quot;
+fmt.Println(real(x*y))           // &quot;-5&quot;
+fmt.Println(imag(x*y))           // &quot;10&quot;
+</code></pre>
+
+<p>如果一个浮点数面值或一个十进制整数面值后面跟着一个i，例如3.141592i或2i，它将构成一个复数的虚部，复数的实部是0：</p>
+
+<pre><code>fmt.Println(1i * 1i) // &quot;(-1+0i)&quot;, i^2 = -1
+</code></pre>
+
+<h3 id="布尔型">布尔型</h3>
+
+<p><code>true</code>和<code>false</code></p>
+
+<p>布尔值可以和&amp;&amp;（AND）和||（OR）操作符结合，并且有短路行为：</p>
+
+<pre><code>s != &quot;&quot; &amp;&amp; s[0] == 'x']
+</code></pre>
+
+<p>布尔值并不会隐式转换为数字值0或1，反之亦然。必须使用一个显式的if语句辅助转换：</p>
+
+<pre><code>i := 0
+if b {
+    i = 1
+}
+</code></pre>
+
+<p>如果需要经常做类似的转换, 包装成一个函数会更方便:</p>
+
+<pre><code>func btoi(b bool) int {
+    if b {
+        return 1
+    }
+    return 0
+}
+</code></pre>
+
+<p>数字到布尔型的逆转换则非常简单, 不过为了保持对称, 我们也可以包装一个函数:</p>
+
+<pre><code>// itob reports whether i is non-zero.
+func itob(i int) bool { return i != 0 }
+</code></pre>
+
+<h3 id="字符串">字符串</h3>
+
+<p>一个字符串是一个不可变的字节序列</p>
+
+<p><code>len</code>函数可以返回一个字符串中的字节数目</p>
+
+<p>索引操作<code>s[i]</code>返回第i个字节的字节值，<code>i</code>必须满足<code>0 ≤ i&lt; len(s)</code>条件约束。</p>
+
+<pre><code>s := &quot;hello, world&quot;
+fmt.Println(len(s))     // &quot;12&quot;
+fmt.Println(s[0], s[7]) // &quot;104 119&quot; ('h' and 'w')
+</code></pre>
+
+<p>如果试图访问超出字符串索引范围的字节将会导致panic异常：</p>
+
+<pre><code>c := s[len(s)] // panic: index out of range
+</code></pre>
+
+<p>子字符串操作<code>s[i:j]</code></p>
+
+<pre><code>fmt.Println(s[0:5]) // &quot;hello&quot;
+</code></pre>
+
+<p>不管i还是j都可能被忽略，当它们被忽略时将采用0作为开始位置，采用len(s)作为结束的位置。</p>
+
+<pre><code>fmt.Println(s[:5]) // &quot;hello&quot;
+fmt.Println(s[7:]) // &quot;world&quot;
+fmt.Println(s[:])  // &quot;hello, world&quot;
+</code></pre>
+
+<p><code>+</code>操作符将两个字符串连接构造一个新字符串：</p>
+
+<pre><code>fmt.Println(&quot;goodbye&quot; + s[5:]) // &quot;goodbye, world&quot;
+</code></pre>
+
+<p>字符串可以用<code>==</code>和<code>&lt;</code>进行比较；比较通过逐个字节比较完成的，因此比较的结果是字符串自然编码的顺序。</p>
+
+<h4 id="字符串面值">字符串面值</h4>
+
+<p>在一个双引号包含的字符串面值中，可以用以反斜杠<code>\</code>开头的转义序列插入任意的数据。下面的换行、回车和制表符等是常见的ASCII控制代码的转义方式：</p>
+
+<pre><code>\a      响铃
+\b      退格
+\f      换页
+\n      换行
+\r      回车
+\t      制表符
+\v      垂直制表符
+\'      单引号 (只用在 '\'' 形式的rune符号面值中)
+\&quot;      双引号 (只用在 &quot;...&quot; 形式的字符串面值中)
+\\      反斜杠
+</code></pre>
+
+<p>一个十六进制的转义形式是<code>\xhh</code>，其中两个h表示十六进制数字（大写或小写都可以）。一个八进制转义形式是<code>\ooo</code>，包含三个八进制的o数字（0到7），但是不能超过<code>\377</code>（译注：对应一个字节的范围，十进制为255）</p>
+
+<p>原生字符串面值用于编写正则表达式会很方便, 同时被广泛应用于HTML模板、JSON面值、命令行提示信息以及那些需要扩展到多行的场景。</p>
+
+<pre><code>const GoUsage = `Go is a tool for managing Go source code.
+
+Usage:
+    go command [arguments]
+...`
+</code></pre>
+
+<p>我们可以使用一个简单的循环来统计字符串中字符的数目，像这样：</p>
+
+<pre><code>n := 0
+for range s {
+    n++
+}
+</code></pre>
+
+<p>或者我们可以直接调用<code>utf8.RuneCountInString(s)</code>函数。</p>
+
+<h4 id="字符串和byte切片">字符串和Byte切片</h4>
+
+<p>标准库中有四个包对字符串处理尤为重要：<code>bytes</code>、<code>strings</code>、<code>strconv</code>和<code>unicode</code>包。</p>
+
+<ul>
+<li><code>strings</code>包提供了许多如字符串的查询、替换、比较、截断、拆分和合并等功能。</li>
+<li><code>bytes</code>包也提供了很多类似功能的函数，但是针对和字符串有着相同结构的<code>[]byte</code>类型。因为字符串是只读的，因此逐步构建字符串会导致很多分配和复制。在这种情况下，使用<code>bytes.Buffer</code>类型将会更有效</li>
+<li><code>strconv</code>包提供了布尔型、整型数、浮点数和对应字符串的相互转换，还提供了双引号转义相关的转换。</li>
+<li><code>unicode</code>包提供了<code>IsDigit</code>、<code>IsLetter</code>、<code>IsUpper</code>和<code>IsLower</code>等类似功能</li>
+</ul>
+
+<p><code>basename(s)</code>将看起来像是系统路径的前缀删除，同时将看似文件类型的后缀名部分删除：</p>
+
+<pre><code>fmt.Println(basename(&quot;a/b/c.go&quot;)) // &quot;c&quot;
+fmt.Println(basename(&quot;c.d.go&quot;))   // &quot;c.d&quot;
+fmt.Println(basename(&quot;abc&quot;))      // &quot;abc&quot;
+</code></pre>
+
+<p>这个简化版本使用了strings.LastIndex库函数：</p>
+
+<pre><code>func basename(s string) string {
+    // Discard last '/' and everything before.
+    for i := len(s) - 1; i &gt;= 0; i-- {
+        if s[i] == '/' {
+            s = s[i+1:]
+            break
+        }
+    }
+    // Preserve everything before last '.'.
+    for i := len(s) - 1; i &gt;= 0; i-- {
+        if s[i] == '.' {
+            s = s[:i]
+            break
+        }
+    }
+    return s
+}
+</code></pre>
+
+<p>让我们继续另一个字符串的例子。函数的功能是将一个表示整数值的字符串，每隔三个字符插入一个逗号分隔符，例如“12345”处理后成为“12,345”。</p>
+
+<pre><code>func comma(s string) string {
+    n := len(s)
+    if n &lt;= 3 {
+        return s
+    }
+    return comma(s[:n-3]) + &quot;,&quot; + s[n-3:]
+}
+</code></pre>
+
+<p>一个字符串是包含只读字节的数组，一旦创建，是不可变的。相比之下，一个字节<code>slice</code>的元素则可以自由地修改。</p>
+
+<p>字符串和字节<code>slice</code>之间可以相互转换：</p>
+
+<pre><code>s := &quot;abc&quot;
+b := []byte(s)
+s2 := string(b)
+</code></pre>
+
+<p>为了避免转换中不必要的内存分配，<code>bytes</code>包和<code>strings</code>同时提供了许多实用函数。下面是<code>strings</code>包中的六个函数：</p>
+
+<pre><code>func Contains(s, substr string) bool
+func Count(s, sep string) int
+func Fields(s string) []string
+func HasPrefix(s, prefix string) bool
+func Index(s, sep string) int
+func Join(a []string, sep string) string
+</code></pre>
+
+<p><code>bytes</code>包中也对应的六个函数：</p>
+
+<pre><code>func Contains(b, subslice []byte) bool
+func Count(s, sep []byte) int
+func Fields(s []byte) [][]byte
+func HasPrefix(s, prefix []byte) bool
+func Index(s, sep []byte) int
+func Join(s [][]byte, sep []byte) []byte
+</code></pre>
+
+<p>它们之间唯一的区别是字符串类型参数被替换成了字节<code>slice</code>类型的参数。</p>
+
+<p><code>bytes</code>包还提供了<code>Buffer</code>类型用于字节<code>slice</code>的缓存。一个<code>Buffer</code>开始是空的，但是随着<code>string</code>、<code>byte</code>或<code>[]byte</code>等类型数据的写入可以动态增长，一个<code>bytes.Buffer</code>变量并不需要初始化，因为零值也是有效的：</p>
+
+<pre><code>func intsToString(values []int) string {
+    var buf bytes.Buffer
+    buf.WriteByte('[')
+    for i, v := range values {
+        if i &gt; 0 {
+            buf.WriteString(&quot;, &quot;)
+        }
+        fmt.Fprintf(&amp;buf, &quot;%d&quot;, v)
+    }
+    buf.WriteByte(']')
+    return buf.String()
+}
+
+func main() {
+    fmt.Println(intsToString([]int{1, 2, 3})) // &quot;[1, 2, 3]&quot;
+}
+</code></pre>
+
+<h4 id="字符串和数字的转换">字符串和数字的转换</h4>
+
+<p>字符串和数值之间的转换由<code>strconv</code>包提供这类转换功能。</p>
+
+<p>将一个整数转为字符串，一种方法是用<code>fmt.Sprintf</code>返回一个格式化的字符串；另一个方法是用<code>strconv.Itoa</code>(“整数到ASCII”)：</p>
+
+<pre><code class="language-Go">x := 123
+y := fmt.Sprintf(&quot;%d&quot;, x)
+fmt.Println(y, strconv.Itoa(x)) // &quot;123 123&quot;
+</code></pre>
+
+<p><code>FormatInt</code>和<code>FormatUint</code>函数可以用不同的进制来格式化数字：</p>
+
+<pre><code>fmt.Println(strconv.FormatInt(int64(x), 2)) // &quot;1111011&quot;
+</code></pre>
+
+<p><code>fmt.Printf</code>函数的<code>%b</code>、<code>%d</code>、<code>%o</code>和<code>%x</code>等参数提供功能往往比<code>strconv</code>包的<code>Format</code>函数方便很多，特别是在需要包含有附加额外信息的时候：</p>
+
+<pre><code>s := fmt.Sprintf(&quot;x=%b&quot;, x) // &quot;x=1111011&quot;
+</code></pre>
+
+<p>如果要将一个字符串解析为整数，可以使用<code>strconv</code>包的<code>Atoi</code>或<code>ParseInt</code>函数，还有用于解析无符号整数的ParseUint函数：</p>
+
+<pre><code>x, err := strconv.Atoi(&quot;123&quot;)             // x is an int
+y, err := strconv.ParseInt(&quot;123&quot;, 10, 64) // base 10, up to 64 bits
+</code></pre>
+
+<p><code>ParseInt</code>函数的第三个参数是用于指定整型数的大小；例如16表示<code>int16</code>，0则表示<code>int</code>。在任何情况下，返回的结果y总是<code>int64</code>类型，你可以通过强制类型转换将它转为更小的整数类型。</p>
+
+<h3 id="常量">常量</h3>
+
+<p>常量表达式的值在<strong>编译期计算</strong>，而不是在<strong>运行期</strong>，每种常量的潜在类型都是基础类型：boolean、string或数字。</p>
+
+<p>常量的值不可修改，这样可以防止在运行期被意外或恶意的修改</p>
+
+<pre><code>const pi = 3.14159 // approximately; math.Pi is a better approximation
+//声明多个常量
+const (
+    e  = 2.71828182845904523536028747135266249775724709369995957496696763
+    pi = 3.14159265358979323846264338327950288419716939937510582097494459
+)
+</code></pre>
+
+<p>常量间的所有算术运算、逻辑运算和比较运算的结果也是常量，对常量的类型转换操作或以下函数调用都是返回常量结果：<code>len</code>、<code>cap</code>、<code>real</code>、<code>imag</code>、<code>complex</code>和<code>unsafe.Sizeof</code></p>
+
+<pre><code>const noDelay time.Duration = 0
+const timeout = 5 * time.Minute
+fmt.Printf(&quot;%T %[1]v\n&quot;, noDelay)     // &quot;time.Duration 0&quot;
+fmt.Printf(&quot;%T %[1]v\n&quot;, timeout)     // &quot;time.Duration 5m0s&quot;
+fmt.Printf(&quot;%T %[1]v\n&quot;, time.Minute) // &quot;time.Duration 1m0s&quot;
+</code></pre>
+
+<p>如果是批量声明的常量，除了第一个外其它的常量右边的初始化表达式都可以省略，如果省略初始化表达式则表示使用前面常量的初始化表达式写法，对应的常量类型也一样的。例如：</p>
+
+<pre><code>const (
+    a = 1
+    b
+    c = 2
+    d
+)
+fmt.Println(a, b, c, d) // &quot;1 1 2 2&quot;
+</code></pre>
+
+<h4 id="iota-常量生成器">iota 常量生成器</h4>
+
+<p>它用于生成一组以相似规则初始化的常量，但是不用每行都写一遍初始化表达式。在一个const声明语句中，在第一个声明的常量所在的行，iota将会被置为0，然后在每一个有常量声明的行加一。</p>
+
+<pre><code>type Weekday int
+const (
+    Sunday Weekday = iota
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+)
+</code></pre>
+
+<p>复杂的常量表达式中使用iota， 给一个无符号整数的最低5bit的每个bit指定一个名字：</p>
+
+<pre><code>type Flags uint
+const (
+    FlagUp Flags = 1 &lt;&lt; iota // is up
+    FlagBroadcast            // supports broadcast access capability
+    FlagLoopback             // is a loopback interface
+    FlagPointToPoint         // belongs to a point-to-point link
+    FlagMulticast            // supports multicast access capability
+)
+</code></pre>
+
+<p>使用这些常量可以用于测试、设置或清除对应的bit位的值：</p>
+
+<pre><code>func IsUp(v Flags) bool     { return v&amp;FlagUp == FlagUp }
+func TurnDown(v *Flags)     { *v &amp;^= FlagUp }
+func SetBroadcast(v *Flags) { *v |= FlagBroadcast }
+func IsCast(v Flags) bool   { return v&amp;(FlagBroadcast|FlagMulticast) != 0 }
+
+func main() {
+    var v Flags = FlagMulticast | FlagUp
+    fmt.Printf(&quot;%b %t\n&quot;, v, IsUp(v)) // &quot;10001 true&quot;
+    TurnDown(&amp;v)
+    fmt.Printf(&quot;%b %t\n&quot;, v, IsUp(v)) // &quot;10000 false&quot;
+    SetBroadcast(&amp;v)
+    fmt.Printf(&quot;%b %t\n&quot;, v, IsUp(v))   // &quot;10010 false&quot;
+    fmt.Printf(&quot;%b %t\n&quot;, v, IsCast(v)) // &quot;10010 true&quot;
+}
+</code></pre>
+
+<p>下面是一个更复杂的例子，每个常量都是1024的幂：</p>
+
+<pre><code>const (
+    _ = 1 &lt;&lt; (10 * iota)
+    KiB // 1024
+    MiB // 1048576
+    GiB // 1073741824
+    TiB // 1099511627776             (exceeds 1 &lt;&lt; 32)
+    PiB // 1125899906842624
+    EiB // 1152921504606846976
+    ZiB // 1180591620717411303424    (exceeds 1 &lt;&lt; 64)
+    YiB // 1208925819614629174706176
+)
+</code></pre>
+
+<h4 id="无类型常量">无类型常量</h4>
+
+<p>六种未明确类型的常量类型，分别是无类型的布尔型、无类型的整数、无类型的字符、无类型的浮点数、无类型的复数、无类型的字符串。</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/02/05/goStructure/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（一） - 程序结构">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/02/06/goComplexType/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（三） - 复合类型">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

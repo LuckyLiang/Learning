@@ -10,7 +10,7 @@ image: "https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gatew
 published: true
 tags:
     - go
-URL: "/2018/03/12/gohttprouter/"
+URL: "/2018/03/12/goHttpRouter/"
 categories: [ go ]
 
 

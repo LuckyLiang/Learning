@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Go 学习笔记（五） - 方法" />
+    <meta property="og:title" content="Go 学习笔记（五） - 方法" />
+    <meta property="twitter:title" content="Go 学习笔记（五） - 方法" />
+    
+
+    
+    <meta name="description" content="读go圣经学习笔记 - 方法">
+    <meta property="og:description" content="读go圣经学习笔记 - 方法" />
+    <meta property="twitter:description" content="读go圣经学习笔记 - 方法" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Go 学习笔记（五） - 方法-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/02/08/goMethod/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                    </div>
+                    <h1>Go 学习笔记（五） - 方法</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Thursday, February 8, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#方法声明">方法声明</a></li>
+<li><a href="#基于指针对象的方法">基于指针对象的方法</a>
+<ul>
+<li><a href="#nil也是一个合法的接收器类型">Nil也是一个合法的接收器类型</a></li>
+</ul></li>
+<li><a href="#通过嵌入结构体来扩展类型">通过嵌入结构体来扩展类型</a></li>
+<li><a href="#方法值和方法表达式">方法值和方法表达式</a></li>
+<li><a href="#bit数组">Bit数组</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h3 id="方法声明">方法声明</h3>
+
+<pre><code>package geometry
+
+import &quot;math&quot;
+
+type Point struct{ X, Y float64 }
+
+// traditional function
+func Distance(p, q Point) float64 {
+    return math.Hypot(q.X-p.X, q.Y-p.Y)
+}
+
+// same thing, but as a method of the Point type
+func (p Point) Distance(q Point) float64 {
+    return math.Hypot(q.X-p.X, q.Y-p.Y)
+}
+</code></pre>
+
+<p>在方法调用过程中，接收器参数一般会在方法名之前出现。这和方法声明是一样的，都是接收器参数在方法名字之前。下面是例子：</p>
+
+<pre><code>p := Point{1, 2}
+q := Point{4, 6}
+fmt.Println(Distance(p, q)) // &quot;5&quot;, function call
+fmt.Println(p.Distance(q))  // &quot;5&quot;, method call
+</code></pre>
+
+<h3 id="基于指针对象的方法">基于指针对象的方法</h3>
+
+<p>当调用一个函数时，会对其每一个参数值进行拷贝，如果一个函数需要更新一个变量，或者函数的其中一个参数实在太大我们希望能够避免进行这种默认的拷贝，这种情况下我们就需要用到指针了</p>
+
+<pre><code>func (p *Point) ScaleBy(factor float64) {
+    p.X *= factor
+    p.Y *= factor
+}
+</code></pre>
+
+<p>这个方法的名字是<code>(*Point).ScaleBy</code>。这里的括号是必须的；没有括号的话这个表达式可能会被理解为<code>*(Point.ScaleBy)</code>。</p>
+
+<h4 id="nil也是一个合法的接收器类型">Nil也是一个合法的接收器类型</h4>
+
+<p>就像一些函数允许nil指针作为参数一样，方法理论上也可以用nil指针作为其接收器，尤其当nil对于对象来说是合法的零值时，比如map或者slice。在下面的简单int链表的例子里，nil代表的是空链表：</p>
+
+<pre><code>type IntList struct {
+    Value int
+    Tail  *IntList
+}
+// Sum returns the sum of the list elements.
+func (list *IntList) Sum() int {
+    if list == nil {
+        return 0
+    }
+    return list.Value + list.Tail.Sum()
+}
+</code></pre>
+
+<p>当你定义一个允许nil作为接收器值的方法的类型时，在类型前面的注释中指出nil变量代表的意义是很有必要的，就像我们上面例子里做的这样。</p>
+
+<h3 id="通过嵌入结构体来扩展类型">通过嵌入结构体来扩展类型</h3>
+
+<pre><code>import &quot;image/color&quot;
+
+type Point struct{ X, Y float64 }
+
+type ColoredPoint struct {
+    Point
+    Color color.RGBA
+}
+</code></pre>
+
+<h3 id="方法值和方法表达式">方法值和方法表达式</h3>
+
+<pre><code>p := Point{1, 2}
+q := Point{4, 6}
+
+distanceFromP := p.Distance        // method value
+fmt.Println(distanceFromP(q))      // &quot;5&quot;
+var origin Point                   // {0, 0}
+fmt.Println(distanceFromP(origin)) // &quot;2.23606797749979&quot;, sqrt(5)
+
+scaleP := p.ScaleBy // method value
+scaleP(2)           // p becomes (2, 4)
+scaleP(3)           //      then (6, 12)
+scaleP(10)          //      then (60, 120)
+</code></pre>
+
+<p>在一个包的API需要一个函数值、且调用方希望操作的是某一个绑定了对象的方法的话，方法&rdquo;值&rdquo;会非常实用(`<code>=_=</code>真是绕)。举例来说，下面例子中的time.AfterFunc这个函数的功能是在指定的延迟时间之后来执行一个(译注：另外的)函数。且这个函数操作的是一个Rocket对象r</p>
+
+<pre><code>type Rocket struct { /* ... */ }
+func (r *Rocket) Launch() { /* ... */ }
+r := new(Rocket)
+time.AfterFunc(10 * time.Second, func() { r.Launch() })
+</code></pre>
+
+<p>直接用方法&rdquo;值&rdquo;传入AfterFunc的话可以更为简短：</p>
+
+<pre><code>time.AfterFunc(10 * time.Second, r.Launch)
+</code></pre>
+
+<h3 id="bit数组">Bit数组</h3>
+
+<p>在数据流分析领域，集合元素通常是一个非负整数，集合会包含很多元素，并且集合会经常进行并集、交集操作，这种情况下，bit数组会比map表现更加理想</p>
+
+<p>注：这里再补充一个例子，比如我们执行一个http下载任务，把文件按照16kb一块划分为很多块，需要有一个全局变量来标识哪些块下载完成了，这种时候也需要用到bit数组)</p>
+
+<p>一个bit数组通常会用一个无符号数或者称之为“字”的slice来表示，每一个元素的每一位都表示集合里的一个值。当集合的第i位被设置时，我们才说这个集合包含元素i。下面的这个程序展示了一个简单的bit数组类型，并且实现了三个函数来对这个bit数组来进行操作：</p>
+
+<pre><code>// An IntSet is a set of small non-negative integers.
+// Its zero value represents the empty set.
+type IntSet struct {
+    words []uint64
+}
+
+// Has reports whether the set contains the non-negative value x.
+func (s *IntSet) Has(x int) bool {
+    word, bit := x/64, uint(x%64)
+    return word &lt; len(s.words) &amp;&amp; s.words[word]&amp;(1&lt;&lt;bit) != 0
+}
+
+// Add adds the non-negative value x to the set.
+func (s *IntSet) Add(x int) {
+    word, bit := x/64, uint(x%64)
+    for word &gt;= len(s.words) {
+        s.words = append(s.words, 0)
+    }
+    s.words[word] |= 1 &lt;&lt; bit
+}
+
+// UnionWith sets s to the union of s and t.
+func (s *IntSet) UnionWith(t *IntSet) {
+    for i, tword := range t.words {
+        if i &lt; len(s.words) {
+            s.words[i] |= tword
+        } else {
+            s.words = append(s.words, tword)
+        }
+    }
+}
+</code></pre>
+
+<p>将IntSet作为一个字符串来打印</p>
+
+<pre><code>func (s *IntSet) String() string {
+    var buf bytes.Buffer
+    buf.WriteByte('{')
+    for i, word := range s.words {
+        if word == 0 {
+            continue
+        }
+        for j := 0; j &lt; 64; j++ {
+            if word&amp;(1&lt;&lt;uint(j)) != 0 {
+                if buf.Len() &gt; len(&quot;{&quot;) {
+                    buf.WriteByte(' ')
+                }
+                fmt.Fprintf(&amp;buf, &quot;%d&quot;, 64*i+j)
+            }
+        }
+    }
+    buf.WriteByte('}')
+    return buf.String()
+}
+</code></pre>
+
+<p>现在我们就可以在实战中直接用上面定义好的IntSet了：</p>
+
+<pre><code>var x, y IntSet
+x.Add(1)
+x.Add(144)
+x.Add(9)
+fmt.Println(x.String()) // &quot;{1 9 144}&quot;
+
+y.Add(9)
+y.Add(42)
+fmt.Println(y.String()) // &quot;{9 42}&quot;
+
+x.UnionWith(&amp;y)
+fmt.Println(x.String()) // &quot;{1 9 42 144}&quot;
+fmt.Println(x.Has(9), x.Has(123)) // &quot;true false&quot;
+</code></pre>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/02/07/gofunc/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（四） - 函数">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/02/08/goInterface/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（六） - 接口">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

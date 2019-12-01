@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Java（一）- String" />
+    <meta property="og:title" content="Java（一）- String" />
+    <meta property="twitter:title" content="Java（一）- String" />
+    
+
+    
+    <meta name="description" content="java中string，stringbuffer，stringbuilder学习记录">
+    <meta property="og:description" content="java中string，stringbuffer，stringbuilder学习记录" />
+    <meta property="twitter:description" content="java中string，stringbuffer，stringbuilder学习记录" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Java（一）- String-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2017/01/03/java01/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/go">go</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/ios">ios</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/web">web</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                    </div>
+                    <h1>Java（一）- String</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Friday, January 13, 2017
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#string类">String类</a>
+<ul>
+<li><a href="#字符串创建">字符串创建</a></li>
+<li><a href="#string不可变性">String不可变性</a></li>
+<li><a href="#string的比较方法">String的比较方法</a></li>
+<li><a href="#字符串连接">字符串连接</a></li>
+<li><a href="#常用方法">常用方法</a>
+<ul>
+<li><a href="#substring-字符串截取"><code>substring()</code>字符串截取</a></li>
+<li><a href="#touppercase-and-tolowercase"><code>toUpperCase() and toLowerCase()</code></a></li>
+<li><a href="#trim-去空格"><code>trim()</code>去空格</a></li>
+<li><a href="#startswith-and-endswith-判断开始结尾"><code>startsWith() and endsWith()</code>判断开始结尾</a></li>
+<li><a href="#charat-返回特定位置的字符"><code>charAt()</code>返回特定位置的字符</a></li>
+<li><a href="#length-字符串长度"><code>length()</code>字符串长度</a></li>
+<li><a href="#valueof-将其他基本数据类型转换为string"><code>valueOf()</code>将其他基本数据类型转换为string</a></li>
+<li><a href="#replace-字符串替换"><code>replace()</code>字符串替换</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#stringbuffer类">StringBuffer类</a>
+<ul>
+<li><a href="#构造方法">构造方法</a></li>
+<li><a href="#常用方法-1">常用方法</a></li>
+</ul></li>
+<li><a href="#stringbuilder类">StringBuilder类</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="string类">String类</h2>
+
+<h3 id="字符串创建">字符串创建</h3>
+
+<p>在java中string是字符序列对象，可以通过两种方式创建</p>
+
+<ol>
+<li><p>通过字面创建</p>
+
+<pre><code>String s = &quot;welcome&quot;
+</code></pre></li>
+
+<li><p>通过<code>new</code>关键字</p>
+
+<pre><code>String s = new String(&quot;Welcome&quot;)
+   
+char ch[] = {'s','t','r','i','n','g'}
+String s2 = new String(ch)
+   	
+</code></pre></li>
+</ol>
+
+<p>通过字面量创建的字符串，会缓存到缓冲池中，当再次创建时会先从缓存池中查找是否有该字符串，如果有直接返回，如果没有先创建再返回</p>
+
+<h3 id="string不可变性">String不可变性</h3>
+
+<p>在java中string对象是不可变的</p>
+
+<pre><code>  public static void main(String[] args) {
+      String s = &quot;Sachin&quot;;
+      s.concat(&quot; Tendulkar&quot;);
+      System.out.println(s); //Sachin,原字符串没有变化，看源码可知是创建了一个新的字符串
+  }
+</code></pre>
+
+<p>可以通过重新赋值</p>
+
+<pre><code>  public static void main(String[] args) {
+      String s = &quot;Sachin&quot;;
+      s = s.concat(&quot; Tendulkar&quot;);
+      System.out.println(s); //Sachin Tendulkar
+  }
+</code></pre>
+
+<h3 id="string的比较方法">String的比较方法</h3>
+
+<p>有三种比较方式</p>
+
+<ol>
+<li><p>通过<code>equals()</code>方法比较</p>
+
+<pre><code> public static void main(String[] args) {
+       String s1 = &quot;Sachin&quot;;
+       String s2 = &quot;Sachin&quot;;
+       String s3 = new String(&quot;Sachin&quot;);
+       String s4 = &quot;Saurav&quot;;
+       System.out.println(s1.equals(s2));
+       System.out.println(s1.equals(s3));
+       System.out.println(s1.equals(s4));
+   }
+</code></pre></li>
+
+<li><p>通过<code>==</code>操作符比较</p>
+
+<pre><code>public static void main(String args[]){  
+  String s1=&quot;Sachin&quot;;  
+  String s2=&quot;Sachin&quot;;  
+  String s3=new String(&quot;Sachin&quot;);  //会在非缓存池中创建实例
+  System.out.println(s1==s2);//true 
+  System.out.println(s1==s3);//false
+}  
+</code></pre></li>
+
+<li><p><code>compareTo()</code>方法比较</p></li>
+</ol>
+
+<p>s1 == s2 return 0;</p>
+
+<p>s1 &gt; s2 return 1;</p>
+
+<p>s1 &lt; s2 return -1</p>
+
+<pre><code>   public static void main(String args[]){  
+      String s1=&quot;Sachin&quot;;  
+      String s2=&quot;Sachin&quot;;  
+      String s3=&quot;Ratan&quot;;  
+      System.out.println(s1.compareTo(s2));//0  
+      System.out.println(s1.compareTo(s3));//1(because s1&gt;s3)  
+      System.out.println(s3.compareTo(s1));//-1(because s3 &lt; s1 )  
+    } 
+</code></pre>
+
+<h3 id="字符串连接">字符串连接</h3>
+
+<ol>
+<li><p>通过<code>+</code>连接操作符</p>
+
+<pre><code>String s=&quot;Sachin&quot;+&quot; Tendulkar&quot;;  
+String s=50+30+&quot;Sachin&quot;+40+40;  
+</code></pre></li>
+
+<li><p>通过<code>concat()</code>方法</p>
+
+<pre><code>String s1=&quot;Sachin &quot;;  
+String s2=&quot;Tendulkar&quot;;  
+String s3=s1.concat(s2);   
+</code></pre></li>
+</ol>
+
+<h3 id="常用方法">常用方法</h3>
+
+<h4 id="substring-字符串截取"><code>substring()</code>字符串截取</h4>
+
+<ol>
+<li><code>public String substring(int startIndex)</code>给定起点返回一个新的string</li>
+
+<li><p><code>public String substring(int startIndex, int endIndex)</code>给定起点和终点返回一个新的string对象</p>
+
+<pre><code>String s=&quot;SachinTendulkar&quot;;  
+System.out.println(s.substring(6));//Tendulkar  
+System.out.println(s.substring(0,6));//Sachin  
+</code></pre></li>
+</ol>
+
+<h4 id="touppercase-and-tolowercase"><code>toUpperCase() and toLowerCase()</code></h4>
+
+<pre><code>String s=&quot;Sachin&quot;;  
+System.out.println(s.toUpperCase());//SACHIN  
+System.out.println(s.toLowerCase());//sachin  
+System.out.println(s);//Sachin(no change in original) 
+</code></pre>
+
+<h4 id="trim-去空格"><code>trim()</code>去空格</h4>
+
+<pre><code>String s=&quot;  Sachin  &quot;;  
+System.out.println(s);//  Sachin    
+System.out.println(s.trim());//Sachin  
+</code></pre>
+
+<h4 id="startswith-and-endswith-判断开始结尾"><code>startsWith() and endsWith()</code>判断开始结尾</h4>
+
+<pre><code>String s=&quot;Sachin&quot;;  
+System.out.println(s.startsWith(&quot;Sa&quot;));//true  
+System.out.println(s.endsWith(&quot;n&quot;));//true  
+</code></pre>
+
+<h4 id="charat-返回特定位置的字符"><code>charAt()</code>返回特定位置的字符</h4>
+
+<pre><code>String s=&quot;Sachin&quot;;  
+System.out.println(s.charAt(0));//S  
+System.out.println(s.charAt(3));//h  
+</code></pre>
+
+<h4 id="length-字符串长度"><code>length()</code>字符串长度</h4>
+
+<pre><code>String s=&quot;Sachin&quot;;  
+System.out.println(s.length());//6  
+</code></pre>
+
+<h4 id="valueof-将其他基本数据类型转换为string"><code>valueOf()</code>将其他基本数据类型转换为string</h4>
+
+<p>比如将 int, long, float, double, boolean, char and char array 转换成string</p>
+
+<pre><code>int a=10;  
+String s=String.valueOf(a);  
+System.out.println(s+10);  
+</code></pre>
+
+<h4 id="replace-字符串替换"><code>replace()</code>字符串替换</h4>
+
+<pre><code>String s1=&quot;Java is a programming language. Java is a platform. Java is an Island.&quot;;    
+String replaceString=s1.replace(&quot;Java&quot;,&quot;Kava&quot;);//replaces all occurrences of &quot;Java&quot; to &quot;Kava&quot;    
+System.out.println(replaceString); 
+</code></pre>
+
+<h2 id="stringbuffer类">StringBuffer类</h2>
+
+<p>StringBuffer类主要用于创建可变字符串, 主要用于线程安全的</p>
+
+<h3 id="构造方法">构造方法</h3>
+
+<pre><code>StringBuffer()	
+StringBuffer(String str)	
+StringBuffer(int capacity)	
+</code></pre>
+
+<h3 id="常用方法-1">常用方法</h3>
+
+<pre><code>public synchronized StringBuffer append(String s)	//字符串拼接
+public synchronized StringBuffer	insert(int offset, String s)	//字符串插入
+public synchronized StringBuffer	replace(int startIndex, int endIndex, String str)	 //字符串替换
+public synchronized StringBuffer	delete(int startIndex, int endIndex)	//删除
+public synchronized StringBuffer	reverse()	//字符串顺序反转
+public int	capacity()	//返回当前字符串容量
+public String	substring(int beginIndex)	
+public String	substring(int beginIndex, int endIndex)	
+</code></pre>
+
+<h2 id="stringbuilder类">StringBuilder类</h2>
+
+<p>StringBuilder跟StringBuffer差不多，都是创建可变字符串的，但是StringBuilder不是线程安全的，只要不涉及线程安全问题可以使用StringBuilder，性能会更好一点，其他用法跟StringBuffer差不多</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/12/web01/" data-toggle="tooltip" data-placement="top" title="web学习笔记（一）- html5的结构">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/01/13/web02/" data-toggle="tooltip" data-placement="top" title="CSS基础复习">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Cheng Blog 2019
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>
