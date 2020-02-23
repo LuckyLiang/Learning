@@ -21,7 +21,7 @@ categories: [ go ]
 
 定义接口
 
-```
+```go
 /* 定义接口 */
 type interface_name interface {
    method_name1 [return_type]
@@ -48,7 +48,7 @@ func (struct_name_variable struct_name) method_namen() [return_type] {
 
 示例代码：
 
-```
+```go
 package main
 
 import (
@@ -87,7 +87,7 @@ func main() {
 
 运行结果：
 
-```
+```go
 I am Nokia, I can call you!
 I am iPhone, I can call you!
 ```
@@ -100,7 +100,7 @@ I am iPhone, I can call you!
 
 接口指定的规则非常简单：表达一个类型属于某个接口只要这个类型实现这个接口。所以：
 
-```
+```go
 var w io.Writer
 w = os.Stdout           // OK: *os.File has Write method
 w = new(bytes.Buffer)   // OK: *bytes.Buffer has Write method
@@ -113,7 +113,7 @@ rwc = new(bytes.Buffer) // compile error: *bytes.Buffer lacks Close meth
 
 这个规则甚至适用于等式右边本身也是一个接口类型
 
-```
+```go
 w = rwc                 // OK: io.ReadWriteCloser has Write method
 rwc = w                 // compile error: io.Writer lacks Close method
 ```
@@ -124,7 +124,7 @@ rwc = w                 // compile error: io.Writer lacks Close method
 
 使用空接口，接收任意类型作为参数。也就是任意类型都可实现空接口
 
-```
+```go
 
 type Dog struct {
     age int
@@ -176,7 +176,7 @@ func main()  {
 
 ### interface值
 
-```
+```go
 package main
 
 import "fmt"
@@ -244,7 +244,7 @@ func main() {
 
 运行结果
 
-```
+```go
     This is Mike, a Student:
     Hi, I am Mike you can call me on 222-222-XXX
     La la la la... November rain
@@ -265,7 +265,7 @@ func main() {
 
 思考下面的程序。当debug变量设置为true时，main函数会将f函数的输出收集到一个bytes.Buffer类型中。
 
-```
+```go
 const debug = true
 
 func main() {
@@ -287,7 +287,7 @@ func f(out io.Writer) {
 
 当把变量debug设置为false时， 在out.Write方法调用时程序发生了panic：
 
-```
+```go
 if out != nil {
     out.Write([]byte("done!\n")) // panic: nil pointer dereference
 }
@@ -301,7 +301,7 @@ if out != nil {
 
 解决方法
 
-```
+```go
 var buf io.Writer
 if debug {
     buf = new(bytes.Buffer) // enable collection of output
@@ -316,7 +316,7 @@ f(buf) // OK
 2. a.(type) type是关键字 结合switch case使用
    TypeA(a) 是强制转换。
 
-```
+```go
 package main
 
 import (
@@ -400,16 +400,14 @@ func main() {
     testPeri(c)
 
     //定义一个接口类型的数组：Shape类型，可以存储该接口的任意实现类的对象作为数据。
-    var arr[4] Shape
-    arr[0] = t
-    arr[1] = c
-    arr[2] = Triangle{1,2,3}
-    arr[3] = Circle{5}
-
-
-    //判断类型
-    getType(t)
-    getType2(c)
+  var arr[4] Shape
+  arr[0] = t
+  arr[1] = c
+  arr[2] = Triangle{1,2,3}
+  arr[3] = Circle{5}
+  //判断类型
+  getType(t)
+  getType2(c)
 
 }
 
@@ -440,9 +438,14 @@ area = (p-a)*(p-b)*(p-c)开平方
 
 运行结果：
 
-```
+```go
 面积： 6
 周长：15.71
 是Triangle类型。。三边是： 3 4 5
 圆形啊。。 2.5
 ```
+
+
+
+
+

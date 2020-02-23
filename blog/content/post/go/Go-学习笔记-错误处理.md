@@ -23,7 +23,7 @@ Go中的错误也是一种类型。错误用内置的`error` 类型表示。就�
 
 示例代码：
 
-```
+```go
 package main
 import (  
     "fmt"
@@ -45,7 +45,7 @@ func main() {
 
 运行结果：
 
-```
+```go
 open /test.txt: No such file or directory
 ```
 
@@ -53,7 +53,7 @@ open /test.txt: No such file or directory
 
 示例代码：
 
-```
+```go
 package main
 
 import (
@@ -121,7 +121,7 @@ Go 语言通过内置的错误接口提供了非常简单的错误处理机制�
 
 让我们再深入一点，看看如何定义错误类型的构建。错误是一个带有以下定义的接口类型，
 
-```
+```go
 type error interface {
     Error() string
 }
@@ -133,7 +133,7 @@ type error interface {
 
 如果我们想要的是导致错误的文件的实际路径。一种可能的方法是解析错误字符串。这是我们程序的输出，
 
-```
+```go
 open /test.txt: No such file or directory
 ```
 
@@ -143,7 +143,7 @@ open /test.txt: No such file or directory
 
 1. 断言底层结构类型并从结构字段获取更多信息
 
-   ```
+   ```go
    type PathError struct {  
        Op   string
        Path string
@@ -155,7 +155,7 @@ open /test.txt: No such file or directory
 
    从上面的代码中，您可以理解PathError通过声明错误（）string方法实现了错误接口。该方法连接操作、路径和实际错误并返回它。这样我们就得到了错误信息，
 
-   ```
+   ```go
    open /test.txt: No such file or directory
    ```
 
@@ -183,7 +183,7 @@ open /test.txt: No such file or directory
 
    在上面的程序中，我们使用类型断言获得错误接口的基本值。然后我们用错误来打印路径.这个程序输出,
 
-   ```
+   ```go
    File at path /test.txt failed to open
    ```
 
@@ -191,7 +191,7 @@ open /test.txt: No such file or directory
 
    获得更多信息的第二种方法是断言底层类型，并通过调用struct类型的方法获取更多信息。
 
-   ```
+   ```go
    type DNSError struct {  
        ...
    }
@@ -211,7 +211,7 @@ open /test.txt: No such file or directory
 
    让我们编写一个断言*DNSError类型的程序，并调用这些方法来确定错误是临时的还是超时的。
 
-   ```
+   ```go
    package main
    
    import (  
@@ -239,7 +239,7 @@ open /test.txt: No such file or directory
 
    在我们的例子中，错误既不是暂时的，也不是由于超时，因此程序会打印出来，
 
-   ```
+   ```go
    generic error:  lookup golangbot123.com: no such host
    ```
 
@@ -253,7 +253,7 @@ open /test.txt: No such file or directory
 
    在filepath包中定义了ErrBadPattern，如下所述：
 
-   ```
+   ```go
    var ErrBadPattern = errors.New("syntax error in pattern")
    ```
 
@@ -261,7 +261,7 @@ open /test.txt: No such file or directory
 
    当模式出现错误时，由`Glob`函数返回`ErrBadPattern`。
 
-   ```
+   ```go
    package main
    
    import (  
@@ -281,7 +281,7 @@ open /test.txt: No such file or directory
 
    运行结果：
 
-   ```
+   ```go
    syntax error in pattern
    ```
 
@@ -291,7 +291,7 @@ open /test.txt: No such file or directory
 
 在使用新函数创建自定义错误之前，让我们了解它是如何实现的。下面提供了错误包中的新功能的实现。
 
-```
+```go
   package errors
   
   func New(text string) error {
@@ -309,7 +309,7 @@ open /test.txt: No such file or directory
 
 我们将创建一个简单的程序，计算一个圆的面积，如果半径为负，将返回一个错误。
 
-```
+```go
 package main
 
 import (  
@@ -338,7 +338,7 @@ func main() {
 
 运行结果：
 
-```
+```go
 Area calculation failed, radius is less than zero
 ```
 
@@ -346,7 +346,7 @@ Area calculation failed, radius is less than zero
 
 上面的程序运行得很好，但是如果我们打印出导致错误的实际半径，那就好了。这就是fmt包的Errorf函数的用武之地。这个函数根据一个格式说明器格式化错误，并返回一个字符串作为值来满足错误。
 
-```
+```go
 package main
 
 import (  
@@ -375,7 +375,7 @@ func main() {
 
 运行结果：
 
-```
+```go
 Area calculation failed, radius -20.00 is less than zero
 ```
 
@@ -383,7 +383,7 @@ Area calculation failed, radius -20.00 is less than zero
 
 第一步是创建一个struct类型来表示错误。错误类型的命名约定是，名称应该以文本Error结束。让我们把struct类型命名为areaError
 
-```
+```go
 type areaError struct {  
     err    string
     radius float64
@@ -394,7 +394,7 @@ type areaError struct {
 
 下一步，是实现error 接口
 
-```
+```go
 func (e *areaError) Error() string {  
     return fmt.Sprintf("radius %0.2f: %s", e.radius, e.err)
 }
@@ -402,7 +402,7 @@ func (e *areaError) Error() string {
 
 在上面的代码片段中，我们使用一个指针接收器区域错误来实现错误接口的Error() string方法。这个方法打印出半径和错误描述。
 
-```
+```go
 package main
 
 import (  
@@ -454,7 +454,7 @@ Radius -20.00 is less than zero
 
 第一步是创建一个结构来表示错误。
 
-```
+```go
 type areaError struct {  
     err    string //error description
     length float64 //length which caused the error
@@ -466,7 +466,7 @@ type areaError struct {
 
 现在我们有了错误类型，让我们实现错误接口，并在错误类型上添加一些方法来提供关于错误的更多信息。
 
-```
+```go
 func (e *areaError) Error() string {  
     return e.err
 }
@@ -482,7 +482,7 @@ func (e *areaError) widthNegative() bool {
 
 下一步是写出面积计算函数。
 
-```
+```go
 func rectArea(length, width float64) (float64, error) {  
     err := ""
     if length < 0 {
@@ -504,7 +504,7 @@ func rectArea(length, width float64) (float64, error) {
 
 主函数：
 
-```
+```go
 func main() {  
     length, width := -5.0, -9.0
     area, err := rectArea(length, width)
@@ -529,7 +529,7 @@ func main() {
 
 运行结果：
 
-```
+```go
 error: length -5.00 is less than zero  
 error: width -9.00 is less than zero
 ```
@@ -550,7 +550,7 @@ Go没有像Java那样的异常机制，它不能抛出异常，而是使用了`p
 
 下面这个函数演示了如何在过程中使用`panic`
 
-```
+```go
 var user = os.Getenv("USER")
   func init() {
     if user == "" {
@@ -561,7 +561,7 @@ var user = os.Getenv("USER")
 
 下面这个函数检查作为其参数的函数在执行时是否会产生panic：
 
-```
+```go
 func throwsPanic(f func()) (b bool) {
   defer func() {
     if x := recover(); x != nil {
@@ -575,7 +575,7 @@ func throwsPanic(f func()) (b bool) {
 
 示例代码：
 
-```
+```go
 package main
 
 import "fmt"
@@ -624,7 +624,7 @@ func testC()  {
 
 运行结果:
 
-```
+```go
 	函数A。。。
 函数B。。。 0
 函数B。。。 1

@@ -56,7 +56,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     
-    
+    <link rel="stylesheet" href="https://luckyliang.github.io/css/tomorrow-night-eighties.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"><link rel="stylesheet" href="https://luckyliang.github.io/css/main.css">
 
     
     
@@ -67,14 +67,17 @@
     
     
     <script src="/js/hux-blog.min.js"></script>
+  
+    
+    
+    <script src="/js/preetyCode.js"></script>
 
     
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-
+    
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+        
     
     
 
@@ -104,25 +107,27 @@
                         <a href="/">Home</a>
                     </li>
                     
-                    <li>
-                        <a href="/categories/go">go</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/ios">ios</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/java">java</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/web">web</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
-                    </li>
+                        
+                        <li>
+                            <a href="/categories/go">go</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/ios">ios</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/web">web</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                        </li>
+                        
                     
                     
 		    
@@ -224,7 +229,7 @@
 
             
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-11 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 post-container">
 
@@ -261,7 +266,7 @@
 
 <h4 id="创建模型">创建模型</h4>
 
-<pre><code>import Foundation
+<pre><code class="language-swift">import Foundation
 
 /// 实用泛行实现通用格式
 public struct ResponseData&lt;T&gt;: Codable where T: Codable {
@@ -290,7 +295,7 @@ extension Post {
 
 <h4 id="定义-targettype">定义<code>TargetType</code></h4>
 
-<pre><code>import Moya
+<pre><code class="language-swift">import Moya
 
 public enum ServerApi {
     ///定义请求接口参数
@@ -358,7 +363,7 @@ extension ServerApi: TargetType {
 
 <h4 id="网络请求管理">网络请求管理</h4>
 
-<pre><code>import Moya
+<pre><code class="language-swift">import Moya
 import RxSwift
 import PromiseKit
 
@@ -492,7 +497,7 @@ extension Response {
 
 <h4 id="interceptor"><code>interceptor</code></h4>
 
-<pre><code>import Alamofire
+<pre><code class="language-swift">import Alamofire
 
 /// 对request在发出前进行特殊处理
 public struct APIRequestInterceptor: RequestInterceptor {
@@ -531,7 +536,7 @@ public final class APIServerTrustManager: ServerTrustManager {
 
 <p>网络知识器管理器</p>
 
-<pre><code>import UIKit
+<pre><code class="language-swift">import UIKit
 
 /// 网络活动指示器
 public final class NetWorksIndicatorScheduler {
@@ -576,7 +581,7 @@ public final class NetWorksIndicatorScheduler {
 
 <p><code>NetWorksActivityPlugin</code></p>
 
-<pre><code>import Moya
+<pre><code class="language-swift">import Moya
 
 /// 网络活动状态观察
 public final class NetWorksActivityPlugin: PluginType {
@@ -626,7 +631,7 @@ public final class NetWorksLoggerPlugin: PluginType {
 
 <p><code>MoyaError</code></p>
 
-<pre><code>import Moya
+<pre><code class="language-swift">import Moya
 
 extension MoyaError {
     
@@ -659,7 +664,7 @@ extension MoyaError {
 
 <p>自己服务器错误</p>
 
-<pre><code>import Foundation
+<pre><code class="language-swift">import Foundation
 
 /// 自己服务器错误
 public enum APIError: Swift.Error {
@@ -693,7 +698,7 @@ extension APIError {
 
 <p>错误描述扩展</p>
 
-<pre><code>import Moya
+<pre><code class="language-swift">import Moya
 
 extension Swift.Error {
     /// Swift.Error错误描述 兼容所有错误类型的描述
@@ -733,7 +738,7 @@ extension Swift.Error {
 
 <h4 id="发送请求">发送请求</h4>
 
-<pre><code>import UIKit
+<pre><code class="language-swift">import UIKit
 import RxSwift
 import PromiseKit
 import Moya
@@ -772,7 +777,7 @@ extension MoyaViewController {
 
 <h4 id="扩展-资源文件加载">扩展，资源文件加载</h4>
 
-<pre><code>import Foundation
+<pre><code class="language-swift">import Foundation
 import RxSwift
 
 /// ResourceProviderType 协议
@@ -883,7 +888,7 @@ extension Reactive where Base: ResourceProviderType {
 
 <p>资源错误处理</p>
 
-<pre><code>import Foundation
+<pre><code class="language-swift">import Foundation
 
 /// 资源错误
 public enum ResourceProviderError: Swift.Error {
@@ -981,7 +986,7 @@ extension ResourceProviderError {
             </div>
             
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-11 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 sidebar-container">
 
@@ -1103,17 +1108,9 @@ extension ResourceProviderError {
                     
                     
                     
+            
                 </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; Cheng Blog 2019
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
-                    </iframe>
-                </p>
+		
             </div>
         </div>
     </div>

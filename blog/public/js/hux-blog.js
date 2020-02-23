@@ -26,6 +26,8 @@ $(document).ready(function() {
 	$("table").addClass("table");
 });
 
+
+
 // responsive embed videos
 $(document).ready(function () { 
     $('iframe[src*="youtube.com"]').wrap('<div class="embed-responsive embed-responsive-16by9"></div>');

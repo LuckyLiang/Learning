@@ -20,7 +20,7 @@ Moya是基于`Alamofire`网络框架上进行的封装，支持RXSwift
 
 #### 创建模型
 
-```
+```swift
 import Foundation
 
 /// 实用泛行实现通用格式
@@ -50,7 +50,7 @@ extension Post {
 
 #### 定义`TargetType`
 
-```
+```swift
 import Moya
 
 public enum ServerApi {
@@ -119,7 +119,7 @@ extension ServerApi: TargetType {
 
 #### 网络请求管理
 
-```
+```swift
 import Moya
 import RxSwift
 import PromiseKit
@@ -254,7 +254,7 @@ extension Response {
 
 #### `interceptor`
 
-```
+```swift
 import Alamofire
 
 /// 对request在发出前进行特殊处理
@@ -295,7 +295,7 @@ public final class APIServerTrustManager: ServerTrustManager {
 
 网络知识器管理器
 
-```
+```swift
 import UIKit
 
 /// 网络活动指示器
@@ -341,7 +341,7 @@ public final class NetWorksIndicatorScheduler {
 
 `NetWorksActivityPlugin`
 
-```
+```swift
 import Moya
 
 /// 网络活动状态观察
@@ -393,7 +393,7 @@ public final class NetWorksLoggerPlugin: PluginType {
 
 `MoyaError`
 
-```
+```swift
 import Moya
 
 extension MoyaError {
@@ -427,7 +427,7 @@ extension MoyaError {
 
  自己服务器错误
 
-```
+```swift
 import Foundation
 
 /// 自己服务器错误
@@ -462,7 +462,7 @@ extension APIError {
 
 错误描述扩展
 
-```
+```swift
 import Moya
 
 extension Swift.Error {
@@ -503,7 +503,7 @@ extension Swift.Error {
 
 #### 发送请求
 
-```
+```swift
 import UIKit
 import RxSwift
 import PromiseKit
@@ -543,7 +543,7 @@ extension MoyaViewController {
 
 #### 扩展，资源文件加载
 
-```
+```swift
 import Foundation
 import RxSwift
 
@@ -655,7 +655,7 @@ extension Reactive where Base: ResourceProviderType {
 
 资源错误处理
 
-```
+```swift
 import Foundation
 
 /// 资源错误

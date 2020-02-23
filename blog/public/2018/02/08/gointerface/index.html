@@ -56,7 +56,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     
-    
+    <link rel="stylesheet" href="https://luckyliang.github.io/css/tomorrow-night-eighties.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"><link rel="stylesheet" href="https://luckyliang.github.io/css/main.css">
 
     
     
@@ -67,14 +67,17 @@
     
     
     <script src="/js/hux-blog.min.js"></script>
+  
+    
+    
+    <script src="/js/preetyCode.js"></script>
 
     
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-
+    
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+        
     
     
 
@@ -104,25 +107,27 @@
                         <a href="/">Home</a>
                     </li>
                     
-                    <li>
-                        <a href="/categories/go">go</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/ios">ios</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/java">java</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/web">web</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
-                    </li>
+                        
+                        <li>
+                            <a href="/categories/go">go</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/ios">ios</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/web">web</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                        </li>
+                        
                     
                     
 		    
@@ -220,7 +225,7 @@
 
             
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-11 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 post-container">
 
@@ -253,7 +258,7 @@
 
 <p>定义接口</p>
 
-<pre><code>/* 定义接口 */
+<pre><code class="language-go">/* 定义接口 */
 type interface_name interface {
    method_name1 [return_type]
    method_name2 [return_type]
@@ -279,7 +284,7 @@ func (struct_name_variable struct_name) method_namen() [return_type] {
 
 <p>示例代码：</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import (
     &quot;fmt&quot;
@@ -317,7 +322,7 @@ func main() {
 
 <p>运行结果：</p>
 
-<pre><code>I am Nokia, I can call you!
+<pre><code class="language-go">I am Nokia, I can call you!
 I am iPhone, I can call you!
 </code></pre>
 
@@ -329,7 +334,7 @@ I am iPhone, I can call you!
 
 <p>接口指定的规则非常简单：表达一个类型属于某个接口只要这个类型实现这个接口。所以：</p>
 
-<pre><code>var w io.Writer
+<pre><code class="language-go">var w io.Writer
 w = os.Stdout           // OK: *os.File has Write method
 w = new(bytes.Buffer)   // OK: *bytes.Buffer has Write method
 w = time.Second         // compile error: time.Duration lacks Write method
@@ -341,7 +346,7 @@ rwc = new(bytes.Buffer) // compile error: *bytes.Buffer lacks Close meth
 
 <p>这个规则甚至适用于等式右边本身也是一个接口类型</p>
 
-<pre><code>w = rwc                 // OK: io.ReadWriteCloser has Write method
+<pre><code class="language-go">w = rwc                 // OK: io.ReadWriteCloser has Write method
 rwc = w                 // compile error: io.Writer lacks Close method
 </code></pre>
 
@@ -351,7 +356,7 @@ rwc = w                 // compile error: io.Writer lacks Close method
 
 <p>使用空接口，接收任意类型作为参数。也就是任意类型都可实现空接口</p>
 
-<pre><code>
+<pre><code class="language-go">
 type Dog struct {
     age int
 }
@@ -402,7 +407,7 @@ func main()  {
 
 <h3 id="interface值">interface值</h3>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import &quot;fmt&quot;
 
@@ -469,7 +474,7 @@ func main() {
 
 <p>运行结果</p>
 
-<pre><code>    This is Mike, a Student:
+<pre><code class="language-go">    This is Mike, a Student:
     Hi, I am Mike you can call me on 222-222-XXX
     La la la la... November rain
     This is Tom, an Employee:
@@ -489,7 +494,7 @@ func main() {
 
 <p>思考下面的程序。当debug变量设置为true时，main函数会将f函数的输出收集到一个bytes.Buffer类型中。</p>
 
-<pre><code>const debug = true
+<pre><code class="language-go">const debug = true
 
 func main() {
     var buf *bytes.Buffer
@@ -510,7 +515,7 @@ func f(out io.Writer) {
 
 <p>当把变量debug设置为false时， 在out.Write方法调用时程序发生了panic：</p>
 
-<pre><code>if out != nil {
+<pre><code class="language-go">if out != nil {
     out.Write([]byte(&quot;done!\n&quot;)) // panic: nil pointer dereference
 }
 </code></pre>
@@ -523,7 +528,7 @@ func f(out io.Writer) {
 
 <p>解决方法</p>
 
-<pre><code>var buf io.Writer
+<pre><code class="language-go">var buf io.Writer
 if debug {
     buf = new(bytes.Buffer) // enable collection of output
 }
@@ -539,7 +544,7 @@ a.(某个类型) 返回两个值 inst 和 ok ，ok代表是否是这个类型，
 <li><p>a.(type) type是关键字 结合switch case使用
 TypeA(a) 是强制转换。</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import (
 &quot;math&quot;
@@ -627,8 +632,6 @@ arr[0] = t
 arr[1] = c
 arr[2] = Triangle{1,2,3}
 arr[3] = Circle{5}
-
-
 //判断类型
 getType(t)
 getType2(c)
@@ -663,7 +666,7 @@ testPeri()--&gt;三角形，圆形，矩形
 
 <p>运行结果：</p>
 
-<pre><code>面积： 6
+<pre><code class="language-go">面积： 6
 周长：15.71
 是Triangle类型。。三边是： 3 4 5
 圆形啊。。 2.5
@@ -736,7 +739,7 @@ testPeri()--&gt;三角形，圆形，矩形
             </div>
             
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-11 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 sidebar-container">
 
@@ -858,17 +861,9 @@ testPeri()--&gt;三角形，圆形，矩形
                     
                     
                     
+            
                 </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; Cheng Blog 2019
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
-                    </iframe>
-                </p>
+		
             </div>
         </div>
     </div>

@@ -56,7 +56,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     
-    
+    <link rel="stylesheet" href="https://luckyliang.github.io/css/tomorrow-night-eighties.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"><link rel="stylesheet" href="https://luckyliang.github.io/css/main.css">
 
     
     
@@ -67,14 +67,17 @@
     
     
     <script src="/js/hux-blog.min.js"></script>
+  
+    
+    
+    <script src="/js/preetyCode.js"></script>
 
     
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-
+    
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+        
     
     
 
@@ -104,25 +107,27 @@
                         <a href="/">Home</a>
                     </li>
                     
-                    <li>
-                        <a href="/categories/go">go</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/ios">ios</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/java">java</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/web">web</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
-                    </li>
+                        
+                        <li>
+                            <a href="/categories/go">go</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/ios">ios</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/web">web</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                        </li>
+                        
                     
                     
 		    
@@ -220,7 +225,7 @@
 
             
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-11 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 post-container">
 
@@ -256,7 +261,7 @@
 
 <p>示例代码：</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 import (  
     &quot;fmt&quot;
     &quot;os&quot;
@@ -277,14 +282,14 @@ func main() {
 
 <p>运行结果：</p>
 
-<pre><code>open /test.txt: No such file or directory
+<pre><code class="language-go">open /test.txt: No such file or directory
 </code></pre>
 
 <p>我们得到一个错误，说明该文件不存在。</p>
 
 <p>示例代码：</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import (
     &quot;fmt&quot;
@@ -351,7 +356,7 @@ func main() {
 
 <p>让我们再深入一点，看看如何定义错误类型的构建。错误是一个带有以下定义的接口类型，</p>
 
-<pre><code>type error interface {
+<pre><code class="language-go">type error interface {
     Error() string
 }
 </code></pre>
@@ -362,7 +367,7 @@ func main() {
 
 <p>如果我们想要的是导致错误的文件的实际路径。一种可能的方法是解析错误字符串。这是我们程序的输出，</p>
 
-<pre><code>open /test.txt: No such file or directory
+<pre><code class="language-go">open /test.txt: No such file or directory
 </code></pre>
 
 <p>我们可以解析这个错误消息并从中获取文件路径&rdquo;/test.txt&rdquo;。但这是一个糟糕的方法。在新版本的语言中，错误描述可以随时更改，我们的代码将会中断。</p>
@@ -372,7 +377,7 @@ func main() {
 <ol>
 <li><p>断言底层结构类型并从结构字段获取更多信息</p>
 
-<pre><code>type PathError struct {  
+<pre><code class="language-go">type PathError struct {  
    Op   string
    Path string
    Err  error
@@ -384,7 +389,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>从上面的代码中，您可以理解PathError通过声明错误（）string方法实现了错误接口。该方法连接操作、路径和实际错误并返回它。这样我们就得到了错误信息，</p>
 
-<pre><code>   open /test.txt: No such file or directory
+<pre><code class="language-go">   open /test.txt: No such file or directory
 </code></pre>
 
 <p>PathError结构的路径字段包含导致错误的文件的路径。让我们修改上面写的程序，并打印出路径。</p>
@@ -410,7 +415,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>在上面的程序中，我们使用类型断言获得错误接口的基本值。然后我们用错误来打印路径.这个程序输出,</p>
 
-<pre><code>   File at path /test.txt failed to open
+<pre><code class="language-go">   File at path /test.txt failed to open
 </code></pre>
 
 <ol>
@@ -419,7 +424,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>获得更多信息的第二种方法是断言底层类型，并通过调用struct类型的方法获取更多信息。</p>
 
-<pre><code>   type DNSError struct {  
+<pre><code class="language-go">   type DNSError struct {  
        ...
    }
    
@@ -438,7 +443,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>让我们编写一个断言*DNSError类型的程序，并调用这些方法来确定错误是临时的还是超时的。</p>
 
-<pre><code>   package main
+<pre><code class="language-go">   package main
    
    import (  
        &quot;fmt&quot;
@@ -465,7 +470,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>在我们的例子中，错误既不是暂时的，也不是由于超时，因此程序会打印出来，</p>
 
-<pre><code>   generic error:  lookup golangbot123.com: no such host
+<pre><code class="language-go">   generic error:  lookup golangbot123.com: no such host
 </code></pre>
 
 <p>如果错误是临时的或超时的，那么相应的If语句就会执行，我们可以适当地处理它。</p>
@@ -480,14 +485,14 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>在filepath包中定义了ErrBadPattern，如下所述：</p>
 
-<pre><code>   var ErrBadPattern = errors.New(&quot;syntax error in pattern&quot;)
+<pre><code class="language-go">   var ErrBadPattern = errors.New(&quot;syntax error in pattern&quot;)
 </code></pre>
 
 <p><code>errors.New()</code>用于创建新的错误。</p>
 
 <p>当模式出现错误时，由<code>Glob</code>函数返回<code>ErrBadPattern</code>。</p>
 
-<pre><code>   package main
+<pre><code class="language-go">   package main
    
    import (  
        &quot;fmt&quot;
@@ -506,7 +511,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>运行结果：</p>
 
-<pre><code>   syntax error in pattern
+<pre><code class="language-go">   syntax error in pattern
 </code></pre>
 
 <h3 id="自定义错误">自定义错误</h3>
@@ -515,7 +520,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>在使用新函数创建自定义错误之前，让我们了解它是如何实现的。下面提供了错误包中的新功能的实现。</p>
 
-<pre><code>  package errors
+<pre><code class="language-go">  package errors
   
   func New(text string) error {
       return &amp;errorString{text}
@@ -532,7 +537,7 @@ func (e *PathError) Error() string { return e.Op + &quot; &quot; + e.Path + &quo
 
 <p>我们将创建一个简单的程序，计算一个圆的面积，如果半径为负，将返回一个错误。</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import (  
     &quot;errors&quot;
@@ -560,14 +565,14 @@ func main() {
 
 <p>运行结果：</p>
 
-<pre><code>Area calculation failed, radius is less than zero
+<pre><code class="language-go">Area calculation failed, radius is less than zero
 </code></pre>
 
 <p><strong>使用Errorf向错误添加更多信息</strong></p>
 
 <p>上面的程序运行得很好，但是如果我们打印出导致错误的实际半径，那就好了。这就是fmt包的Errorf函数的用武之地。这个函数根据一个格式说明器格式化错误，并返回一个字符串作为值来满足错误。</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import (  
     &quot;fmt&quot;
@@ -595,14 +600,14 @@ func main() {
 
 <p>运行结果：</p>
 
-<pre><code>Area calculation failed, radius -20.00 is less than zero
+<pre><code class="language-go">Area calculation failed, radius -20.00 is less than zero
 </code></pre>
 
 <p><strong>使用<code>struct</code>类型和字段提供关于错误的更多信息</strong></p>
 
 <p>第一步是创建一个struct类型来表示错误。错误类型的命名约定是，名称应该以文本Error结束。让我们把struct类型命名为areaError</p>
 
-<pre><code>type areaError struct {  
+<pre><code class="language-go">type areaError struct {  
     err    string
     radius float64
 }
@@ -612,14 +617,14 @@ func main() {
 
 <p>下一步，是实现error 接口</p>
 
-<pre><code>func (e *areaError) Error() string {  
+<pre><code class="language-go">func (e *areaError) Error() string {  
     return fmt.Sprintf(&quot;radius %0.2f: %s&quot;, e.radius, e.err)
 }
 </code></pre>
 
 <p>在上面的代码片段中，我们使用一个指针接收器区域错误来实现错误接口的Error() string方法。这个方法打印出半径和错误描述。</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import (  
     &quot;fmt&quot;
@@ -669,7 +674,7 @@ func main() {
 
 <p>第一步是创建一个结构来表示错误。</p>
 
-<pre><code>type areaError struct {  
+<pre><code class="language-go">type areaError struct {  
     err    string //error description
     length float64 //length which caused the error
     width  float64 //width which caused the error
@@ -680,7 +685,7 @@ func main() {
 
 <p>现在我们有了错误类型，让我们实现错误接口，并在错误类型上添加一些方法来提供关于错误的更多信息。</p>
 
-<pre><code>func (e *areaError) Error() string {  
+<pre><code class="language-go">func (e *areaError) Error() string {  
     return e.err
 }
 
@@ -695,7 +700,7 @@ func (e *areaError) widthNegative() bool {
 
 <p>下一步是写出面积计算函数。</p>
 
-<pre><code>func rectArea(length, width float64) (float64, error) {  
+<pre><code class="language-go">func rectArea(length, width float64) (float64, error) {  
     err := &quot;&quot;
     if length &lt; 0 {
         err += &quot;length is less than zero&quot;
@@ -716,7 +721,7 @@ func (e *areaError) widthNegative() bool {
 
 <p>主函数：</p>
 
-<pre><code>func main() {  
+<pre><code class="language-go">func main() {  
     length, width := -5.0, -9.0
     area, err := rectArea(length, width)
     if err != nil {
@@ -740,7 +745,7 @@ func (e *areaError) widthNegative() bool {
 
 <p>运行结果：</p>
 
-<pre><code>error: length -5.00 is less than zero  
+<pre><code class="language-go">error: length -5.00 is less than zero  
 error: width -9.00 is less than zero
 </code></pre>
 
@@ -760,7 +765,7 @@ error: width -9.00 is less than zero
 
 <p>下面这个函数演示了如何在过程中使用<code>panic</code></p>
 
-<pre><code>var user = os.Getenv(&quot;USER&quot;)
+<pre><code class="language-go">var user = os.Getenv(&quot;USER&quot;)
   func init() {
     if user == &quot;&quot; {
         panic(&quot;no value for $USER&quot;)
@@ -770,7 +775,7 @@ error: width -9.00 is less than zero
 
 <p>下面这个函数检查作为其参数的函数在执行时是否会产生panic：</p>
 
-<pre><code>func throwsPanic(f func()) (b bool) {
+<pre><code class="language-go">func throwsPanic(f func()) (b bool) {
   defer func() {
     if x := recover(); x != nil {
        b = true
@@ -783,7 +788,7 @@ error: width -9.00 is less than zero
 
 <p>示例代码：</p>
 
-<pre><code>package main
+<pre><code class="language-go">package main
 
 import &quot;fmt&quot;
 
@@ -831,7 +836,7 @@ func testC()  {
 
 <p>运行结果:</p>
 
-<pre><code>	函数A。。。
+<pre><code class="language-go">	函数A。。。
 函数B。。。 0
 函数B。。。 1
 函数B。。。 2
@@ -911,7 +916,7 @@ Process finished with exit code 0
             </div>
             
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-11 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 sidebar-container">
 
@@ -1033,17 +1038,9 @@ Process finished with exit code 0
                     
                     
                     
+            
                 </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; Cheng Blog 2019
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
-                    </iframe>
-                </p>
+		
             </div>
         </div>
     </div>
