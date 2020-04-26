@@ -36,7 +36,7 @@
 
     <title>Cheng Cheng 的博客 | Cheng Cheng Blog</title>
 
-    <link rel="canonical" href="/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/">
+    <link rel="canonical" href="/post/go/cobra%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -233,12 +233,14 @@
 <ul>
 <li>
 <ul>
-<li><a href="#序列">序列</a></li>
-<li><a href="#迭代器">迭代器</a>
+<li><a href="#cobra命令行库">Cobra命令行库</a>
 <ul>
-<li>
+<li><a href="#commands">Commands</a></li>
+<li><a href="#flags">Flags</a></li>
+<li><a href="#installing">Installing</a></li>
+<li><a href="#getting-started">Getting Started</a>
 <ul>
-<li><a href="#遵守序列协议">遵守序列协议</a></li>
+<li><a href="#创建-rootcmd">创建<code>rootCmd</code></a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -247,106 +249,106 @@
                 
                 
 
-<h2 id="序列">序列</h2>
+<h2 id="cobra命令行库">Cobra命令行库</h2>
 
-<blockquote>
-<p><code>Sequence</code> 协议是集合类型结构中的基础。 一个序列 (sequence) 代表的是一系列具有相同类型 的值，你可以对这些值进行迭代。</p>
-</blockquote>
+<p>项目地址：<a href="https://github.com/spf13/cobra.git">https://github.com/spf13/cobra.git</a></p>
 
-<pre><code class="language-swift">for element in someSequence { 
-		doSomething(with: element)
-}
+<p>文档地址：<a href="https://godoc.org/github.com/spf13/cobra#Command">https://godoc.org/github.com/spf13/cobra#Command</a></p>
+
+<p>命令行由指令（commands）参数（Args）和标签（flags）组成</p>
+
+<p>遵循的格式为 appName command arg &ndash;flag</p>
+
+<p>比如</p>
+
+<p><code>hugo server --port=1313</code></p>
+
+<p><code>git clone URL --bare</code></p>
+
+<h3 id="commands">Commands</h3>
+
+<p>指令是程序的核心，程序之间交互都由Command指令完成， 一个command包含子command和可选的运行方法</p>
+
+<p>更多的command见文档地址：<a href="https://godoc.org/github.com/spf13/cobra#Command">https://godoc.org/github.com/spf13/cobra#Command</a></p>
+
+<h3 id="flags">Flags</h3>
+
+<p>flags标志的是一种修改命令（command）的行为</p>
+
+<p>比如上面的<code>port</code>就是端口的一种标志</p>
+
+<p>Flag的功能由<a href="https://github.com/spf13/pflag">pflag library</a>库提供</p>
+
+<h3 id="installing">Installing</h3>
+
+<p>使用<code>go get  latest version</code>  获取该库</p>
+
+<pre><code>go get -u github.com/spf13/cobra/cobra
 </code></pre>
 
-<p>满足 Sequence 协议的要求十分简单，你需要做的所有事情就是提供一个返回迭代器 (iterator) 的 makeIterator() 方法:</p>
+<p>在程序中导入</p>
 
-<pre><code class="language-swift">protocol Sequence {
-	associatedtype Iterator: IteratorProtocol 
-	func makeIterator() -&gt; Iterator
-// ...
-}
+<pre><code>import &quot;github.com/spf13/cobra&quot;
 </code></pre>
 
-<h2 id="迭代器">迭代器</h2>
+<h3 id="getting-started">Getting Started</h3>
 
-<p>序列通过创建一个迭代器来提供对元素的访问。 迭代器每次产生一个序列的值，并且当遍历序 列时对遍历状态进行管理。在 IteratorProtocol 协议中唯一的一个方法是 next()，这个方法需 要在每次被调用时返回序列中的下一个值。当序列被耗尽时，next() 应该返回 nil:</p>
+<p>使用Cobra来组织您的应用，应用的目录最好是</p>
 
-<pre><code class="language-swift">protocol IteratorProtocol { 
-	associatedtype Element
-	mutating func next() -&gt; Element?
-}
+<pre><code class="language-go">appName/
+	cmd/
+		add.go
+		your.go
+		conmands.go
+main.go
 </code></pre>
 
-<p>for 循环其实是下面这段代码 的一种简写形式:</p>
+<h4 id="创建-rootcmd">创建<code>rootCmd</code></h4>
 
-<pre><code class="language-swift">var iterator = someSequence.makeIterator() 
-while let element = iterator.next() {
-	doSomething(with: element) 
-}
-</code></pre>
+<pre><code class="language-go">package cmd
 
-<p>迭代器是单向结构，它只能按照增加的方向前进，而不能倒退或者重置</p>
-
-<p>一个不断返 回同样值的迭代器了:</p>
-
-<pre><code class="language-swift">struct ConstantIterator: IteratorProtocol { 
-  typealias Element = Int
-	mutating func next() -&gt; Int? {
-		return 1 
+import (
+  &quot;fmt&quot;
+	&quot;github.com/spf13/cobra&quot;
+)
+var (
+	rootCmd = &amp;cobra.Command{
+  Use:   &quot;hugo&quot;,
+  Short: &quot;Hugo is a very fast static site generator&quot;,
+  Long: `A Fast and Flexible Static Site Generator built with
+                love by spf13 and friends in Go.
+                Complete documentation is available at http://hugo.spf13.com`,
+  Run: func(cmd *cobra.Command, args []string) {
+    // 这里是命令需要执行的具体任务
+			fmt.Println(&quot;args = &quot;, args, &quot;需要执行的task在这里&quot;)
   }
-}
+)
 
-var interator = ConstantIterator()
-while let x = interator.next() {
-    print(x)
-}
-</code></pre>
-
-<h4 id="遵守序列协议">遵守序列协议</h4>
-
-<p>创造有限序列的迭代器  Pre􏰀xGenerator 它将顺次 生成字符串的所有前缀 (也包含字符串本身)。它从字符串的开头开始，每次调用 next 时，会返 回一个追加之后一个字符的字符串切片，直到达到整个字符串尾部为止:</p>
-
-<pre><code class="language-swift">struct PrefixIterator: IteratorProtocol {
-    let string: String
-    var offset: String.Index
-    
-    init(string: String) {
-        self.string = string
-        offset = string.startIndex
-    }
-    
-    mutating func next() -&gt; Substring? {
-        guard offset &lt; string.endIndex else { return nil }
-        offset = string.index(after: offset)
-        return string[..&lt;offset]
-    }
+func Execute() error{
+	return  rootCmd.Execute()
 }
 </code></pre>
 
-<p>(string[..&lt;offset] 是一个对字符串的切片操作，它将返回从字符串开始到偏移量为止的子字符</p>
+<p>在main方法中提供入口</p>
 
-<p>有了 Pre􏰀xIterator，定义一个 Pre􏰀xSequence 类型就很容易了。</p>
+<pre><code class="language-go">package main
+import (
+	&quot;fmt&quot;
+	&quot;hugoStudy/cmd&quot;
+	&quot;os&quot;
+)
+func main() {
 
-<pre><code class="language-swift">// 遵循序列协议
-struct PrefixSequence: Sequence {
-    let string: String
-    func makeIterator() -&gt; PrefixIterator {
-        return PrefixIterator(string: string)
-    }
+	if err :=  cmd.Execute(); err != nil {
+		fmt.Println(&quot;err = &quot;, err)
+		os.Exit(-1)
+	}
 }
-//现在，我们可以使用 for 循环来进行迭代，并打印出所有的前缀了:
-for prefix in PrefixSequence(string: &quot;hello&quot;) {
-    print(prefix)
-}
-/**
-h
-he
-hel
-hell
-hello
-Program ended with exit code: 0
-*/
 </code></pre>
+
+<p>执行<code>go run main.go</code>就会执行命令操作，或者编译后执行 <code>./appName commond</code></p>
+
+<p>定义<code>flags</code>和在<code>init()</code>方法中添加配置</p>
 
 
                 
@@ -394,9 +396,14 @@ Program ended with exit code: 0
                 <hr>
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/post/ios/swift-%E9%9B%86%E5%90%88%E7%B1%BB%E5%9E%8B%E5%8D%8F%E8%AE%AE/" data-toggle="tooltip" data-placement="top" title="">&larr;
+                            Previous Post</a>
+                    </li>
+                    
                     
                     <li class="next">
-                        <a href="/post/go/cobra%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/" data-toggle="tooltip" data-placement="top" title="">Next
+                        <a href="/2017/01/12/web01/" data-toggle="tooltip" data-placement="top" title="web学习笔记（一）- html5的结构">Next
                             Post &rarr;</a>
                     </li>
                     

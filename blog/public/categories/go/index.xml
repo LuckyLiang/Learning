@@ -137,5 +137,14 @@
       <description>程序结构 命名 Go语言中的函数名、变量名、常量名、类型名、语句标号和包名等所有的命名，都遵循一个简单的命名规则：一个名字必须以一个字母（Uni</description>
     </item>
     
+    <item>
+      <title>Go flag - 命令行参数解析</title>
+      <link>https://luckyliang.github.io/2018/02/09/goflag/</link>
+      <pubDate>Tue, 09 Jan 2018 19:35:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/09/goflag/</guid>
+      <description>flag - 命令行参数解析 概念： 命令行参数（或参数）：是指运行程序时提供的参数 示例 以nginx为例 执行nginx -h 输出： $ nginx -h nginx version: nginx/1.17.8 Usage: nginx [-?hvVtTq] [-s signal] [-c filename] [-p</description>
+    </item>
+    
   </channel>
 </rss>

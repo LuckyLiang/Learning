@@ -237,6 +237,15 @@
     </item>
     
     <item>
+      <title>Go flag - 命令行参数解析</title>
+      <link>https://luckyliang.github.io/2018/02/09/goflag/</link>
+      <pubDate>Tue, 09 Jan 2018 19:35:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/2018/02/09/goflag/</guid>
+      <description>flag - 命令行参数解析 概念： 命令行参数（或参数）：是指运行程序时提供的参数 示例 以nginx为例 执行nginx -h 输出： $ nginx -h nginx version: nginx/1.17.8 Usage: nginx [-?hvVtTq] [-s signal] [-c filename] [-p</description>
+    </item>
+    
+    <item>
       <title>Java（四）- I/O操作</title>
       <link>https://luckyliang.github.io/2017/01/16/java02/</link>
       <pubDate>Mon, 16 Jan 2017 19:32:00 +0000</pubDate>
@@ -315,6 +324,30 @@
       
       <guid>https://luckyliang.github.io/2017/01/12/web01/</guid>
       <description>新增的主体结构元素 article`元素 article元素代表文档、页面或应用程序中独立完整的、可以独自被外部引用的内容 一个article元素</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://luckyliang.github.io/post/go/cobra%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://luckyliang.github.io/post/go/cobra%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/</guid>
+      <description>Cobra命令行库 项目地址：https://github.com/spf13/cobra.git
+文档地址：https://godoc.org/github.com/spf13/cobra#Command
+命令行由指令（commands）参数（Args）和标签（flags）组成
+遵循的格式为 appName command arg &amp;ndash;flag
+比如
+hugo server --port=1313
+git clone URL --bare
+Commands 指令是程序的核心，程序之间交互都由Command指令完成， 一个command包含子command和可选的运行方法
+更多的command见文档地址：https://godoc.org/github.com/spf13/cobra#Command
+Flags flags标志的是一种修改命令（command）的行为
+比如上面的port就是端口的一种标志
+Flag的功能由pflag library库提供
+Installing 使用go get latest version 获取该库
+go get -u github.com/spf13/cobra/cobra  在程序中导入
+import &amp;quot;github.com/spf13/cobra&amp;quot;  Getting Started 使用Cobra来组织您的应用，应用的目录最好是
+appName/ cmd/ add.go your.go conmands.go main.go  创建rootCmd package cmd import ( &amp;quot;fmt&amp;quot; &amp;quot;github.com/spf13/cobra&amp;quot; ) var ( rootCmd = &amp;amp;cobra.Command{ Use: &amp;quot;hugo&amp;quot;, Short: &amp;quot;Hugo is a very fast static site generator&amp;quot;, Long: `A Fast and Flexible Static Site Generator built with love by spf13 and friends in Go.</description>
     </item>
     
     <item>

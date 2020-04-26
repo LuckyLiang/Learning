@@ -211,6 +211,27 @@
             
 
 <div class="post-preview">
+    <a href="https://luckyliang.github.io/2017/01/14/java02/">
+        <h2 class="post-title">
+            Java（二）- 正则
+        </h2>
+	
+        <div class="post-content-preview">
+	
+            java中正则表达式的使用方法
+        
+        </div>
+    </a>
+    <p class="post-meta">
+    Posted by Cheng Saturday, January 14, 2017
+    
+    
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="https://luckyliang.github.io/2017/01/14/web03/">
         <h2 class="post-title">
             CSS选择器
@@ -287,6 +308,42 @@
     </a>
     <p class="post-meta">
     Posted by Cheng Thursday, January 12, 2017
+    
+    
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="https://luckyliang.github.io/post/go/cobra%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/">
+        <h2 class="post-title">
+            
+        </h2>
+	
+        <div class="post-content-preview">
+	
+            Cobra命令行库 项目地址：https://github.com/spf13/cobra.git
+文档地址：https://godoc.org/github.com/spf13/cobra#Command
+命令行由指令（commands）参数（Args）和标签（flags）组成
+遵循的格式为 appName command arg &ndash;flag
+比如
+hugo server --port=1313
+git clone URL --bare
+Commands 指令是程序的核心，程序之间交互都由Command指令完成， 一个command包含子command和可选的运行方法
+更多的command见文档地址：https://godoc.org/github.com/spf13/cobra#Command
+Flags flags标志的是一种修改命令（command）的行为
+比如上面的port就是端口的一种标志
+Flag的功能由pflag library库提供
+Installing 使用go get latest version 获取该库
+go get -u github.com/spf13/cobra/cobra  在程序中导入
+import &quot;github.com/spf13/cobra&quot;  Getting Started 使用Cobra来组织您的应用，应用的目录最好是
+appName/ cmd/ add.go your.go conmands.go main.go  创建rootCmd package cmd import ( &quot;fmt&quot; &quot;github.com/spf13/cobra&quot; ) var ( rootCmd = &amp;cobra.Command{ Use: &quot;hugo&quot;, Short: &quot;Hugo is a very fast static site generator&quot;, Long: `A Fast and Flexible Static Site Generator built with love by spf13 and friends in Go.
+       
+        </div>
+    </a>
+    <p class="post-meta">
+    Posted by Cheng Blog Monday, January 1, 0001
     
     
     </p>

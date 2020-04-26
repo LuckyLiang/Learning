@@ -48,12 +48,12 @@
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/categories/ios/</loc>
+    <loc>https://luckyliang.github.io/tags/ios/</loc>
     <lastmod>2018-04-23T13:20:22+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/tags/ios/</loc>
+    <loc>https://luckyliang.github.io/categories/ios/</loc>
     <lastmod>2018-04-23T13:20:22+00:00</lastmod>
   </url>
   
@@ -193,12 +193,17 @@
   </url>
   
   <url>
-    <loc>https://luckyliang.github.io/categories/java/</loc>
-    <lastmod>2017-01-16T19:32:00+00:00</lastmod>
+    <loc>https://luckyliang.github.io/2018/02/09/goflag/</loc>
+    <lastmod>2018-01-09T19:35:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://luckyliang.github.io/tags/java/</loc>
+    <lastmod>2017-01-16T19:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/categories/java/</loc>
     <lastmod>2017-01-16T19:32:00+00:00</lastmod>
   </url>
   
@@ -255,6 +260,11 @@
   <url>
     <loc>https://luckyliang.github.io/2017/01/12/web01/</loc>
     <lastmod>2017-01-12T19:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://luckyliang.github.io/post/go/cobra%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7/</loc>
+    <priority>0</priority>
   </url>
   
   <url>

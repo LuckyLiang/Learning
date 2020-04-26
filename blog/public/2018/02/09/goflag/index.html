@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Cheng Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://luckyliang.github.io/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Go flag - 命令行参数解析" />
+    <meta property="og:title" content="Go flag - 命令行参数解析" />
+    <meta property="twitter:title" content="Go flag - 命令行参数解析" />
+    
+
+    
+    <meta name="description" content="go学习笔记 - flag命令行参数解析">
+    <meta property="og:description" content="go学习笔记 - flag命令行参数解析" />
+    <meta property="twitter:description" content="go学习笔记 - flag命令行参数解析" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="cheng, ChengCheng, chengcheng , Cheng的网络日志, Cheng的博客, chengcheng Blog, 博客, 个人网站, 互联网, Web, 云原生, IOS, Go, Swift, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Go flag - 命令行参数解析-Cheng Cheng 的博客 | Cheng Cheng Blog</title>
+
+    <link rel="canonical" href="/2018/02/09/goflag/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    <link rel="stylesheet" href="https://luckyliang.github.io/css/tomorrow-night-eighties.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"><link rel="stylesheet" href="https://luckyliang.github.io/css/main.css">
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+  
+    
+    
+    <script src="/js/preetyCode.js"></script>
+
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+        
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Cheng Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/go">go</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/ios">ios</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/web">web</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E6%B1%87%E7%BC%96">汇编</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-11-service-mesh-vs-api-gateway/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                    </div>
+                    <h1>Go flag - 命令行参数解析</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Cheng
+                         
+                        on 
+                        Tuesday, January 9, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li><a href="#flag-命令行参数解析">flag - 命令行参数解析</a>
+<ul>
+<li><a href="#示例">示例</a></li>
+<li><a href="#flag包">flag包</a>
+<ul>
+<li><a href="#定义flags的方式">定义flags的方式</a></li>
+<li><a href="#自定义value">自定义value</a></li>
+<li><a href="#解析flag">解析flag</a></li>
+</ul></li>
+<li><a href="#类型和函数">类型和函数</a>
+<ul>
+<li><a href="#函数">函数</a></li>
+<li><a href="#类型-数据结构">类型（数据结构）</a></li>
+</ul></li>
+<li><a href="#主要类型的方法-包括类型实例化">主要类型的方法（包括类型实例化）</a>
+<ul>
+<li><a href="#实例化方式">实例化方式</a></li>
+<li><a href="#定义-flag-参数的方法">定义 flag 参数的方法</a></li>
+<li><a href="#解析参数-parse">解析参数（Parse）</a></li>
+<li><a href="#arg-i-int-和-args-narg-nflag">Arg(i int) 和 Args()、NArg()、NFlag()</a></li>
+<li><a href="#visit-visitall">Visit/VisitAll</a></li>
+<li><a href="#printdefaults">PrintDefaults()</a></li>
+<li><a href="#set-name-value-string">Set(name, value string)</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h1 id="flag-命令行参数解析">flag - 命令行参数解析</h1>
+
+<p>概念：
+命令行参数（或参数）：是指运行程序时提供的参数</p>
+
+<h2 id="示例">示例</h2>
+
+<p>以nginx为例 执行<code>nginx -h</code> 输出：</p>
+
+<pre><code class="language-shell">$ nginx -h
+nginx version: nginx/1.17.8
+Usage: nginx [-?hvVtTq] [-s signal] [-c filename] [-p prefix] [-g directives]
+
+Options:
+  -?,-h         : this help
+  -v            : show version and exit
+  -V            : show version and configure options then exit
+  -t            : test configuration and exit
+  -T            : test configuration, dump it and exit
+  -q            : suppress non-error messages during configuration testing
+  -s signal     : send signal to a master process: stop, quit, reopen, reload
+  -p prefix     : set prefix path (default: /usr/local/Cellar/nginx/1.17.8/)
+  -c filename   : set configuration file (default: /usr/local/etc/nginx/nginx.conf)
+  -g directives : set global directives out of configuration file
+</code></pre>
+
+<p>然后通过flg实现类似Nginx的这个输出</p>
+
+<pre><code class="language-go">import (
+	&quot;flag&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+)
+
+var (
+	h bool
+	v, V bool
+	t, T bool
+	q  *bool
+
+	s string
+	p string
+	c string
+	g string
+)
+
+func init() {
+
+	flag.BoolVar(&amp;h, &quot;h&quot;, false, &quot;this help&quot;)
+	flag.BoolVar(&amp;v, &quot;v&quot;, false, &quot;show version and exit&quot;)
+	flag.BoolVar(&amp;V, &quot;V&quot;, false, &quot;show version and configure options then exit&quot;)
+
+	flag.BoolVar(&amp;t, &quot;t&quot;, false, &quot;test configuration and exit&quot;)
+	flag.BoolVar(&amp;T, &quot;T&quot;, false, &quot;test configuration, dump it and exit&quot;)
+
+	// 另一种绑定方式
+	q = flag.Bool(&quot;q&quot;, false, &quot;suppress non-error messages during configuration testing&quot;)
+
+	// 注意 `signal`。默认是 -s string，有了 `signal` 之后，变为 -s signal
+	flag.StringVar(&amp;s, &quot;s&quot;, &quot;&quot;, &quot;send `signal` to a master process: stop, quit, reopen, reload&quot;)
+	flag.StringVar(&amp;p, &quot;p&quot;, &quot;/usr/local/nginx/&quot;, &quot;set `prefix` path&quot;)
+	flag.StringVar(&amp;c, &quot;c&quot;, &quot;conf/nginx.conf&quot;, &quot;set configuration `file`&quot;)
+	flag.StringVar(&amp;g, &quot;g&quot;, &quot;conf/nginx.conf&quot;, &quot;set global `directives` out of configuration file&quot;)
+	// 改变默认的 Usage,自定义输出
+	flag.Usage = usage
+}
+
+func usage() {
+	_, _ = fmt.Fprintf(os.Stderr, `nginx version: nginx/1.10.0
+Usage: nginx [-hvVtTq] [-s signal] [-c filename] [-p prefix] [-g directives]
+
+Options:
+`)
+	flag.PrintDefaults()
+}
+
+func FlagRun() {
+	flag.Parse()
+	if h {
+		flag.Usage()
+	}
+}
+</code></pre>
+
+<pre><code class="language-shell">$ go run main.go -h
+nginx version: nginx/1.10.0
+Usage: nginx [-hvVtTq] [-s signal] [-c filename] [-p prefix] [-g directives]
+
+Options:
+  -T    test configuration, dump it and exit
+  -V    show version and configure options then exit
+  -c file
+        set configuration file (default &quot;conf/nginx.conf&quot;)
+  -g directives
+        set global directives out of configuration file (default &quot;conf/nginx.conf&quot;)
+  -h    this help
+  -p prefix
+        set prefix path (default &quot;/usr/local/nginx/&quot;)
+  -q    suppress non-error messages during configuration testing
+  -s signal
+        send signal to a master process: stop, quit, reopen, reload
+  -t    test configuration and exit
+  -v    show version and exit
+
+</code></pre>
+
+<h2 id="flag包">flag包</h2>
+
+<p><code>flag</code> 包实现了命令行参数的解析。</p>
+
+<h3 id="定义flags的方式">定义flags的方式</h3>
+
+<ol>
+<li><p><code>flag.XXX()</code>,其中xxx可以是<code>Int， String</code>等，返回一个相应类型的指针</p>
+
+<pre><code class="language-go">func Int(name string, value int, usage string) *int 
+func Bool(name string, value bool, usage string) *bool 
+func Int64(name string, value int64, usage string) *int64 
+func String(name string, value string, usage string) *string 
+...
+</code></pre></li>
+</ol>
+
+<p>例如：</p>
+
+<pre><code class="language-go">   var ip = flag.Int(&quot;flagname&quot;, 1234, &quot;help message for flagname&quot;)
+   var q = flag.Bool(&quot;q&quot;, false, &quot;suppress non-error messages during configuration testing&quot;)
+   var flag.String(&amp;p, &quot;p&quot;, &quot;/usr/local/nginx/&quot;, &quot;set `prefix` path&quot;)
+</code></pre>
+
+<ol>
+<li><p>将 flag 绑定到一个变量上</p>
+
+<pre><code class="language-go">func StringVar(p *string, name string, value string, usage string) 
+func IntVar(p *int, name string, value int, usage string) 
+...
+</code></pre></li>
+</ol>
+
+<p>如</p>
+
+<pre><code class="language-go">   var flagvar int
+   flag.IntVar(&amp;flagvar, &quot;flagname&quot;, 1234, &quot;help message for flagname&quot;)
+</code></pre>
+
+<p>其实第一种定义flags的方式也是调用的绑定变量的方式，比如：</p>
+
+<pre><code class="language-go">var q = flag.Bool(&quot;q&quot;, false, &quot;suppress non-error messages during configuration testing&quot;)
+
+//1.创建了CommandLine，其实是FlagSet
+func Bool(name string, value bool, usage string) *bool {
+	return CommandLine.Bool(name, value, usage)
+}
+//2.相当于定义了一个变量，然后调用绑定变量的方式
+func (f *FlagSet) Bool(name string, value bool, usage string) *bool {
+	p := new(bool) //申请一块储存bool值得地址
+	f.BoolVar(p, name, value, usage) //内部会把value赋值给p: *p = value
+	return p
+}
+//最终调用的绑定变量的方式
+func (f *FlagSet) BoolVar(p *bool, name string, value bool, usage string) {
+	f.Var(newBoolValue(value, p), name, usage)
+}
+</code></pre>
+
+<h3 id="自定义value">自定义value</h3>
+
+<p>自定义<code>value</code>只要实现<code>flag.Value</code>接口即可（要求 <code>receiver</code> 是指针），这时候可以通过如下方式定义该 flag：</p>
+
+<pre><code class="language-go">type Value interface {
+	String() string
+	Set(string) error
+}
+type Getter interface {
+	Value
+	Get() interface{}
+}
+</code></pre>
+
+<p>例如，解析我喜欢的编程语言，我们希望直接解析到 slice 中，我们可以定义如下 Value：</p>
+
+<pre><code class="language-go">package flagLearing
+
+import (
+	&quot;flag&quot;
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;strings&quot;
+)
+
+//例如，解析我喜欢的编程语言，我们希望直接解析到 slice 中，我们可以定义如下 Value：
+
+type sliceValue []string
+
+func newSliceValue(vals []string, p *[]string) *sliceValue {
+	*p = vals
+	return (*sliceValue)(p)
+}
+//实现flag.Value接口
+func (s *sliceValue) String() string {
+	return strings.Join(*s,&quot;,&quot;)
+}
+
+func (s *sliceValue) Set(val string) error {
+	*s = strings.Split(val,&quot;,&quot;)
+	return nil
+}
+//实现flag.Getter接口
+func (s *sliceValue) Get() interface{} {
+	return ([]string)(*s)
+}
+
+var languages []string	//定义变量
+
+func init() {
+	flag.Var(newSliceValue([]string{}, &amp;languages),&quot;slice&quot;,&quot;I like programming languages&quot;)
+	flag.Usage = sliceUsage
+}
+
+func sliceUsage() {
+	_, _ = fmt.Fprintf(os.Stderr, &quot;Usage: apppName -slice '[aaa, xxxx]' &quot;)
+	flag.PrintDefaults()
+}
+func FlagSliceRun() {
+	flag.Parse()	//解析flag
+
+	if len(languages) != 0 {
+		fmt.Println(languages)
+	}
+}
+</code></pre>
+
+<p>运行结果</p>
+
+<pre><code class="language-go">$ go run main.go -slice &quot;go, java&quot;
+[go  java]
+</code></pre>
+
+<h3 id="解析flag">解析flag</h3>
+
+<p>在所有的 flag 定义完成之后，可以通过调用 <code>flag.Parse()</code> 进行解析。</p>
+
+<p>命令行 flag 的语法有如下三种形式：</p>
+
+<pre><code class="language-go">-flag // 只支持 bool 类型
+-flag=x
+-flag x // 只支持非 bool 类型
+</code></pre>
+
+<p>其中第三种形式只能用于非 bool 类型的 flag</p>
+
+<h2 id="类型和函数">类型和函数</h2>
+
+<p>在看类型和函数之前，先看一下变量。</p>
+
+<p>ErrHelp：该错误类型用于当命令行指定了 · -help` 参数但没有定义时。</p>
+
+<p>Usage：这是一个函数，用于输出所有定义了的命令行参数和帮助信息（usage message）。一般，当命令行参数解析出错时，该函数会被调用。我们可以指定自己的 Usage 函数，即：<code>flag.Usage = func(){}</code></p>
+
+<h3 id="函数">函数</h3>
+
+<p>go 标准库中，经常这么做：</p>
+
+<blockquote>
+<p>定义了一个类型，提供了很多方法；为了方便使用，会实例化一个该类型的实例（通用），这样便可以直接使用该实例调用方法。比如：encoding/base64 中提供了 StdEncoding 和 URLEncoding 实例，使用时：base64.StdEncoding.Encode()</p>
+</blockquote>
+
+<p>在 flag 包使用了有类似的方法，比如 CommandLine 实例，只不过 flag 进行了进一步封装：将 FlagSet 的方法都重新定义了一遍，也就是提供了一序列函数，而函数中只是简单的调用已经实例化好了的 FlagSet 实例：CommandLine 的方法。这样，使用者是这么调用：flag.Parse() 而不是 flag. CommandLine.Parse()。</p>
+
+<h3 id="类型-数据结构">类型（数据结构）</h3>
+
+<ol>
+<li><p><code>ErrorHandling</code></p>
+
+<pre><code class="language-go">type ErrorHandling int
+</code></pre></li>
+</ol>
+
+<p>该类型定义了在参数解析出错时错误处理方式。定义了三个该类型的常量：</p>
+
+<pre><code class="language-go">   const (
+       ContinueOnError ErrorHandling = iota
+       ExitOnError
+       PanicOnError
+   )
+</code></pre>
+
+<p>三个常量在源码的 FlagSet 的方法 parseOne() 中使用了。</p>
+
+<ol>
+<li><p><code>Flag</code></p></li>
+
+<li><pre><code class="language-go">type Flag struct {
+Name     string // name as it appears on command line
+Usage    string // help message
+Value    Value  // value as set
+DefValue string // default value (as text); for usage message
+}
+</code></pre></li>
+</ol>
+
+<p>Flag 类型代表一个 flag 的状态。</p>
+
+<p>比如，对于命令：<code>./nginx -c /etc/nginx.conf</code>，相应代码是：</p>
+
+<pre><code class="language-go">   flag.StringVar(&amp;c, &quot;c&quot;, &quot;conf/nginx.conf&quot;, &quot;set configuration `file`&quot;)
+</code></pre>
+
+<p>则该 Flag 实例（可以通过 <code>flag.Lookup(&quot;c&quot;)</code> 获得）相应各个字段的值为：</p>
+
+<pre><code class="language-go">   &amp;Flag{
+       Name: c,
+       Usage: set configuration file,
+       Value: /etc/nginx.conf,
+       DefValue: conf/nginx.conf,
+   }
+</code></pre>
+
+<ol>
+<li><p><code>FlagSet</code></p>
+
+<pre><code class="language-go">type FlagSet struct {
+  // Usage is the function called when an error occurs while parsing flags.
+  // The field is a function (not a method) that may be changed to point to
+  // a custom error handler. What happens after Usage is called depends
+  // on the ErrorHandling setting; for the command line, this defaults
+  // to ExitOnError, which exits the program after calling Usage.
+  Usage func()
+   
+  name          string
+  parsed        bool
+  actual        map[string]*Flag
+  formal        map[string]*Flag    //储存了Flag
+  args          []string // arguments after flags
+  errorHandling ErrorHandling
+  output        io.Writer // nil means stderr; use out() accessor
+}
+</code></pre></li>
+
+<li><p><code>Value</code> 接口</p>
+
+<pre><code class="language-go">type Value interface {
+   String() string
+   Set(string) error
+}
+</code></pre></li>
+</ol>
+
+<p>所有参数类型需要实现 Value 接口，flag 包中，为 int、float、bool 等实现了该接口。借助该接口，我们可以自定义 flag。（上文已经给了具体的例子）</p>
+
+<h2 id="主要类型的方法-包括类型实例化">主要类型的方法（包括类型实例化）</h2>
+
+<p>flag 包中主要是 FlagSet 类型。</p>
+
+<h3 id="实例化方式">实例化方式</h3>
+
+<p><code>NewFlagSet()</code> 用于实例化 FlagSet。预定义的 FlagSet 实例 <code>CommandLine</code> 的定义方式：</p>
+
+<pre><code class="language-go">var CommandLine = NewFlagSet(os.Args[0], ExitOnError)
+</code></pre>
+
+<p>可见，默认的 FlagSet 实例在解析出错时会退出程序。</p>
+
+<p>由于 FlagSet 中的字段没有 export，其他方式获得 FlagSet 实例后，比如：FlagSet{} 或 new(FlagSet)，应该调用 Init() 方法，以初始化 name 和 errorHandling，否则 name 为空，errorHandling 为 ContinueOnError。</p>
+
+<h3 id="定义-flag-参数的方法">定义 flag 参数的方法</h3>
+
+<p>这一序列的方法都有两种形式，在一开始已经说了两种方式的区别。这些方法用于定义某一类型的 flag 参数。</p>
+
+<h3 id="解析参数-parse">解析参数（Parse）</h3>
+
+<pre><code class="language-go">func (f *FlagSet) Parse(arguments []string) error
+</code></pre>
+
+<p>从参数列表中解析定义的 flag。方法参数 arguments 不包括命令名，即应该是 os.Args[1:]。事实上，<code>flag.Parse()</code> 函数就是这么做的：</p>
+
+<pre><code class="language-go">// Parse parses the command-line flags from os.Args[1:].  Must be called
+// after all flags are defined and before flags are accessed by the program.
+func Parse() {
+    // Ignore errors; CommandLine is set for ExitOnError.
+    CommandLine.Parse(os.Args[1:])
+}
+</code></pre>
+
+<p>如果提供了 <code>-help</code> 参数（命令中给了）但没有定义（代码中没有），该方法返回 <code>ErrHelp</code> 错误。默认的 CommandLine，在 Parse 出错时会退出程序（ExitOnError）。</p>
+
+<p>为了更深入的理解，我们看一下 <code>Parse(arguments []string)</code> 的源码：</p>
+
+<pre><code class="language-go">func (f *FlagSet) Parse(arguments []string) error {
+    f.parsed = true
+    f.args = arguments
+    for {
+        seen, err := f.parseOne()
+        if seen {
+            continue
+        }
+        if err == nil {
+            break
+        }
+        switch f.errorHandling {
+        case ContinueOnError:
+            return err
+        case ExitOnError:
+            os.Exit(2)
+        case PanicOnError:
+            panic(err)
+        }
+    }
+    return nil
+}
+</code></pre>
+
+<p>真正解析参数的方法是非导出方法 <code>parseOne</code>。</p>
+
+<p>结合 <code>parseOne</code> 方法，我们来解释 <code>non-flag</code> 以及包文档中的这句话：</p>
+
+<blockquote>
+<p>Flag parsing stops just before the first non-flag argument (&ldquo;-&rdquo; is a non-flag argument) or after the terminator &ldquo;&ndash;&rdquo;.</p>
+</blockquote>
+
+<p>我们需要了解解析什么时候停止。</p>
+
+<p>根据 Parse() 中 for 循环终止的条件（不考虑解析出错），我们知道，当 parseOne 返回 <code>false, nil</code> 时，Parse 解析终止。正常解析完成我们不考虑。看一下 parseOne 的源码发现，有两处会返回 <code>false, nil</code>。</p>
+
+<p>1）第一个 non-flag 参数</p>
+
+<pre><code class="language-go">s := f.args[0]
+if len(s) == 0 || s[0] != '-' || len(s) == 1 {
+    return false, nil
+}
+</code></pre>
+
+<p>也就是，当遇到单独的一个 &ldquo;-&rdquo; 或不是 &ldquo;-&rdquo; 开始时，会停止解析。比如：</p>
+
+<blockquote>
+<p>./nginx - -c 或 ./nginx build -c</p>
+</blockquote>
+
+<p>这两种情况，<code>-c</code> 都不会被正确解析。像该例子中的 &ldquo;-&rdquo; 或 build（以及之后的参数），我们称之为 <code>non-flag</code> 参数。</p>
+
+<p>2）两个连续的 &ldquo;&ndash;&rdquo;</p>
+
+<pre><code class="language-go">if s[1] == '-' {
+    num_minuses++
+    if len(s) == 2 { // &quot;--&quot; terminates the flags
+        f.args = f.args[1:]
+        return false, nil
+    }
+}
+</code></pre>
+
+<p>也就是，当遇到连续的两个 &ldquo;-&rdquo; 时，解析停止。</p>
+
+<p>*说明：这里说的 &ldquo;-&rdquo; 和 &ldquo;&ndash;&ldquo;，位置和 &ldquo;-c&rdquo; 这种的一样。*也就是说，下面这种情况并不是这里说的：</p>
+
+<blockquote>
+<p>./nginx -c &ndash;</p>
+</blockquote>
+
+<p>这里的 &ldquo;&ndash;&rdquo; 会被当成是 <code>c</code> 的值</p>
+
+<p>parseOne 方法中接下来是处理 <code>-flag=x</code> 这种形式，然后是 <code>-flag</code> 这种形式（bool 类型）（这里对 bool 进行了特殊处理），接着是 <code>-flag x</code> 这种形式，最后，将解析成功的 Flag 实例存入 FlagSet 的 actual map 中。</p>
+
+<p>另外，在 parseOne 中有这么一句：</p>
+
+<pre><code>f.args = f.args[1:]
+</code></pre>
+
+<p>也就是说，每执行成功一次 parseOne，f.args 会少一个。所以，FlagSet 中的 args 最后留下来的就是所有 <code>non-flag</code> 参数。</p>
+
+<h3 id="arg-i-int-和-args-narg-nflag">Arg(i int) 和 Args()、NArg()、NFlag()</h3>
+
+<p>Arg(i int) 和 Args() 这两个方法就是获取 <code>non-flag</code> 参数的；NArg() 获得 <code>non-flag</code> 的个数；NFlag() 获得 FlagSet 中 actual 长度（即被设置了的参数个数）。</p>
+
+<h3 id="visit-visitall">Visit/VisitAll</h3>
+
+<p>这两个函数分别用于访问 FlatSet 的 actual 和 formal 中的 Flag，而具体的访问方式由调用者决定。</p>
+
+<h3 id="printdefaults">PrintDefaults()</h3>
+
+<p>打印所有已定义参数的默认值（调用 VisitAll 实现），默认输出到标准错误，除非指定了 FlagSet 的 output（通过 SetOutput() 设置）</p>
+
+<h3 id="set-name-value-string">Set(name, value string)</h3>
+
+<p>设置某个 flag 的值（通过 name 查找到对应的 Flag）</p>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://luckyliang.github.io"><img src="/img/favicon.png" />Cheng Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/01/16/java02/" data-toggle="tooltip" data-placement="top" title="Java（四）- I/O操作">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/02/05/goStructure/" data-toggle="tooltip" data-placement="top" title="Go 学习笔记（一） - 程序结构">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/go" title="go">
+                            go
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ios" title="ios">
+                            ios
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/swift" title="swift">
+                            swift
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/web" title="web">
+                            web
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Cheng Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:401932941@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/LuckyLiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+                </ul>
+		
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>
